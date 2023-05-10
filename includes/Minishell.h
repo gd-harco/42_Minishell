@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/10 13:46:26 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/10 14:47:01 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,25 @@
 char	*process(char *str, char **path);
 char	**get_path(char **envp);
 
-typedef struct s_cmd_table t_cmd_table;
-/*
-	¨cmd_array¨ is an array of all the command passed by the user. The string in [x][0] will always be the path to the command to launch,
-	and all the other string of the line will be the argument to pass to the exec. I must be ended by a NULL character.
-	"io_array" is a
-*/
-struct s_cmd_table
-{
-	char		**cmd_array;
-	char		**infile;
-	char		**outfile;		//gerer les append et iork
-	int			fd_infile;
-	int			fd_outfile;
-	int			fd_error;
-	t_cmd_table	*next_cmd;
+//Pour parsing, ne prendre en compte que les tokens de type STRING,
+//PIPE, CHEVRON_IN, DOUBLE_CHEVRON_IN, CHEVRON_OUT, DOUBLE_CHEVRON_OUT
+enum e_type {
+	CHEVRON_IN,
+	DOUBLE_CHEVRON_IN,
+	STRING,
+	PIPE,
+	CALL_ENV_VAR,
+	BUILTIN,
+	DOUBLE_CHEVRON_OUT,
+	CHEVRON_OUT
 };
+
+typedef struct s_token
+{
+	char			**content;
+	enum e_type		type;
+	struct s_token	*next;
+}				t_token;
 
 
 #endif
