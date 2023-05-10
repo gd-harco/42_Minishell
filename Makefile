@@ -20,9 +20,9 @@ LIBFT			=	lib/libft/libft.a
 
 HEADERS_LIST	=
 
-SRCS_LIST		=
+SRCS_LIST		=	test.c	path.c
 
-HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h} \
+HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
 OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
@@ -54,7 +54,7 @@ all				:	${OBJS} ${HEADERS}
 # ---- Variables Rules ---- #
 
 ${NAME}			:	${OBJS} ${HEADERS} ${LIBFT}
-					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${FRAMEWORKS} -o ${NAME}
+					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${FRAMEWORKS} -o ${NAME} -lreadline
 
 # ---- Compiled Rules ---- #
 
