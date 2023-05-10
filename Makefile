@@ -20,7 +20,7 @@ LIBFT			=	lib/libft/libft.a
 
 HEADERS_LIST	=
 
-SRCS_LIST		=	test.c	path.c
+SRCS_LIST		=	arg_init.c	path.c
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
