@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/11 13:38:54 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/11 14:49:03 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 //Pour parsing, ne prendre en compte que les tokens de type STRING,
 //PIPE, CHEVRON_IN, DOUBLE_CHEVRON_IN, CHEVRON_OUT, DOUBLE_CHEVRON_OUT
 enum e_type {
+	UNDEFINED,
 	CHEVRON_IN,
 	DOUBLE_CHEVRON_IN,
 	DOUBLE_CHEVRON_OUT,
@@ -56,4 +57,6 @@ typedef struct s_token
 //-----------------FUNCTIONS-----------------//
 char	*process(char *str, char **path);
 char	**get_path(char **envp);
+void	second_parsing(t_token *token_list);
+
 #endif

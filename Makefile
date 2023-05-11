@@ -20,7 +20,8 @@ LIBFT			=	lib/libft/libft.a
 
 HEADERS_LIST	=
 
-SRCS_LIST		=	test.c	path.c
+SRCS_LIST		=	test.c	\
+					second_parsing.c	\
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
