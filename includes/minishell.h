@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/10 15:48:25 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/11 13:38:54 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@
 enum e_type {
 	CHEVRON_IN,
 	DOUBLE_CHEVRON_IN,
-	STRING,
-	PIPE,
-	CMD,
-	CALL_ENV_VAR,
-	BUILTIN,
 	DOUBLE_CHEVRON_OUT,
-	CHEVRON_OUT
+	CHEVRON_OUT,
+	PIPE,
+	STRING,
+	FILE_IN,
+	FILE_OUT,
+	FILE_OUT_APPEND,
+	CALL_ENV_VAR,
+	CMD,
+	BUILTIN
 };
 
 typedef struct s_token
