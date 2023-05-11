@@ -6,11 +6,11 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:59:10 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/10 16:23:34 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/11 11:00:17 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Minishell.h"
+#include "../includes/minishell.h"
 
 bool	ft_isstring(char *str);
 void	token_add_back(t_token **token, char *str);
@@ -134,12 +134,18 @@ bool is_word(char *str, char *str2)
 int main(int argc, char **argv, char **envp)
 {
     char    *str;
+	char	**s;
     int     i;
 
     (void)argc;
     (void)argv;
     i = 0;
     str = readline("");
+	s = ft_split(str, ' ');
+	while(s[i] != NULL)
+	{
+		get_token(s[i], envp);
+	}
     while (i < 5 ) //detect SIGINT ou SIGTERM ?
     {
         add_history(str);

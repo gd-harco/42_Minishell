@@ -6,11 +6,11 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/10 12:50:38 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/11 10:29:18 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Minishell.h"
+#include "../includes/minishell.h"
 
 char	**get_path(char **envp)
 {

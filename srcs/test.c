@@ -6,11 +6,11 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 15:50:01 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/10 14:57:25 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/11 10:29:13 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/Minishell.h"
+#include "../includes/minishell.h"
 
 // int main() {
 //     pid_t pid = getpid();
