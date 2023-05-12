@@ -22,7 +22,8 @@ HEADERS_LIST	=	minishell.h
 
 SRCS_LIST		=	main.c	\
 					path.c	\
-					second_parsing.c	\
+					token.c	\
+					# second_parsing.c	\
 					#arg_init.c
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
@@ -33,7 +34,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 CC				=	cc
 
-CFLAGS			=	 -Wall -Werror -Wextra -g3
+CFLAGS			=	 -Wall -Werror -Wextra -g3 #-fsanitize=address
 
 FRAMEWORKS		=	-Llib/libft -lft
 

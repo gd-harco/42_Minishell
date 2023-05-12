@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/11 14:49:03 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/12 16:29:09 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
 
 //-----------------INCLUDES-----------------//
 # include "../lib/libft/includes/libft.h"
@@ -33,16 +32,11 @@
 //PIPE, CHEVRON_IN, DOUBLE_CHEVRON_IN, CHEVRON_OUT, DOUBLE_CHEVRON_OUT
 enum e_type {
 	UNDEFINED,
-	CHEVRON_IN,
-	DOUBLE_CHEVRON_IN,
-	DOUBLE_CHEVRON_OUT,
-	CHEVRON_OUT,
+	HERE_DOC,
 	PIPE,
-	STRING,
 	FILE_IN,
 	FILE_OUT,
 	FILE_OUT_APPEND,
-	CALL_ENV_VAR,
 	CMD,
 	BUILTIN
 };
@@ -55,8 +49,16 @@ typedef struct s_token
 }				t_token;
 
 //-----------------FUNCTIONS-----------------//
-char	*process(char *str, char **path);
+
+//------------------PATH.C-------------------//
+char	**path_arg_cat(char **src, char *root_arg);
 char	**get_path(char **envp);
+char	*process(char *str, char **path, int *ind);
+
+//-----------------TOKEN.C-------------------//
+t_token	*get_token(char *str, char **envp);
+t_token	*token_init(char *str, char **envp, int *i);
+//--------------SECOND_PARSING.C------------//
 void	second_parsing(t_token *token_list);
 
 #endif
