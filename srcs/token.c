@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/12 16:34:57 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/12 17:21:42 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ t_token	*token_init(char *str, char **envp, int *i)
 	char	**path;
 	char	*s_p;
 
+	arg = NULL;
+	s_p = NULL;
 	s = ft_split (str, ' ');
 	new = malloc(sizeof(t_token));
 	new->content = malloc(sizeof(char *) * 2);
@@ -118,7 +120,7 @@ t_token	*token_init(char *str, char **envp, int *i)
 		else
 		{
 			j = *i + 1;
-			while (s[j] && s[j][0] != '|')
+			while (s[j] && (s[j][0] != '|' || s[j][0] == '\0'))
 			{
 				if (s[j][0] == '-')
 					arg = ft_strjoin(arg, s[j]);
@@ -146,3 +148,8 @@ static	bool	is_builtin(char *str)
 	else
 		return (false);
 }
+
+
+// gerer les string (ex : echo hello)
+// refaire strjoin pour add space
+// gerer var env et '' ""

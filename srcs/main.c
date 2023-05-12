@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/12 16:52:47 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/12 17:15:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,9 +181,9 @@ int	main(int argc, char **argv, char **envp)
 		add_history(str);
 		tkn = get_token(str, envp);
 		tmp = tkn;
-		while (tmp->next)
+		while (tmp)
 		{
-			ft_printf("TOKEN\n");
+			ft_printf("\n\nTOKEN\n");
 			ft_printf("content[0] : %s\n", tmp->content[0]);
 			ft_printf("content[1] : %s\n", tmp->content[1]);
 			ft_printf("type : %i\n", tmp->type);
