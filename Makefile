@@ -18,10 +18,12 @@ LIBFT			=	lib/libft/libft.a
 
 # ---- Files ---- #
 
-HEADERS_LIST	=
+HEADERS_LIST	=	minishell.h
 
-SRCS_LIST		=	main.c \
-					second_parsing.c	\ #arg_init.c
+SRCS_LIST		=	main.c	\
+					path.c	\
+					second_parsing.c	\
+					#arg_init.c
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
