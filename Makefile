@@ -45,7 +45,6 @@ MKDIR			=	mkdir -p
 # ********* RULES ******** #
 
 init			:
-					git submodule update --init --recursive
 					make all
 
 all				:	${OBJS} ${HEADERS}
