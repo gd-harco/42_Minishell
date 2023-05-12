@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/12 13:45:16 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/12 16:41:39 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,14 @@
 
 
 //-----------------INCLUDES-----------------//
+
+//########### PERSONNAL LIB HEADERS ##########//
 # include "../lib/libft/includes/libft.h"
 
+//########### PROJECT SPECIFICS HEADERS ##########//
+# include "builtins.h"
+
+//########### SYSTEM LIB HEADERS ##########//
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
