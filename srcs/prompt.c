@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/12 14:02:08 by gd-harco         ###   ########lyon.fr   */
+/*   Created: 2023/05/12 13:13:26 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/05/12 14:07:44 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+char	*get_user_input(void)
 {
-	char	*str;
+	char	*user_input;
+	char	*prompt;
 
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	str = get_user_input();
-	while (42)
-	{
-		printf("User input = \"%s\"\n", str);
-		if (ft_strncmp(str, "quit", 4) == 0)
-		{
-			free(str);
-			printf("La Team Rocket s'envole vers d'autres cieux!!!!\n");
-			exit (0);
-		}
-		free(str);
-		str = get_user_input();
-	}
-	return (0);
+	prompt = ft_strdup("Nous sommes de retour! > ");
+	user_input = readline(prompt);
+	add_history(user_input);
+	free(prompt);
+	return (user_input);
 }
