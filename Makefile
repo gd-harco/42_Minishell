@@ -23,6 +23,8 @@ HEADERS_LIST	=	minishell.h
 SRCS_LIST		=	main.c	\
 					path.c	\
 					token.c	\
+					utils.c	\
+					token_fct.c	\
 					# second_parsing.c	\
 					#arg_init.c
 
