@@ -22,19 +22,17 @@ HEADERS_LIST	=	minishell.h
 
 SRCS_LIST		=	main.c		\
 					prompt.c	\
-\
-					builtins/echo.c		\
-					builtins/pwd.c		\
-					builtins/unset.c	\
-					builtins/env.c
-
-SRCS_LIST		=	main.c	\
 					path.c	\
 					token.c	\
 					utils.c	\
 					token_fct.c	\
-					# second_parsing.c	\
-					#arg_init.c
+\
+					builtins/echo.c		\
+					builtins/env.c		\
+					builtins/exit.c		\
+					builtins/pwd.c		\
+					builtins/unset.c
+
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 

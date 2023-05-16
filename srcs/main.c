@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 14:19:56 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/16 14:31:42 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,58 +147,26 @@
 
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int	main(int argc, char **argv, char **envp)
 {
-	char	*str;
-	t_token	*tkn;
-	t_token	*tmp;
+	t_minishell	*data;
+	char		*str;
+	t_token		*tmp;
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
+	data = malloc(sizeof(t_minishell));
+	data->envp = envp;
 	printf("\033[0;31m");
 	printf("Bienvenue dans le Minishell de la Team Rocket!\n\n");
-	printf("##################################\n\
-####################################,\n\
-######################################\n\
-######################################,\n\
-###########               #############\n\
-###########               #############\n\
-######################################\n\
-#####################################*\n\
-####################################\n\
-#################################/\n\
-#################################/\n\
-###########           #############\n\
-###########            *############\n\
-###########              ############.\n\
-###########               #############\n\n");
+	printf(ROCKET_LOGO);
 	printf("\033[0m");
 	str = get_user_input();
 	while (42)
 	{
 		add_history(str);
-		tkn = get_token(str, envp);
-		tmp = tkn;
+		data->token_list = get_token(str, envp);
+		tmp = data->token_list;
 		while (tmp)
 		{
 			ft_printf("\n\nTOKEN\n");
@@ -209,7 +177,7 @@ int	main(int argc, char **argv, char **envp)
 			tmp = tmp->next;
 		}
 		// first_elem(str, envp);
-		str = readline("Minishell$");
+		str = get_user_input();
 	}
 	return (0);
 }
