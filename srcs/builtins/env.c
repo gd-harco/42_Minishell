@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 16:38:51 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 11:57:16 by gd-harco         ###   ########lyon.fr   */
+/*   Created: 2023/05/16 11:55:32 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/05/16 12:03:16 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "minishell.h"
 
-//-----------------FUNCTIONS-----------------//
-void	echo(char *str, bool n, int fd_out);
-void	pwd(void);
-void	unset(char **str);
-void	env(char **envp);
+void	env(char **envp)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while (envp[i])
+	{
+		ft_dprintf(STDERR_FILENO, "%s\n", envp[i]);
+		i++;
+	}
+}

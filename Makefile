@@ -25,7 +25,8 @@ SRCS_LIST		=	main.c		\
 \
 					builtins/echo.c		\
 					builtins/pwd.c		\
-					builtins/unset.c
+					builtins/unset.c	\
+					builtins/env.c
 
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
