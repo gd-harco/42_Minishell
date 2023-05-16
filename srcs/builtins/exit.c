@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:07:05 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 12:32:22 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/16 13:52:36 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void	exit_shell(int status, void **things_to_free)
 {
 	(void)things_to_free;
+	rl_clear_history();
 	ft_dprintf(STDOUT_FILENO,
 		"La Team Rocket s'envole vers d'autres cieux!\n");
 	ft_dprintf(STDERR_FILENO, "exit\n");
