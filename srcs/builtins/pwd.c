@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 16:38:51 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 11:12:43 by gd-harco         ###   ########lyon.fr   */
+/*   Created: 2023/05/16 11:02:31 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/05/16 11:10:01 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "minishell.h"
 
-//-----------------FUNCTIONS-----------------//
-void	echo(char *str, bool n, int fd_out);
-void	pwd(void);
+void	pwd(void)
+{
+	char	*str;
 
-#endif
+	str = getcwd(NULL, 0);
+	ft_dprintf(STDOUT_FILENO, "%s\n", str);
+	free(str);
+}
