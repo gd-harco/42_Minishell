@@ -23,8 +23,9 @@ HEADERS_LIST	=	minishell.h
 SRCS_LIST		=	main.c		\
 					prompt.c	\
 \
-					builtins/echo.c	\
-					builtins/pwd.c
+					builtins/echo.c		\
+					builtins/pwd.c		\
+					builtins/unset.c
 
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}

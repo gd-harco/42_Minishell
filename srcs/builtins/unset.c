@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 16:38:51 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 11:20:11 by gd-harco         ###   ########lyon.fr   */
+/*   Created: 2023/05/16 11:20:14 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/05/16 11:28:19 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "minishell.h"
 
-//-----------------FUNCTIONS-----------------//
-void	echo(char *str, bool n, int fd_out);
-void	pwd(void);
-void	unset(char **str);
+void	unset(char **str)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while (str[i])
+		free(str[i++]);
+	free(str);
+}
