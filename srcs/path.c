@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/11 12:51:49 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/15 12:53:27 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,25 @@ char	**get_path(char **envp)
 	return (split_path);
 }
 
-char	**path_arg_cat(char **src, char *root_arg, char **argv)
+char	**path_arg_cat(char **src, char *root_arg)
 {
 	int		i;
 	char	**pathsrc;
 
 	pathsrc = malloc(sizeof(char *) * (5 + 3));
+	if (!pathsrc)
+		return (NULL);
 	i = 0;
 	while (i < 5)
 	{
 		pathsrc[i] = ft_strjoin(src[i], root_arg);
 		i++;
 	}
-	pathsrc[i] = ft_strdup("libft/libft.a");
-	pathsrc[i + 1] = ft_strdup(argv[2]);
-	pathsrc[i + 2] = NULL;
+	pathsrc[i] = NULL;
 	return (pathsrc);
 }
 
-char	*process(char *str, char **path)
+char	*process(char *str, char **path, int *ind)
 {
 	char	**path_cmb;
 	int		i;
@@ -53,14 +53,14 @@ char	*process(char *str, char **path)
 	char	*root_arg;
 
 	split_argv = ft_split(str, ' ');
-	root_arg = ft_strjoin("/", split_argv[0]);
-	path_cmb = path_arg_cat(path, root_arg, &str);
+	root_arg = ft_strjoin("/", split_argv[*ind]);
+	path_cmb = path_arg_cat(path, root_arg);
 	i = 0;
 	while (access(path_cmb[i], X_OK) == -1 && path_cmb[i])
 		i++;
 	if (!path_cmb[i])
 	{
-		return (NULL);
+		return (split_argv[*ind]);		//(split_argv[0]);
 	}
 	free(split_argv[0]);
 	split_argv[0] = path_cmb[i];

@@ -22,11 +22,16 @@ HEADERS_LIST	=	minishell.h
 
 SRCS_LIST		=	main.c		\
 					prompt.c	\
+					path.c	\
+					token.c	\
+					utils.c	\
+					token_fct.c	\
 \
 					builtins/echo.c		\
+					builtins/env.c		\
+					builtins/exit.c		\
 					builtins/pwd.c		\
-					builtins/unset.c	\
-					builtins/env.c
+					builtins/unset.c
 
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
@@ -37,7 +42,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 CC				=	cc
 
-CFLAGS			=	 -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS			=	 -Wall -Werror -Wextra -g3 #-fsanitize=address
 
 FRAMEWORKS		=	-Llib/libft -lft
 
