@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 16:38:51 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 12:36:38 by gd-harco         ###   ########lyon.fr   */
+/*   Created: 2023/05/16 12:36:08 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/05/16 12:39:09 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "minishell.h"
 
-//-----------------FUNCTIONS-----------------//
-
-void	echo(char **str, bool n, int fd_out);
-void	pwd(void);
-void	unset(char **str);
-void	env(char **envp);
-void	exit_shell(int status, void **things_to_free);
-void	cd(char *str);
-
-#endif
+void	cd(char *str)
+{
+	chdir(str);
+}
