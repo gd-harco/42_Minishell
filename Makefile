@@ -20,8 +20,14 @@ LIBFT			=	lib/libft/libft.a
 
 HEADERS_LIST	=	minishell.h
 
-SRCS_LIST		=	main.c	\
-					prompt.c
+SRCS_LIST		=	main.c		\
+					prompt.c	\
+\
+					builtins/echo.c		\
+					builtins/pwd.c		\
+					builtins/unset.c	\
+					builtins/env.c
+
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
@@ -65,6 +71,7 @@ ${DIR_OBJS}%.o	:	${DIR_SRCS}%.c ${HEADERS}
 
 ${DIR_OBJS}		:
 					${MKDIR} ${DIR_OBJS}
+					${MKDIR} ${DIR_OBJS}builtins
 
 # ---- Usual Rules ---- #
 

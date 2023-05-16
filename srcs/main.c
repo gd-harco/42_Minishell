@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/12 15:52:19 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/12 16:37:44 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ int	main(int argc, char **argv, char **envp)
 	str = get_user_input();
 	while (42)
 	{
-		if (ft_strncmp(str, "exit", 4) == 0)
+		if (ft_strncmp(str, "echo", 4) == 0)
+			echo(str + 5, false, 1);
+		else if (ft_strncmp(str, "exit", 4) == 0)
 		{
 			free(str);
 			printf("La Team Rocket s'envole vers d'autres cieux!!!!\nexit\n");
