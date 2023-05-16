@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 14:47:29 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/16 15:02:18 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@
 //-----------------INCLUDES-----------------//
 
 //########### PERSONNAL LIB HEADERS ##########//
+
 # include "../lib/libft/includes/libft.h"
 
 //########### PROJECT SPECIFICS HEADERS ##########//
+
 # include "builtins.h"
+# include "exec.h"
 
 //########### SYSTEM LIB HEADERS ##########//
+
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
@@ -34,8 +38,7 @@
 # include <errno.h>
 
 //-----------------STRUCTURES-----------------//
-//Pour parsing, ne prendre en compte que les tokens de type STRING,
-//PIPE, CHEVRON_IN, DOUBLE_CHEVRON_IN, CHEVRON_OUT, DOUBLE_CHEVRON_OUT
+
 enum e_type {
 	UNDEFINED,
 	HERE_DOC,
@@ -60,26 +63,25 @@ typedef struct s_minishell
 	t_token	*token_list;
 }				t_minishell;
 
-//------------------PATH.C-------------------//
+//-----------------FUNCTION-----------------//
+
+//########### PATH.C ###########//
 char	*get_user_input(void);
 char	**path_arg_cat(char **src, char *root_arg);
 char	**get_path(char **envp);
 char	*process(char *str, char **path, int *ind);
 
-//-----------------TOKEN.C-------------------//
+//########### TOKEN.C ###########//
 t_token	*get_token(char *str, char **envp);
 t_token	*token_init(char *str, char **envp, int *i, char **s);
 
-//--------------SECOND_PARSING.C------------//
-void	second_parsing(t_token *token_list);
-
-//-----------------UTILS.C-----------------//
+//########### UTILS.C ###########//
 bool	is_builtin(char *str);
 bool	not_in_out(char **s, int j);
 bool	is_last_infile(char **s, int i);
 char	*ft_strjoinsp(char const *s1, char const *s2);
 
-//---------------TOKEN_FCT.C---------------//
+//########### TOKEN_FCT.C ###########//
 int		token_infile(t_token *new, char **s, int **i);
 void	token_outfile(t_token *new, char **s, int **i);
 void	token_pipe(t_token *new, char **s, int **i);
