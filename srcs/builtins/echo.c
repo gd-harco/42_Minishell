@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:31:54 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 11:01:14 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/16 12:27:22 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,19 @@
  * @param n if true, don't print a newline
  * @param fd_out the file descriptor to print to. if 0, print to STDOUT
  */
-void	echo(char *str, bool n, int fd_out)
+void	echo(char **str, bool n, int fd_out)
 {
-	if (!str)
-		return ;
+	int	i;
+
+	i = 0;
 	if (fd_out == 0)
 		fd_out = STDOUT_FILENO;
-	ft_dprintf(fd_out, "%s", str);
+	while (str[i])
+	{
+		ft_dprintf(fd_out, "%s", str[i++]);
+		if (str[i])
+			ft_dprintf(fd_out, " ");
+	}
 	if (!n)
 		ft_dprintf(fd_out, "\n");
 }

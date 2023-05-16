@@ -14,7 +14,8 @@
 # define BUILTINS_H
 
 //-----------------FUNCTIONS-----------------//
-void	echo(char *str, bool n, int fd_out);
+
+void	echo(char **str, bool n, int fd_out);
 void	pwd(void);
 void	unset(char **str);
 void	env(char **envp);
