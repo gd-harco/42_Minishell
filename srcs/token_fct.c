@@ -6,32 +6,38 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/15 16:07:38 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/16 12:32:36 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
 int	token_infile(t_token *new, char **s, int **i)
 {
 	if (is_last_infile(s, **i) != true)
 	{
-		++**i;
+		if (s[**i][1] == '\0')
+			++**i;
 		return (-1);
 	}
 	if (s[**i][1] == '<')
+	{
+		if (s[**i][2] != '\0')
+			new->content[0] = ft_strdup(ft_substr(s[**i], 1, ft_strlen(s[**i])));
+		else
+			new->content[0] = ft_strdup(s[++**i]);
 		new->type = HERE_DOC;
+	}
 	else if (s[**i][1] != '\0')
 	{
 		new->type = FILE_IN;
-		new->content[0] = ft_strdup(s[**i]);
-		new->content[1] = NULL;
-		return (0);
+		new->content[0] = ft_strdup(ft_substr(s[**i], 1, ft_strlen(s[**i])));
 	}
 	else
+	{
 		new->type = FILE_IN;
-	new->content[0] = ft_strdup(s[++**i]);
+		new->content[0] = ft_strdup(s[++**i]);
+	}
 	new->content[1] = NULL;
 	return (0);
 }
@@ -62,7 +68,7 @@ void	token_builtin(t_token *new, char **s, int **i)
 	j = **i + 1;
 	while (s[j] && s[j][0] != '|')
 	{
-		if (s[j][0] == '-' || not_in_out(s, j, NULL) == true)
+		if (not_in_out(s, j) == true)
 			arg = ft_strjoinsp(arg, s[j]);
 		j++;
 	}
@@ -86,7 +92,7 @@ void	token_cmd(char *str, t_token *new, int **i, char **envp)
 	j = **i + 1;
 	while (s[j] && (s[j][0] != '|' || s[j][0] == '\0'))
 	{
-		if (s[j][0] == '-' || not_in_out(s, j, s_p) == true)
+		if (not_in_out(s, j) == true)
 			arg = ft_strjoinsp(arg, s[j]);
 		j++;
 	}
@@ -94,3 +100,6 @@ void	token_cmd(char *str, t_token *new, int **i, char **envp)
 	new->content[0] = ft_strdup(s_p);
 	new->content[1] = ft_strdup(arg);
 }
+
+
+//enlever le reste des arguments apres le in ou out

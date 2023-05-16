@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/15 16:11:56 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/16 13:57:24 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,25 @@ bool	is_builtin(char *str)
 		return (false);
 }
 
-bool	not_in_out(char **s, int j, char *s_p)
+bool	not_in_out(char **s, int j)
 {
-	if ((s[j][0] == '<' && s[j][1] == '\0')
-	|| (s[j][0] == '>' && s[j][1] == '\0')
-	|| (s[j - 1][0] == '<' && s[j - 1][1] == '\0')	// '\0' permet de gerer 
-	|| (s[j - 1][0] == '>' && s[j - 1][1] == '\0'))	// le cas : cat <Makefile
+	if ((s[j][0] == '<')
+	|| (s[j][0] == '>')
+	|| (s[j][0] == '<' && s[j][1] == '<')
+	|| (s[j][0] == '>' && s[j][1] == '>')
+	|| (s[j - 1][0] == '<')
+	|| (s[j - 1][0] == '>')// le cas : cat <Makefile
+	|| (s[j - 1][0] == '<' && s[j - 1][1] == '<')// '\0' permet de gerer 
+	|| (s[j - 1][0] == '>' && s[j - 1][1] == '>'))
 		return (false);
-	while (j >= 0 && s[j][0] != '|')	//on remonte la chaine pour voir si
-	{									// s correspond a un arg d'une commande
-		if (access(s_p, X_OK) != -1 || is_builtin(s[j]) == true)
-			return (true);
-		j--;
-	}
-	return (false);
+	// while (j >= 0 && s[j][0] != '|')	//on remonte la chaine pour voir si
+	// {									// s correspond a un arg d'une commande
+	// 	if (access(s_p, X_OK) != -1 || is_builtin(s[j]) == true)
+	// 		return (true);
+	// 	j--;
+	// }
+	// return (false);
+	return (true);
 }
 
 bool	is_last_infile(char **s, int i)
