@@ -28,6 +28,13 @@ SRCS_LIST		=	main.c		\
 					builtins/unset.c	\
 					builtins/env.c
 
+SRCS_LIST		=	main.c	\
+					path.c	\
+					token.c	\
+					utils.c	\
+					token_fct.c	\
+					# second_parsing.c	\
+					#arg_init.c
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
@@ -37,7 +44,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 CC				=	cc
 
-CFLAGS			=	 -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS			=	 -Wall -Werror -Wextra -g3 #-fsanitize=address
 
 FRAMEWORKS		=	-Llib/libft -lft
 
