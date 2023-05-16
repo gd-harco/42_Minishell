@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 14:31:24 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/16 14:47:29 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	token_builtin(t_token *new, char **s, int **i);
 void	token_cmd(char *str, t_token *new, int **i, char **envp);
 
 
-#define ROCKET_LOGO "##################################\n\
+# define ROCKET_LOGO "\033[0;31m\nBienvenue dans le Minishell de la Team Rocket!\n\n##################################\n\
 ####################################,\n\
 ######################################\n\
 ######################################,\n\
@@ -101,7 +101,7 @@ void	token_cmd(char *str, t_token *new, int **i, char **envp);
 ###########           #############\n\
 ###########            *############\n\
 ###########              ############.\n\
-###########               #############\n\n"
+###########               #############\n\n\033[0m"
 
 
 #endif
