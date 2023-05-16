@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 15:02:18 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/16 15:18:53 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,6 @@
 # include <sys/stat.h>
 # include <dirent.h>
 # include <errno.h>
-
-//-----------------STRUCTURES-----------------//
-
-enum e_type {
-	UNDEFINED,
-	HERE_DOC,
-	PIPE,
-	FILE_IN,
-	FILE_OUT,
-	FILE_OUT_APPEND,
-	CMD,
-	BUILTIN
-};
-
-typedef struct s_token
-{
-	char			**content;
-	enum e_type		type;
-	struct s_token	*next;
-}				t_token;
-
-typedef struct s_minishell
-{
-	char	**envp;
-	t_token	*token_list;
-}				t_minishell;
 
 //-----------------FUNCTION-----------------//
 
