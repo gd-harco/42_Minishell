@@ -22,10 +22,11 @@ HEADERS_LIST	=	minishell.h
 
 SRCS_LIST		=	main.c		\
 					prompt.c	\
-					path.c	\
-					token.c	\
-					utils.c	\
-					token_fct.c	\
+\
+					parsing/path.c		\
+					parsing/token_fct.c	\
+					parsing/token.c		\
+					parsing/utils.c		\
 \
 					builtins/echo.c		\
 					builtins/env.c		\
