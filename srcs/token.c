@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 14:03:18 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/16 15:44:10 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	token_arg(char **s, int **i)
 {
 	if (!s[**i])
 		return ;
-	while (s[**i + 1] && s[**i + 1][0] != '<' && s[**i + 1][0] != '>' && s[**i + 1][0] != '|')
+	while (s[**i + 1] && s[**i + 1][0] != '<' && s[**i + 1][0] != '>'
+		&& s[**i + 1][0] != '|' && s[**i + 1][0] != '\0')
 	{
 		++**i;
 	}
@@ -76,16 +77,28 @@ t_token	*token_init(char *str, char **envp, int *i, char **s)
 		return (NULL);
 	else if (s[*i + 1] && s[*i][0] == '|')
 		token_pipe(new, s, &i);
-	else if (is_builtin(s[*i]) == true)
-		token_builtin(new, s, &i);
 	else
-	{	
-		token_cmd(str, new, &i, envp);
+	{
+		if (is_builtin(s[*i]) == true)
+			token_builtin(new, s, &i);
+		else
+			token_cmd(str, new, &i, envp);
 		token_arg(s, &i);
 	}
 	new->next = NULL;
 	return (new);
 }
+
+// 	else if (is_builtin(s[*i]) == true)
+// 		token_builtin(new, s, &i);
+// 	else
+// 	{	
+// 		token_cmd(str, new, &i, envp);
+// 		token_arg(s, &i);
+// 	}
+// 	new->next = NULL;
+// 	return (new);
+// }
 
 static t_token	*token_last(t_token *token)
 {
@@ -109,11 +122,13 @@ void	token_add_back(t_token **token, t_token *new)
 		*token = new;
 }
 
-//gerer le infile sans < (ex: cat Makefile)	ok
+
 //differencier un infile d'un argument de cmd
-//	(ex: echo bonjour : echo, bonjour mais aussi bonjour, null)
+//	(ex: echo bonjour : echo, bonjour mais aussi bonjour, null	a enlever)
 //gerer plusieurs infile	ok
 // refaire strjoin pour add space	ok
 
 // gerer les string (ex : echo hello)
 // gerer var env et '' ""
+
+//gerer les spaces de '|' ex : echo bonjour|rev	doit faire ruojnob

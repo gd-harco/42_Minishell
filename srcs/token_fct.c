@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 12:32:36 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/16 15:37:30 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	token_infile(t_token *new, char **s, int **i)
 	if (s[**i][1] == '<')
 	{
 		if (s[**i][2] != '\0')
-			new->content[0] = ft_strdup(ft_substr(s[**i], 1, ft_strlen(s[**i])));
+			new->content[0] = ft_strdup(ft_substr(
+						s[**i], 2, ft_strlen(s[**i])));
 		else
 			new->content[0] = ft_strdup(s[++**i]);
 		new->type = HERE_DOC;
@@ -45,10 +46,24 @@ int	token_infile(t_token *new, char **s, int **i)
 void	token_outfile(t_token *new, char **s, int **i)
 {
 	if (s[**i + 1] && s[**i][1] == '>' )
+	{
+		if (s[**i][2] != '\0')
+			new->content[0] = ft_strdup(ft_substr(
+						s[**i], 2, ft_strlen(s[**i])));
+		else
+			new->content[0] = ft_strdup(s[++**i]);
 		new->type = FILE_OUT_APPEND;
-	else
+	}
+	else if (s[**i][1] != '\0')
+	{
 		new->type = FILE_OUT;
-	new->content[0] = ft_strdup(s[++**i]);
+		new->content[0] = ft_strdup(ft_substr(s[**i], 1, ft_strlen(s[**i])));
+	}
+	else
+	{
+		new->type = FILE_OUT;
+		new->content[0] = ft_strdup(s[++**i]);
+	}
 	new->content[1] = NULL;
 }
 
@@ -100,6 +115,5 @@ void	token_cmd(char *str, t_token *new, int **i, char **envp)
 	new->content[0] = ft_strdup(s_p);
 	new->content[1] = ft_strdup(arg);
 }
-
 
 //enlever le reste des arguments apres le in ou out
