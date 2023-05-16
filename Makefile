@@ -18,21 +18,26 @@ LIBFT			=	lib/libft/libft.a
 
 # ---- Files ---- #
 
-HEADERS_LIST	=	minishell.h
+HEADERS_LIST	=	builtins.h\
+					exec.h		\
+					minishell.h	\
+					struct.h	\
 
 SRCS_LIST		=	main.c		\
 					prompt.c	\
-\
-					parsing/path.c		\
-					parsing/token_fct.c	\
-					parsing/token.c		\
-					parsing/utils.c		\
 \
 					builtins/echo.c		\
 					builtins/env.c		\
 					builtins/exit.c		\
 					builtins/pwd.c		\
-					builtins/unset.c
+					builtins/unset.c	\
+\
+					exec/execution.c	\
+\
+					parsing/path.c		\
+					parsing/token_fct.c	\
+					parsing/token.c		\
+					parsing/utils.c
 
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
@@ -78,12 +83,15 @@ ${DIR_OBJS}%.o	:	${DIR_SRCS}%.c ${HEADERS}
 ${DIR_OBJS}		:
 					${MKDIR} ${DIR_OBJS}
 					${MKDIR} ${DIR_OBJS}builtins
+					${MKDIR} ${DIR_OBJS}parsing
+					${MKDIR} ${DIR_OBJS}exec
 
 # ---- Usual Rules ---- #
 
 clean			:
 					make -C lib/libft clean
 					${RM} ${OBJS}
+					${RM} ${DIR_OBJS}
 
 fclean			:
 					make clean

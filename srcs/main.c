@@ -6,17 +6,16 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 14:47:06 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/16 15:24:02 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*data;
 	char		*str;
-	t_token		*tmp;
 
 	(void)argc;
 	(void)argv;
@@ -28,17 +27,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		add_history(str);
 		data->token_list = get_token(str, envp);
-		tmp = data->token_list;
-		while (tmp)
-		{
-			ft_printf("\n\nTOKEN\n");
-			ft_printf("content[0] : %s\n", tmp->content[0]);
-			ft_printf("content[1] : %s\n", tmp->content[1]);
-			ft_printf("type : %i\n", tmp->type);
-			ft_printf("next : %p\n", tmp->next);
-			tmp = tmp->next;
-		}
-		// first_elem(str, envp);
+		master_exec(data);
+		//TODO : free token_list
+		free(str);
 		str = get_user_input();
 	}
 	return (0);
