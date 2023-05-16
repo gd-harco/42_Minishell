@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/12 16:38:51 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 12:30:50 by gd-harco         ###   ########lyon.fr   */
+/*   Created: 2023/05/16 12:07:05 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/05/16 12:32:22 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "minishell.h"
 
-//-----------------FUNCTIONS-----------------//
 
-void	echo(char **str, bool n, int fd_out);
-void	pwd(void);
-void	unset(char **str);
-void	env(char **envp);
-void	exit_shell(int status, void **things_to_free);
-
-#endif
+//TODO: determine what will be needed to free
+void	exit_shell(int status, void **things_to_free)
+{
+	(void)things_to_free;
+	ft_dprintf(STDOUT_FILENO,
+		"La Team Rocket s'envole vers d'autres cieux!\n");
+	ft_dprintf(STDERR_FILENO, "exit\n");
+	exit(status);
+}
