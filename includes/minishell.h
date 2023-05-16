@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/11 14:49:03 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/12 13:45:16 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_token
 }				t_token;
 
 //-----------------FUNCTIONS-----------------//
+char	*get_user_input(void);
 char	*process(char *str, char **path);
 char	**get_path(char **envp);
 void	second_parsing(t_token *token_list);
