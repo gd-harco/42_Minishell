@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 15:44:10 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/17 11:49:53 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,10 @@ t_token	*get_token(char *str, char **envp)
 	while (s[i++])
 	{
 		tmp = token_init(str, envp, &i, s);
-		if (tmp != NULL)
+		if (tmp != NULL && already_cmd(t_new, tmp) != true)
 			token_add_back(&t_new, tmp);
 	}
 	return (t_new);
-}
-
-// t_token	*token_check(char *str, char **envp, int *i)
-// {
-// 	char	**s;
-
-// 	s = ft_split(str, ' ');
-// 	if (!s[*i])
-// 		return (NULL);
-// 	while (s[*i][0] != '<')
-// 	{}
-// }
-
-void	token_arg(char **s, int **i)
-{
-	if (!s[**i])
-		return ;
-	while (s[**i + 1] && s[**i + 1][0] != '<' && s[**i + 1][0] != '>'
-		&& s[**i + 1][0] != '|' && s[**i + 1][0] != '\0')
-	{
-		++**i;
-	}
 }
 
 t_token	*token_init(char *str, char **envp, int *i, char **s)
@@ -89,17 +67,6 @@ t_token	*token_init(char *str, char **envp, int *i, char **s)
 	return (new);
 }
 
-// 	else if (is_builtin(s[*i]) == true)
-// 		token_builtin(new, s, &i);
-// 	else
-// 	{	
-// 		token_cmd(str, new, &i, envp);
-// 		token_arg(s, &i);
-// 	}
-// 	new->next = NULL;
-// 	return (new);
-// }
-
 static t_token	*token_last(t_token *token)
 {
 	while (token && token->next)
@@ -121,7 +88,6 @@ void	token_add_back(t_token **token, t_token *new)
 	else
 		*token = new;
 }
-
 
 //differencier un infile d'un argument de cmd
 //	(ex: echo bonjour : echo, bonjour mais aussi bonjour, null	a enlever)
