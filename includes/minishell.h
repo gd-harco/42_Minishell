@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/17 12:17:04 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/17 14:22:46 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,14 @@ t_token	*token_init(char *str, char **envp, int *i, char **s);
 //---------------TOKEN_FCT.C---------------//
 int		token_infile(t_token *new, char **s, int **i);
 void	token_outfile(t_token *new, char **s, int **i);
-void	token_pipe(t_token *new, char **s, int **i);
+void	token_pipe(t_token *new, char *s);
 void	token_builtin(t_token *new, char **s, int **i);
 void	token_cmd(char *str, t_token *new, int **i, char **envp);
 
 //---------------TOKEN_CMD_FCT.C---------------//
 void	token_builtin(t_token *new, char **s, int **i);
 void	token_cmd(char *str, t_token *new, int **i, char **envp);
+bool	is_pipe_in(char **s, int j);
 
 //---------------TOKEN_CHECK.C---------------//
 bool	already_cmd(t_token *t_new, t_token *tmp);

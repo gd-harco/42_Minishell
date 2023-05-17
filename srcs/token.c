@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/17 11:49:53 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/17 14:31:27 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ t_token	*token_init(char *str, char **envp, int *i, char **s)
 		return (NULL);
 	if (!s[*i])
 		return (NULL);
-	if (s[*i][0] == '<')
+	if (s[*i + 1] && (s[*i][0] == '|' || is_pipe_in(s, *i) == true))
+		token_pipe(new, s[*i]);
+	else if (s[*i][0] == '<')
 	{
 		if (token_infile(new, s, &i) == -1)
 			return (NULL);
 	}
 	else if (s[*i + 1] && s[*i][0] == '>')
 		token_outfile(new, s, &i);
-	else if (s[*i][0] == '-')
+	else if (s[*i][0] == '-' && is_pipe_in(s, *i) == false)
 		return (NULL);
-	else if (s[*i + 1] && s[*i][0] == '|')
-		token_pipe(new, s, &i);
 	else
 	{
 		if (is_builtin(s[*i]) == true)

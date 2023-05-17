@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/17 12:21:25 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/17 14:53:05 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,19 @@ void	token_outfile(t_token *new, char **s, int **i)
 	new->content[1] = NULL;
 }
 
-void	token_pipe(t_token *new, char **s, int **i)
+void	token_pipe(t_token *new, char *s)
 {
-	new->type = PIPE;
-	new->content[0] = ft_strdup(s[**i]);
-	new->content[1] = NULL;
+	if (s[0] == '|' && s[1] == '\0')
+	{
+		new->type = PIPE;
+		new->content[0] = ft_strdup("|");
+		new->content[1] = NULL;
+		return ;
+	}
+	// si [0] != '|'
+	// 	c = ft_split(s, '|');
+	// 	gerer le c[0] puis ecrire pipe puis gerer suite
+	
+	// else token pour premiere partie du char jusquau | puis tkn pipe puis 2eme partie
+		// return (token_pipe(new, ft_substr(s, 1, ft_strlen(s))));
 }
