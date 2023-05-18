@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 14:20:52 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 15:01:08 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,16 @@ typedef struct s_var
 	t_token	*new_tkn;
 }				t_var;
 
-//------------------PATH.C-------------------//
+//------------------PROMPT.C------------------//
 char	*get_user_input(void);
-char	**path_arg_cat(char **src, char *root_arg);
+
+//------------------PATH.C-------------------//
 char	**get_path(char **envp);
+char	**path_arg_cat(char **src, char *root_arg);
 char	*process(char *str, char **path, int ind);
 
 //-----------------TOKEN.C-------------------//
 t_token	*get_token(t_var *var);
-// t_token	*token_init(char *str, char **envp, int *i, char **s);
 t_token	*token_init(t_var *var);
 
 //---------------TOKEN_FCT.C---------------//
@@ -93,7 +94,6 @@ t_token	*token_pipe(void);
 //---------------TOKEN_CMD_FCT.C---------------//
 void	token_builtin(t_var *var);
 void	token_cmd(t_var *var);
-// bool	is_pipe_in(t_var var, int j);
 
 //---------------TOKEN_CHECK.C---------------//
 bool	already_cmd(t_token *t_new, t_token *tmp);

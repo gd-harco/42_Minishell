@@ -6,13 +6,11 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 14:08:41 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 14:59:10 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// static char	*str_trunc(char *str, char c);
 
 void	token_builtin(t_var *var)
 {
@@ -22,13 +20,8 @@ void	token_builtin(t_var *var)
 	j = var->i + 1;
 	while (var->s[j])
 	{
-		if (not_in_out(var->s, j) == true) // && is_pipe_in(var-> j) == false)
+		if (not_in_out(var->s, j) == true)
 			var->arg = ft_strjoinsp(var->arg, var->s[j]);
-		/*else if (not_in_out(var->s, j) == true) && is_pipe_in(var-> j) == true)
-		{
-			var->arg = ft_strjoinsp(var->arg, str_trunc(var->s[j], '|'));
-			break ;
-		}*/
 		j++;
 	}
 	var->new_tkn->type = BUILTIN;
@@ -44,15 +37,10 @@ void	token_cmd(t_var *var)
 	var->path = get_path(var->envp);
 	var->s_p = process(var->spipe[var->index], var->path, var->i);
 	j = var->i + 1;
-	while (var->s[j] /*&& (var->s[j][0] != '|' || var->s[j][0] == '\0'*/)
+	while (var->s[j])
 	{
-		if (not_in_out(var->s, j) == true /*&& is_pipe_in(var-> j) == false*/)
+		if (not_in_out(var->s, j) == true)
 			var->arg = ft_strjoinsp(var->arg, var->s[j]);
-		/*else if (not_in_out(var->s, j) == true && is_pipe_in(var-> j) == true)
-		{
-			var->arg = ft_strjoinsp(var->arg, str_trunc(var->s[j], '|'));
-			break ;
-		}*/
 		j++;
 	}
 	var->new_tkn->type = CMD;

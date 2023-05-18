@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 14:30:39 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 14:56:46 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,86 +14,6 @@
 
 static t_token	*token_last(t_token *token);
 void			token_add_back(t_token **token, t_token *new);
-
-/*
-t_token	*get_token(t_var var)
-{
-	t_token	*t_new;
-	t_token	*tmp;
-
-	var.index = 0;
-	var.i = 0;
-	t_new = token_init(var);
-	while (var.s[var.i++])
-	{
-		tmp = token_init(var);
-		if (tmp != NULL && already_cmd(t_new, tmp) != true)
-			token_add_back(&t_new, tmp);
-	}
-	return (t_new);
-}
-
-t_token	*token_init(t_var var)
-{
-	var.new_tkn = malloc(sizeof(t_token));
-	var.new_tkn->content = malloc(sizeof(char *) * 2);
-	if (!var.new_tkn->content)
-		return (NULL);
-	if (!var.s[var.i])
-		return (NULL);
-	if (var.s[var.i + 1] && (var.s[var.i][0] == '|' || is_pipe_in(var, var.i) == true))
-		token_pipe(var);
-	else if (var.s[var.i][0] == '<')
-	{
-		if (token_infile(var) == -1)
-			return (NULL);
-	}
-	else if (var.s[var.i + 1] && var.s[var.i][0] == '>')
-		token_outfile(var);
-	else if (var.s[var.i][0] == '-' && is_pipe_in(var, var.i) == false)
-		return (NULL);
-	else
-	{
-		if (is_builtin(var.s[var.i]) == true)
-			token_builtin(var);
-		else
-			token_cmd(var);
-		token_arg(var);
-	}
-	var.new_tkn->next = NULL;
-	return (var.new_tkn);
-}*/
-
-static t_token	*token_last(t_token *token)
-{
-	while (token && token->next)
-		token = token->next;
-	return (token);
-}
-
-void	token_add_back(t_token **token, t_token *new)
-{
-	t_token	*tail;
-
-	if (!token)
-		return ;
-	if (*token)
-	{
-		tail = token_last(*token);
-		tail->next = new;
-	}
-	else
-		*token = new;
-}
-
-
-
-
-
-
-
-
-
 
 t_token	*get_token(t_var *var)
 {
@@ -147,6 +67,77 @@ t_token	*token_init(t_var *var)
 	var->new_tkn->next = NULL;
 	return (var->new_tkn);
 }
+
+static t_token	*token_last(t_token *token)
+{
+	while (token && token->next)
+		token = token->next;
+	return (token);
+}
+
+void	token_add_back(t_token **token, t_token *new)
+{
+	t_token	*tail;
+
+	if (!token)
+		return ;
+	if (*token)
+	{
+		tail = token_last(*token);
+		tail->next = new;
+	}
+	else
+		*token = new;
+}
+
+/*t_token	*get_token(t_var var)
+{
+	t_token	*t_new;
+	t_token	*tmp;
+
+	var.index = 0;
+	var.i = 0;
+	t_new = token_init(var);
+	while (var.s[var.i++])
+	{
+		tmp = token_init(var);
+		if (tmp != NULL && already_cmd(t_new, tmp) != true)
+			token_add_back(&t_new, tmp);
+	}
+	return (t_new);
+}
+
+t_token	*token_init(t_var var)
+{
+	var.new_tkn = malloc(sizeof(t_token));
+	var.new_tkn->content = malloc(sizeof(char *) * 2);
+	if (!var.new_tkn->content)
+		return (NULL);
+	if (!var.s[var.i])
+		return (NULL);
+	if (var.s[var.i + 1] && (var.s[var.i][0] == '|' || is_pipe_in(var, var.i) == true))
+		token_pipe(var);
+	else if (var.s[var.i][0] == '<')
+	{
+		if (token_infile(var) == -1)
+			return (NULL);
+	}
+	else if (var.s[var.i + 1] && var.s[var.i][0] == '>')
+		token_outfile(var);
+	else if (var.s[var.i][0] == '-' && is_pipe_in(var, var.i) == false)
+		return (NULL);
+	else
+	{
+		if (is_builtin(var.s[var.i]) == true)
+			token_builtin(var);
+		else
+			token_cmd(var);
+		token_arg(var);
+	}
+	var.new_tkn->next = NULL;
+	return (var.new_tkn);
+}*/
+
 
 //differencier un infile d'un argument de cmd
 //	(ex: echo bonjour : echo, bonjour mais aussi bonjour, null	a enlever)

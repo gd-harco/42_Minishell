@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 13:17:58 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 14:59:28 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,34 +63,3 @@ bool	var_init(t_var *var)
 		return (false);
 	return (true);
 }
-
-// t_token	*token_init2(t_token *new, char *s)
-// {
-// 	t_token	*new;
-// 	int		*i;
-
-// 	*i = 0;
-// 	if (!s)
-// 		return (NULL);
-// 	if (s[*i] && (s[0] == '|' || is_pipe_in(s, i) == true))
-// 		token_pipe(new, s[*i]);
-// 	else if (s[*i] && s[0] == '<')
-// 	{
-// 		if (token_infile(new, s, &i) == -1)
-// 			return (NULL);
-// 	}
-// 	else if (s[*i] && s[0] == '>')
-// 		token_outfile(new, s, &i);
-// 	else if (s[*i] && s[0] == '-' && is_pipe_in(s, *i) == false)
-// 		return (NULL);
-// 	else
-// 	{
-// 		if (is_builtin(s[*i]) == true)
-// 			token_builtin(new, s, &i);
-// 		else
-// 			token_cmd(str, new, &i, envp);
-// 		token_arg(s, &i);
-// 	}
-// 	new->next = NULL;
-// 	return (new);
-// }
