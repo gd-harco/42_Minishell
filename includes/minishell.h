@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 13:02:38 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 14:20:52 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ t_token	*token_init(t_var *var);
 
 //---------------TOKEN_FCT.C---------------//
 int		token_infile(t_var *var);
-void	token_outfile(t_var var);
-t_token	*token_pipe(t_var var);
+void	token_outfile(t_var *var);
+t_token	*token_pipe(void);
 
 //---------------TOKEN_CMD_FCT.C---------------//
 void	token_builtin(t_var *var);
@@ -129,39 +129,3 @@ void	second_parsing(t_token *token_list);
 
 
 #endif
-
-// //------------------PATH.C-------------------//
-// char	*get_user_input(void);
-// char	**path_arg_cat(char **src, char *root_arg);
-// char	**get_path(char **envp);
-// char	*process(char *str, char **path, int *ind);
-
-// //-----------------TOKEN.C-------------------//
-// t_token	*get_token(t_var var);
-// // t_token	*token_init(char *str, char **envp, int *i, char **s);
-// t_token	*token_init(t_var var);
-
-// //---------------TOKEN_FCT.C---------------//
-// int		token_infile(t_token *new, char **s, int **i);
-// void	token_outfile(t_token *new, char **s, int **i);
-// void	token_pipe(t_token *new, char *s);
-// void	token_builtin(t_token *new, char **s, int **i);
-// void	token_cmd(char *str, t_token *new, int **i, char **envp);
-
-// //---------------TOKEN_CMD_FCT.C---------------//
-// void	token_builtin(t_token *new, char **s, int **i);
-// void	token_cmd(char *str, t_token *new, int **i, char **envp);
-// bool	is_pipe_in(char **s, int j);
-
-// //---------------TOKEN_CHECK.C---------------//
-// bool	already_cmd(t_token *t_new, t_token *tmp);
-// void	token_arg(char **s, int **i);
-
-// //-----------------UTILS.C-----------------//
-// bool	is_builtin(char *str);
-// bool	not_in_out(char **s, int j);
-// bool	is_last_infile(char **s, int i);
-// char	*ft_strjoinsp(char const *s1, char const *s2);
-
-// //--------------SECOND_PARSING.C------------//
-// void	second_parsing(t_token *token_list);

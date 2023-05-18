@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 12:33:28 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 14:08:41 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	token_cmd(t_var *var)
 
 	var->arg = NULL;
 	var->path = get_path(var->envp);
-	var->s_p = process(var->str, var->path, var->i);
+	var->s_p = process(var->spipe[var->index], var->path, var->i);
 	j = var->i + 1;
 	while (var->s[j] /*&& (var->s[j][0] != '|' || var->s[j][0] == '\0'*/)
 	{
