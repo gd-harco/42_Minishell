@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/17 14:52:32 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 13:17:58 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,27 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 		return (false);
 }
 
-void	token_arg(char **s, int **i)
+void	token_arg(t_var *var)
 {
-	if (!s[**i])
+	if (!var->s[var->i])
 		return ;
-	while (s[**i + 1] && s[**i + 1][0] != '<' && s[**i + 1][0] != '>'
-		&& s[**i + 1][0] != '|' && s[**i + 1][0] != '\0')
+	while (var->s[var->i + 1] && var->s[var->i + 1][0] != '<'
+		&& var->s[var->i + 1][0] != '>' && var->s[var->i + 1][0] != '|'
+		&& var->s[var->i + 1][0] != '\0')
 	{
-		++**i;
+		++var->i;
 	}
+}
+
+bool	var_init(t_var *var)
+{
+	var->spipe = ft_split(var->str, '|');
+	var->s = ft_split(var->spipe[var->index], ' ');
+	var->new_tkn = malloc(sizeof(t_token));
+	var->new_tkn->content = malloc(sizeof(char *) * 2);
+	if (!var->new_tkn->content || !var->spipe || !var->s)
+		return (false);
+	return (true);
 }
 
 // t_token	*token_init2(t_token *new, char *s)

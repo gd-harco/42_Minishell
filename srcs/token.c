@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/17 14:31:27 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 13:21:51 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,57 +15,54 @@
 static t_token	*token_last(t_token *token);
 void			token_add_back(t_token **token, t_token *new);
 
-t_token	*get_token(char *str, char **envp)
+/*
+t_token	*get_token(t_var var)
 {
 	t_token	*t_new;
 	t_token	*tmp;
-	char	**s;
-	int		i;
 
-	i = 0;
-	s = ft_split(str, ' ');
-	t_new = token_init(str, envp, &i, s);
-	while (s[i++])
+	var.index = 0;
+	var.i = 0;
+	t_new = token_init(var);
+	while (var.s[var.i++])
 	{
-		tmp = token_init(str, envp, &i, s);
+		tmp = token_init(var);
 		if (tmp != NULL && already_cmd(t_new, tmp) != true)
 			token_add_back(&t_new, tmp);
 	}
 	return (t_new);
 }
 
-t_token	*token_init(char *str, char **envp, int *i, char **s)
+t_token	*token_init(t_var var)
 {
-	t_token	*new;
-
-	new = malloc(sizeof(t_token));
-	new->content = malloc(sizeof(char *) * 2);
-	if (!new->content)
+	var.new_tkn = malloc(sizeof(t_token));
+	var.new_tkn->content = malloc(sizeof(char *) * 2);
+	if (!var.new_tkn->content)
 		return (NULL);
-	if (!s[*i])
+	if (!var.s[var.i])
 		return (NULL);
-	if (s[*i + 1] && (s[*i][0] == '|' || is_pipe_in(s, *i) == true))
-		token_pipe(new, s[*i]);
-	else if (s[*i][0] == '<')
+	if (var.s[var.i + 1] && (var.s[var.i][0] == '|' || is_pipe_in(var, var.i) == true))
+		token_pipe(var);
+	else if (var.s[var.i][0] == '<')
 	{
-		if (token_infile(new, s, &i) == -1)
+		if (token_infile(var) == -1)
 			return (NULL);
 	}
-	else if (s[*i + 1] && s[*i][0] == '>')
-		token_outfile(new, s, &i);
-	else if (s[*i][0] == '-' && is_pipe_in(s, *i) == false)
+	else if (var.s[var.i + 1] && var.s[var.i][0] == '>')
+		token_outfile(var);
+	else if (var.s[var.i][0] == '-' && is_pipe_in(var, var.i) == false)
 		return (NULL);
 	else
 	{
-		if (is_builtin(s[*i]) == true)
-			token_builtin(new, s, &i);
+		if (is_builtin(var.s[var.i]) == true)
+			token_builtin(var);
 		else
-			token_cmd(str, new, &i, envp);
-		token_arg(s, &i);
+			token_cmd(var);
+		token_arg(var);
 	}
-	new->next = NULL;
-	return (new);
-}
+	var.new_tkn->next = NULL;
+	return (var.new_tkn);
+}*/
 
 static t_token	*token_last(t_token *token)
 {
@@ -87,6 +84,69 @@ void	token_add_back(t_token **token, t_token *new)
 	}
 	else
 		*token = new;
+}
+
+
+
+
+
+
+
+
+
+
+t_token	*get_token(t_var *var)
+{
+	t_token	*t_new;
+	t_token	*tmp;
+
+	var->index = 0;
+	var->i = 0;
+	t_new = token_init(var);
+	var->i++;
+	while (var->spipe[var->index])
+	{
+		while (var->s[var->i])
+		{
+			tmp = token_init(var);
+			if (tmp != NULL && already_cmd(t_new, tmp) != true)
+				token_add_back(&t_new, tmp);
+			var->i++;
+		}
+		if (var->spipe[var->index + 1] != NULL)
+		{
+			tmp = token_pipe(*var);
+			token_add_back(&t_new, tmp);
+		}
+		var->index++;
+		var->i = 0;
+	}
+	return (t_new);
+}
+
+t_token	*token_init(t_var *var)
+{
+	if (var_init(var) == false || !var->s[var->i])
+		return (NULL);
+	if (var->s[var->i][0] == '<')
+	{
+		if (token_infile(var) == -1)
+			return (NULL);
+	}
+	else if (var->s[var->i][0] == '>')
+		token_outfile(*var);
+	else if (var->s[var->i][0] == '-')
+		return (NULL);
+	else
+	{
+		if (is_builtin(var->s[var->i]) == true)
+			token_builtin(var);
+		else
+			token_cmd(var);
+		token_arg(var);
+	}
+	var->new_tkn->next = NULL;
+	return (var->new_tkn);
 }
 
 //differencier un infile d'un argument de cmd

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/17 12:21:06 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 12:56:36 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,24 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*data;
-	char		*str;
+	t_var		*var;
 	t_token		*tmp;
 
 	(void)argc;
 	(void)argv;
 	data = malloc(sizeof(t_minishell));
+	var = malloc(sizeof(t_var));
 	data->envp = envp;
+	var->envp = envp;
 	printf("\033[0;31m");
 	printf("Bienvenue dans le Minishell de la Team Rocket!\n\n");
 	printf(ROCKET_LOGO);
 	printf("\033[0m");
-	str = get_user_input();
+	var->str = get_user_input();
 	while (42)
 	{
-		add_history(str);
-		data->token_list = get_token(str, envp);
+		add_history(var->str);
+		data->token_list = get_token(var);
 		tmp = data->token_list;
 		while (tmp)
 		{
@@ -41,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("next : %p\n", tmp->next);
 			tmp = tmp->next;
 		}
-		str = get_user_input();
+		var->str = get_user_input();
 	}
 	return (0);
 }
