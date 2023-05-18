@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 14:19:58 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 14:30:39 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ t_token	*get_token(t_var *var)
 
 t_token	*token_init(t_var *var)
 {
-	if (var_init(var) == false || !var->s[var->i])
+	if (var_init(var) == false || !var->s[var->i]
+		|| (var->i != 0 && var->s[var->i][0] == '-'))
 		return (NULL);
 	if (var->s[var->i][0] == '<')
 	{
@@ -135,8 +136,6 @@ t_token	*token_init(t_var *var)
 	}
 	else if (var->s[var->i][0] == '>')
 		token_outfile(var);
-	else if (var->s[var->i][0] == '-')
-		return (NULL);
 	else
 	{
 		if (is_builtin(var->s[var->i]) == true)
