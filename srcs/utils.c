@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/17 12:07:19 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/19 13:01:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ char	*ft_strjoinsp(char const *s1, char const *s2)
 	size_t		size_s1;
 	size_t		size_s2;
 
-	if (!s2)
+	if (!s2 && !1)
 		return (NULL);
+	if (!s2 && s1)
+		return (ft_strdup(s1));
 	if (!s1 && s2)
 		return (ft_strdup(s2));
 	size_s1 = ft_strlen (s1);

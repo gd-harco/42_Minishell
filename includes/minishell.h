@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 15:01:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/19 13:39:15 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_var
 	char	**path;
 	char	*s_p;
 	char	*arg;
+	char	*env;
 	t_token	*new_tkn;
 }				t_var;
 
@@ -108,8 +109,6 @@ char	*ft_strjoinsp(char const *s1, char const *s2);
 
 //--------------SECOND_PARSING.C------------//
 void	second_parsing(t_token *token_list);
-
-
 
 # define ROCKET_LOGO "##################################\n\
 ####################################,\n\

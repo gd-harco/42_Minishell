@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 14:59:28 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/19 13:18:42 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,23 @@ void	token_arg(t_var *var)
 	}
 }
 
+
+int	is_quote_in(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'')
+			return (1);
+		if (str[i] == '"')
+			return (2);
+		i++;
+	}
+	return (0);
+}
+
 bool	var_init(t_var *var)
 {
 	var->spipe = ft_split(var->str, '|');
@@ -63,3 +80,5 @@ bool	var_init(t_var *var)
 		return (false);
 	return (true);
 }
+
+	// if (var->spipe[var->index][0] != '\'' && var->spipe[var->index][0] != '"')
