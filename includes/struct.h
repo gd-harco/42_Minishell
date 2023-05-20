@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/20 09:48:27 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/20 10:41:28 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,20 @@ typedef struct s_here_doc
 	t_token	*link;
 }				t_here_doc;
 
+typedef struct s_cmd
+{
+	int		in_fd;
+	int		out_fd;
+	char	**cmd;
+}				t_cmd;
+
 typedef struct s_exec
 {
 	t_minishell	*minishell_data;
 	int			nb_cmd;
 	int			nb_here_doc;
 	t_here_doc	*here_doc;
+	t_cmd		*cmd;
 }				t_exec;
 
 #endif

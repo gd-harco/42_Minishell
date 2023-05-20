@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:57:11 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/19 12:51:29 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/20 10:19:17 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,8 @@ int		get_nb_here_doc(t_token *token);
 
 //########### HERE_DOC.C ###########//
 void	process_here_doc(t_exec *data);
+
+//########### COMMAND.C ###########//
+void	fill_cmd(t_exec *data);
 
 #endif
