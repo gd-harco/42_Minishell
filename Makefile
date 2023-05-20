@@ -18,11 +18,23 @@ LIBFT			=	lib/libft/libft.a
 
 # ---- Files ---- #
 
-HEADERS_LIST	=
+HEADERS_LIST	=	minishell.h
 
-SRCS_LIST		=
+SRCS_LIST		=	main.c		\
+					prompt.c	\
+					path.c	\
+					token.c	\
+					utils.c	\
+					token_fct.c	\
+\
+					builtins/echo.c		\
+					builtins/env.c		\
+					builtins/exit.c		\
+					builtins/pwd.c		\
+					builtins/unset.c
 
-HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h} \
+
+HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
 OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
@@ -30,7 +42,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 CC				=	cc
 
-CFLAGS			=	 -Wall -Werror -Wextra -g3
+CFLAGS			=	 -Wall -Werror -Wextra -g3 #-fsanitize=address
 
 FRAMEWORKS		=	-Llib/libft -lft
 
@@ -44,7 +56,6 @@ MKDIR			=	mkdir -p
 # ********* RULES ******** #
 
 init			:
-					git submodule update --init --recursive
 					make all
 
 all				:	${OBJS} ${HEADERS}
@@ -54,7 +65,7 @@ all				:	${OBJS} ${HEADERS}
 # ---- Variables Rules ---- #
 
 ${NAME}			:	${OBJS} ${HEADERS} ${LIBFT}
-					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${FRAMEWORKS} -o ${NAME}
+					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${FRAMEWORKS} -o ${NAME} -lreadline
 
 # ---- Compiled Rules ---- #
 
@@ -65,6 +76,7 @@ ${DIR_OBJS}%.o	:	${DIR_SRCS}%.c ${HEADERS}
 
 ${DIR_OBJS}		:
 					${MKDIR} ${DIR_OBJS}
+					${MKDIR} ${DIR_OBJS}builtins
 
 # ---- Usual Rules ---- #
 
