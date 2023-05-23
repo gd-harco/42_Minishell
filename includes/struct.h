@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/20 10:41:28 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/21 14:54:56 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,26 @@ typedef struct s_here_doc
 	t_token	*link;
 }				t_here_doc;
 
+enum e_i_type {
+	STDIN = 0,
+	INFILE = 1,
+	HERE_DOC_I = 2
+};
+
+enum e_o_type {
+	STDOUT = 0,
+	OUTFILE = 1,
+	OUTFILE_APPEND = 2
+};
+
 typedef struct s_cmd
 {
-	int		in_fd;
-	int		out_fd;
-	char	**cmd;
+	int				command_id;
+	enum e_i_type	in_type;
+	enum e_o_type	out_type;
+	char			*path;
+	char			**cmd;
+	char			**envp;
 }				t_cmd;
 
 typedef struct s_exec

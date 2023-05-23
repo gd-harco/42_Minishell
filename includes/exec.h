@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:57:11 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/20 10:19:17 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/21 14:28:43 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,8 @@ void	process_here_doc(t_exec *data);
 
 //########### COMMAND.C ###########//
 void	fill_cmd(t_exec *data);
+
+//########### TRANSLATE.C ###########//
+void	translate_token_in_cmd(t_exec *exec);
 
 #endif
