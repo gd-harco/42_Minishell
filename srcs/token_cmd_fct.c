@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/19 13:36:07 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/23 14:07:50 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ bool	is_env_in(t_var var, int j)
 	return (false);
 }
 
-/*static bool	is_metachar(char c)
+static bool	is_metachar(char c)
 {
 	if (c == '.' || c == '\\' || c == '^' || c == '$'
 		|| c == '*' || c == '+' || c == '?')
 		return (true);
 	else
 		return (false);
-}*/
+}
 
 static void	add_env_arg(t_var *var, int j)
 {
@@ -48,7 +48,7 @@ static void	add_env_arg(t_var *var, int j)
 	k = 0;
 	while (var->s[j][i] != '$')
 		i++;
-	while (var->s[j][i + 1 + k] && var->s[j][i + 1 + k] != '$')	//is_metachar(var->s[j][i + 1 + k] != true)
+	while (var->s[j][i + 1 + k] && !is_metachar(var->s[j][i + 1 + k]))
 		k++;
 	var_env = ft_substr(var->s[j], i + 1, k);
 	if (var_env[0] == '\0')
