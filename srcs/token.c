@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/19 10:02:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:30:53 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,7 @@ void	token_add_back(t_token **token, t_token *new)
 }
 
 
-//differencier un infile d'un argument de cmd
-//	(ex: echo bonjour : echo, bonjour mais aussi bonjour, null	a enlever)
-//gerer plusieurs infile	ok
-// refaire strjoin pour add space	ok
 
-// gerer les string (ex : echo hello)
 // gerer var env et '' ""
 
 /*
@@ -105,4 +100,15 @@ echo "$(echo "upg")"
 echo '$(echo"upg")'
 	$(echo"upg")
 */
-//gerer les spaces de '|' ex : echo bonjour|rev	doit faire ruojnob
+
+//gerer les space de '<' et '>' ex: <<in>>out	heredoc et out append
+
+
+
+
+// gerer les string (ex : echo hello)
+//differencier un infile d'un argument de cmd
+//	(ex: echo bonjour : echo, bonjour mais aussi bonjour, null	a enlever)
+//gerer plusieurs infile	ok
+// refaire strjoin pour add space	ok
+//gerer les spaces de '|' ex : echo bonjour|rev	doit faire ruojnob	ok

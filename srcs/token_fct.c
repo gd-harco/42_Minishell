@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 14:58:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:26:04 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	token_infile(t_var *var)
 
 void	token_outfile(t_var *var)
 {
-	if (var->s[var->i + 1] && var->s[var->i][1] == '>' )
+	if (var->s[var->i][1] && var->s[var->i][1] == '>' )
 	{
 		if (var->s[var->i][2] != '\0')
 			var->new_tkn->content[0] = ft_strdup(ft_substr(
