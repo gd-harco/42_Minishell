@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/15 12:53:27 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/18 10:52:19 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**path_arg_cat(char **src, char *root_arg)
 	return (pathsrc);
 }
 
-char	*process(char *str, char **path, int *ind)
+char	*process(char *str, char **path, int ind)
 {
 	char	**path_cmb;
 	int		i;
@@ -53,14 +53,14 @@ char	*process(char *str, char **path, int *ind)
 	char	*root_arg;
 
 	split_argv = ft_split(str, ' ');
-	root_arg = ft_strjoin("/", split_argv[*ind]);
+	root_arg = ft_strjoin("/", split_argv[ind]);
 	path_cmb = path_arg_cat(path, root_arg);
 	i = 0;
 	while (access(path_cmb[i], X_OK) == -1 && path_cmb[i])
 		i++;
 	if (!path_cmb[i])
 	{
-		return (split_argv[*ind]);		//(split_argv[0]);
+		return (split_argv[ind]);
 	}
 	free(split_argv[0]);
 	split_argv[0] = path_cmb[i];
