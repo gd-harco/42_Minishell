@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/24 11:28:46 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 11:38:22 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,6 @@
 # include <sys/types.h>
 # include <unistd.h>
 
-//-----------------FUNCTION-----------------//
-
-typedef struct s_token
-{
-	char			**content;
-	enum e_type		type;
-	struct s_token	*next;
-}				t_token;
-
-typedef struct s_minishell
-{
-	char	**envp;
-	t_token	*token_list;
-}				t_minishell;
-
 typedef struct s_var
 {
 	char	*str;
@@ -68,28 +53,21 @@ typedef struct s_var
 	t_token	*new_tkn;
 }				t_var;
 
-//------------------PROMPT.C------------------//
+//-----------------FUNCTION-----------------//
+
+//################# PROMPT.C #################//
 char	*get_user_input(void);
 
-//------------------PATH.C-------------------//
+//################# PATH.C #################//
 char	**get_path(char **envp);
 char	**path_arg_cat(char **src, char *root_arg);
 char	*process(char *str, char **path, int ind);
 
-//-----------------TOKEN.C-------------------//
+//################# TOKEN.C #################//
 t_token	*get_token(t_var *var);
 t_token	*token_init(t_var *var);
 
-//---------------TOKEN_FCT.C---------------//
-int		token_infile(t_var *var);
-void	token_outfile(t_var *var);
-t_token	*token_pipe(void);
-
-//---------------TOKEN_CMD_FCT.C---------------//
-void	token_builtin(t_var *var);
-void	token_cmd(t_var *var);
-
-//---------------TOKEN_CHECK.C---------------//
+//################# TOKEN_CHECK.C################# //
 bool	already_cmd(t_token *t_new, t_token *tmp);
 void	token_arg(t_var *var);
 bool	var_init(t_var *var);

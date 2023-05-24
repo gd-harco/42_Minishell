@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/24 11:28:56 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 11:39:30 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,22 +150,21 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*data;
-	char		*str;
+	t_var		*var;
 	t_token		*tmp;
 
 	(void)argc;
 	(void)argv;
 	data = malloc(sizeof(t_minishell));
+	var = malloc(sizeof(t_var));
 	data->envp = envp;
-	printf("\033[0;31m");
-	printf("Bienvenue dans le Minishell de la Team Rocket!\n\n");
+	var->envp = envp;
 	printf(ROCKET_LOGO);
-	printf("\033[0m");
-	str = get_user_input();
+	var->str = get_user_input();
 	while (42)
 	{
-		add_history(str);
-		data->token_list = get_token(str, envp);
+		add_history(var->str);
+		data->token_list = get_token(var);
 		tmp = data->token_list;
 		while (tmp)
 		{
@@ -176,8 +175,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("next : %p\n", tmp->next);
 			tmp = tmp->next;
 		}
-		// first_elem(str, envp);
-		str = get_user_input();
+		var->str = get_user_input();
 	}
 	return (0);
 }
