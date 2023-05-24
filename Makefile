@@ -25,12 +25,6 @@ HEADERS_LIST	=	builtins.h\
 
 SRCS_LIST		=	main.c			\
 					prompt.c		\
-					path.c			\
-					token.c			\
-					utils.c			\
-					token_fct.c		\
-					token_cmd_fct.c	\
-					token_check.c	\
 \
 					builtins/echo.c		\
 					builtins/env.c		\
@@ -43,9 +37,11 @@ SRCS_LIST		=	main.c			\
 					exec/here_doc.c		\
 					exec/translate.c	\
 \
-					parsing/path.c		\
-					parsing/token_fct.c	\
-					parsing/token.c		\
+					parsing/path.c			\
+					parsing/token.c			\
+					parsing/token_check.c	\
+					parsing/token_cmd_fct.c	\
+					parsing/token_fct.c		\
 					parsing/utils.c
 
 

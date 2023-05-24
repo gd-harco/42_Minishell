@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/24 11:38:22 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 11:45:32 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,15 @@ bool	not_in_out(char **s, int j);
 bool	is_last_infile(char **s, int i);
 char	*ft_strjoinsp(char const *s1, char const *s2);
 
-//########### TOKEN_FCT.C ###########//
-int		token_infile(t_token *new, char **s, int **i);
-void	token_outfile(t_token *new, char **s, int **i);
-void	token_pipe(t_token *new, char **s, int **i);
-void	token_builtin(t_token *new, char **s, int **i);
-void	token_cmd(char *str, t_token *new, int **i, char **envp);
+//---------------TOKEN_FCT.C---------------//
+int		token_infile(t_var *var);
+void	token_outfile(t_var *var);
+t_token	*token_pipe(void);
+
+//---------------TOKEN_CMD_FCT.C---------------//
+void	token_builtin(t_var *var);
+void	token_cmd(t_var *var);
+
 
 
 # define ROCKET_LOGO "\033[0;31m\nBienvenue dans le Minishell de la Team Rocket!\n\n##################################\n\

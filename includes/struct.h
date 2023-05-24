@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/21 14:54:56 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 11:58:58 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 //-----------------STRUCTURES-----------------//
 
 enum e_type {
-	UNDEFINED,
-	HERE_DOC,
-	PIPE,
-	FILE_IN,
-	FILE_OUT,
-	FILE_OUT_APPEND,
-	CMD,
-	BUILTIN
+	UNDEFINED = 0,
+	HERE_DOC = 1,
+	PIPE = 2,
+	FILE_IN = 3 ,
+	FILE_OUT = 4,
+	FILE_OUT_APPEND = 5,
+	CMD = 6,
+	BUILTIN = 7
 };
 
 typedef struct s_token
