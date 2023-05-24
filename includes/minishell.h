@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 15:18:53 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/20 10:48:04 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,17 @@
 
 //########### SYSTEM LIB HEADERS ##########//
 
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <unistd.h>
-# include <sys/types.h>
-# include <stdio.h>
-# include <sys/stat.h>
 # include <dirent.h>
 # include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <unistd.h>
 
 //-----------------FUNCTION-----------------//
 

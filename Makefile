@@ -33,6 +33,9 @@ SRCS_LIST		=	main.c		\
 					builtins/unset.c	\
 \
 					exec/execution.c	\
+					exec/get_item_nb.c	\
+					exec/here_doc.c		\
+					exec/translate.c	\
 \
 					parsing/path.c		\
 					parsing/token_fct.c	\
