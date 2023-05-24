@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:26:34 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/21 14:56:40 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 12:17:20 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	translate_token_in_cmd(t_exec *exec)
 	t_token	*first_token;
 	t_token	*tmp;
 
-	first_token = exec->minishell_data->token_list;
+	first_token = exec->token_list;
 	i = 0;
 	exec->cmd = malloc(sizeof(t_cmd) * exec->nb_cmd);
 	while (i < exec->nb_cmd)
@@ -48,7 +48,7 @@ void	translate_token_in_cmd(t_exec *exec)
 			}
 			tmp = tmp->next;
 		}
-		exec->cmd[i].envp = exec->minishell_data->envp;
+		exec->cmd[i].envp = exec->envp;
 		if (i != exec->nb_cmd - 1)
 		{
 			while (first_token->type != PIPE)

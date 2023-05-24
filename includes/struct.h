@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 11:58:58 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 12:11:14 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ typedef struct s_cmd
 
 typedef struct s_exec
 {
-	t_minishell	*minishell_data;
+	char		**envp;
+	t_token		*token_list;
 	int			nb_cmd;
 	int			nb_here_doc;
 	t_here_doc	*here_doc;
