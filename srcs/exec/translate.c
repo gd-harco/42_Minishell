@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:26:34 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 15:18:59 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 15:39:02 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,9 @@ char	**exec_get_cmd(t_token	*first_token)
 			cmd = malloc(sizeof(char *) * (nb_arg + 2));
 			cmd[0] = cur_token->content[0];
 			cmd[nb_arg + 1] = NULL;
-			while (nb_arg > 0)
-			{
+			//TODO fix ca c'est pete oupsi
+			while (nb_arg-- > 0)
 				cmd[nb_arg] = tmp[nb_arg - 1];
-				nb_arg--;
-			}
 			ft_free_split((void **)tmp);
 			return (cmd);
 		}

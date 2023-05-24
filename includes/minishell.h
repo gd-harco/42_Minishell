@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/24 11:45:32 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 15:31:37 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ t_token	*token_pipe(void);
 void	token_builtin(t_var *var);
 void	token_cmd(t_var *var);
 
-
-
 # define ROCKET_LOGO "\033[0;31m\nBienvenue dans le Minishell de la Team Rocket!\n\n##################################\n\
 ####################################,\n\
 ######################################\n\
@@ -104,6 +102,5 @@ void	token_cmd(t_var *var);
 ###########            *############\n\
 ###########              ############.\n\
 ###########               #############\n\n\033[0m"
-
 
 #endif

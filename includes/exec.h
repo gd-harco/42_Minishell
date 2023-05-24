@@ -6,13 +6,12 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:57:11 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 12:32:58 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 15:31:32 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
-
 
 # include "struct.h"
 
