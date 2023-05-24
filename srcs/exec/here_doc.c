@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:33:05 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 12:17:03 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 14:05:11 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void		fill_here_doc(t_exec *data, t_here_doc *here_doc);
  */
 void	process_here_doc(t_exec *data)
 {
-	int		i;
+	size_t	i;
 
 	i = -1;
 	data->here_doc = malloc(sizeof(t_here_doc) * data->nb_here_doc);

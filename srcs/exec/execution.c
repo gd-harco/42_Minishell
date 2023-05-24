@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:56:35 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 12:16:50 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/24 12:33:04 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	master_exec(t_minishell *minishell_data)
 {
 	t_exec	*exec;
+	size_t	cur_cmd_nb;
 
 	exec = malloc(sizeof(t_exec));
 	exec->envp = minishell_data->envp;
@@ -28,5 +29,10 @@ void	master_exec(t_minishell *minishell_data)
 	else
 		exec->here_doc = NULL;
 	exec->cmd = malloc(sizeof(t_cmd) * exec->nb_cmd);
-	printf("filled");
+	cur_cmd_nb = 0;
+	while (cur_cmd_nb < exec->nb_cmd)
+	{
+		translate_token_in_cmd(exec, cur_cmd_nb);
+		cur_cmd_nb++;
+	}
 }
