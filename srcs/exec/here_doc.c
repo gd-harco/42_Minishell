@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:33:05 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/20 10:04:12 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 11:48:25 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static t_token	*get_next_delimiter(t_token *token);
 static void		fill_here_doc(t_exec *data, t_here_doc *here_doc);
+
+//TODO gerer les signaux pour les heredoc
 
 /**
  * @brief Malloc the good number of t_here_doc and call fill_here_doc
@@ -25,7 +27,7 @@ static void		fill_here_doc(t_exec *data, t_here_doc *here_doc);
  */
 void	process_here_doc(t_exec *data)
 {
-	int		i;
+	size_t	i;
 
 	i = -1;
 	data->here_doc = malloc(sizeof(t_here_doc) * data->nb_here_doc);
@@ -46,7 +48,7 @@ static t_token	*get_next_delimiter(t_token *token)
 
 static void	fill_here_doc(t_exec *data, t_here_doc *here_doc)
 {
-	here_doc->link = get_next_delimiter(data->minishell_data->token_list);
+	here_doc->link = get_next_delimiter(data->token_list);
 	here_doc->delimiter = ft_strdup(here_doc->link->content[0]);
 	pipe(here_doc->pipe_fd);
 	here_doc->tmp_char = readline("> ");

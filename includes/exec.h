@@ -6,13 +6,12 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:57:11 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/21 14:28:43 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 14:18:25 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
-
 
 # include "struct.h"
 
@@ -32,6 +31,8 @@ void	process_here_doc(t_exec *data);
 void	fill_cmd(t_exec *data);
 
 //########### TRANSLATE.C ###########//
-void	translate_token_in_cmd(t_exec *exec);
+void	translate_token_in_cmd(t_exec *exec, size_t cmd_nb);
+char	**exec_create_cmd(t_token	*cur_token);
+void	get_io_file_path(t_cmd *cmd, t_token *first_token);
 
 #endif

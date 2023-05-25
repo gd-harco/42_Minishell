@@ -23,8 +23,8 @@ HEADERS_LIST	=	builtins.h\
 					minishell.h	\
 					struct.h	\
 
-SRCS_LIST		=	main.c		\
-					prompt.c	\
+SRCS_LIST		=	main.c			\
+					prompt.c		\
 \
 					builtins/echo.c		\
 					builtins/env.c		\
@@ -32,14 +32,17 @@ SRCS_LIST		=	main.c		\
 					builtins/pwd.c		\
 					builtins/unset.c	\
 \
-					exec/execution.c	\
-					exec/get_item_nb.c	\
-					exec/here_doc.c		\
-					exec/translate.c	\
+					exec/execution.c		\
+					exec/get_item_nb.c		\
+					exec/here_doc.c			\
+					exec/translate.c		\
+					exec/translate_utils.c	\
 \
-					parsing/path.c		\
-					parsing/token_fct.c	\
-					parsing/token.c		\
+					parsing/path.c			\
+					parsing/token.c			\
+					parsing/token_check.c	\
+					parsing/token_cmd_fct.c	\
+					parsing/token_fct.c		\
 					parsing/utils.c
 
 

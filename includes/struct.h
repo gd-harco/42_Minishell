@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/21 14:54:56 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 14:08:52 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 //-----------------STRUCTURES-----------------//
 
 enum e_type {
-	UNDEFINED,
-	HERE_DOC,
-	PIPE,
-	FILE_IN,
-	FILE_OUT,
-	FILE_OUT_APPEND,
-	CMD,
-	BUILTIN
+	UNDEFINED = 0,
+	HERE_DOC = 1,
+	PIPE = 2,
+	FILE_IN = 3 ,
+	FILE_OUT = 4,
+	FILE_OUT_APPEND = 5,
+	CMD = 6,
+	BUILTIN = 7
 };
 
 typedef struct s_token
@@ -61,19 +61,23 @@ enum e_o_type {
 
 typedef struct s_cmd
 {
-	int				command_id;
+	size_t			command_id;
 	enum e_i_type	in_type;
 	enum e_o_type	out_type;
 	char			*path;
 	char			**cmd;
-	char			**envp;
+	char			*infile;
+	char			*outfile;
+	pid_t			pid;
+	int				pipe_fd[2];
 }				t_cmd;
 
 typedef struct s_exec
 {
-	t_minishell	*minishell_data;
-	int			nb_cmd;
-	int			nb_here_doc;
+	char		**envp;
+	t_token		*token_list;
+	size_t		nb_cmd;
+	size_t		nb_here_doc;
 	t_here_doc	*here_doc;
 	t_cmd		*cmd;
 }				t_exec;
