@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:26:34 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/25 13:59:34 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 14:35:58 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void	translate_token_in_cmd(t_exec *exec, size_t cmd_nb)
 	}
 	exec->cmd[cmd_nb].in_type = exec_get_in_type(first_token);
 	exec->cmd[cmd_nb].out_type = exec_get_out_type(first_token);
+	if (exec->cmd[cmd_nb].in_type == INFILE
+		|| exec->cmd[cmd_nb].out_type == OUTFILE
+		|| exec->cmd[cmd_nb].out_type == OUTFILE_APPEND)
+		get_io_file_path(&exec->cmd[cmd_nb], first_token);
 	exec->cmd[cmd_nb].path = exec_get_path(first_token);
 	exec->cmd[cmd_nb].cmd = exec_get_cmd(first_token);
 }

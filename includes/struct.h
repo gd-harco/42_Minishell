@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 14:46:28 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 14:08:52 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ typedef struct s_cmd
 	enum e_o_type	out_type;
 	char			*path;
 	char			**cmd;
+	char			*infile;
+	char			*outfile;
+	pid_t			pid;
+	int				pipe_fd[2];
 }				t_cmd;
 
 typedef struct s_exec
