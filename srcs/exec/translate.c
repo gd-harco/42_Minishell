@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 14:26:34 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 15:39:02 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 13:59:34 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,26 +86,12 @@ char	*exec_get_path(t_token *first_token)
 char	**exec_get_cmd(t_token	*first_token)
 {
 	t_token	*cur_token;
-	char	**cmd;
-	char	**tmp;
-	int		nb_arg;
 
 	cur_token = first_token;
 	while (cur_token && cur_token->type != PIPE)
 	{
 		if (cur_token->type == CMD)
-		{
-			tmp = ft_split(cur_token->content[1], ' ');
-			nb_arg = ft_array_length((void **)tmp);
-			cmd = malloc(sizeof(char *) * (nb_arg + 2));
-			cmd[0] = cur_token->content[0];
-			cmd[nb_arg + 1] = NULL;
-			//TODO fix ca c'est pete oupsi
-			while (nb_arg-- > 0)
-				cmd[nb_arg] = tmp[nb_arg - 1];
-			ft_free_split((void **)tmp);
-			return (cmd);
-		}
+			return (exec_create_cmd(cur_token));
 		cur_token = cur_token->next;
 	}
 	return (NULL);

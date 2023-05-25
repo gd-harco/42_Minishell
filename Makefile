@@ -32,10 +32,11 @@ SRCS_LIST		=	main.c			\
 					builtins/pwd.c		\
 					builtins/unset.c	\
 \
-					exec/execution.c	\
-					exec/get_item_nb.c	\
-					exec/here_doc.c		\
-					exec/translate.c	\
+					exec/execution.c		\
+					exec/get_item_nb.c		\
+					exec/here_doc.c			\
+					exec/translate.c		\
+					exec/translate_utils.c	\
 \
 					parsing/path.c			\
 					parsing/token.c			\

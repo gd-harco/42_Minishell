@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:33:05 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 14:05:11 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 11:48:25 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static t_token	*get_next_delimiter(t_token *token);
 static void		fill_here_doc(t_exec *data, t_here_doc *here_doc);
+
+//TODO gerer les signaux pour les heredoc
 
 /**
  * @brief Malloc the good number of t_here_doc and call fill_here_doc
