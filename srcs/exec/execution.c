@@ -6,13 +6,14 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:56:35 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/25 14:35:34 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 15:09:07 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void	exec_loop(t_exec *exec);
+static void	exec_loop(t_exec *exec);
+// static void	open_io_file(t_cmd *cmd);
 
 void	master_exec(t_minishell *minishell_data)
 {
@@ -37,10 +38,22 @@ void	master_exec(t_minishell *minishell_data)
 	cur_cmd_nb = 0;
 	while (cur_cmd_nb < exec->nb_cmd)
 		translate_token_in_cmd(exec, cur_cmd_nb++);
-	// exec_loop(exec);
+	exec_loop(exec);
 }
 
-// void	exec_loop(t_exec *exec)
-// {
+void	exec_loop(t_exec *exec)
+{
+	size_t	cur_cmd_nb;
 
-// }
+	cur_cmd_nb = 0;
+	while (cur_cmd_nb < exec->nb_cmd)
+	{
+		// open_io_file(&exec->cmd[cur_cmd_nb]);
+		exec->cmd[cur_cmd_nb].pid = fork();
+		if (exec->cmd[cur_cmd_nb].pid == 0)
+			execve(exec->cmd[cur_cmd_nb].path, exec->cmd[cur_cmd_nb].cmd, exec->envp);
+		else
+			wait(&exec->cmd[cur_cmd_nb].pid);
+		cur_cmd_nb++;
+	}
+}
