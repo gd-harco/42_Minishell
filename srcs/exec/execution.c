@@ -6,14 +6,14 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:56:35 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/25 15:09:07 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/26 13:24:57 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	exec_loop(t_exec *exec);
-// static void	open_io_file(t_cmd *cmd);
+static void	open_io_file(t_cmd *cmd);
 
 void	master_exec(t_minishell *minishell_data)
 {
@@ -44,16 +44,51 @@ void	master_exec(t_minishell *minishell_data)
 void	exec_loop(t_exec *exec)
 {
 	size_t	cur_cmd_nb;
+	int		old_stdin;
+	int		old_stdout;
 
 	cur_cmd_nb = 0;
+	old_stdin = dup(STDIN_FILENO);
+	old_stdout = dup(STDOUT_FILENO);
 	while (cur_cmd_nb < exec->nb_cmd)
 	{
-		// open_io_file(&exec->cmd[cur_cmd_nb]);
+		open_io_file(&exec->cmd[cur_cmd_nb]);
+		dup2(exec->cmd[cur_cmd_nb].file_fd[0], STDIN_FILENO);
+		dup2(exec->cmd[cur_cmd_nb].file_fd[1], STDOUT_FILENO);
 		exec->cmd[cur_cmd_nb].pid = fork();
 		if (exec->cmd[cur_cmd_nb].pid == 0)
-			execve(exec->cmd[cur_cmd_nb].path, exec->cmd[cur_cmd_nb].cmd, exec->envp);
+		{
+			execve(exec->cmd[cur_cmd_nb].path,
+				exec->cmd[cur_cmd_nb].cmd, exec->envp);
+		}
 		else
+		{
 			wait(&exec->cmd[cur_cmd_nb].pid);
+		}
 		cur_cmd_nb++;
 	}
+	dup2(old_stdin, STDIN_FILENO);
+	dup2(old_stdout, STDOUT_FILENO);
+}
+
+void	open_io_file(t_cmd	*cmd)
+{
+	if (cmd->in_type == INFILE)
+		cmd->file_fd[0] = open(cmd->in_file, O_RDONLY);
+	else if (cmd->in_type == HERE_DOC_I)
+		ft_dprintf(STDOUT_FILENO, "todo here_doc");
+		//TODO: handled here_doc;
+	else
+		cmd->file_fd[0] = STDIN_FILENO;
+	if (cmd->out_type == OUTFILE)
+		cmd->file_fd[1]
+			= open(cmd->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (cmd->out_type == OUTFILE_APPEND)
+		cmd->file_fd[1]
+			= open(cmd->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	//TODO: call function pointer exit
+	else
+		cmd->file_fd[1] = STDOUT_FILENO;
+	if (cmd->file_fd[0] == -1 || cmd->file_fd[1] == -1)
+		exit(EXIT_FAILURE);
 }

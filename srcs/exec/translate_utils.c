@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:59:10 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/26 10:36:56 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/26 11:40:55 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ void	get_io_file_path(t_cmd *cmd, t_token *first_token)
 		tmp = first_token;
 		while (tmp && tmp->type != FILE_IN)
 			tmp = tmp->next;
-		cmd->infile = ft_strdup(tmp->content[0]);
+		cmd->in_file = ft_strdup(tmp->content[0]);
 	}
 	else
-		cmd->infile = NULL;
+		cmd->in_file = NULL;
 	if (cmd->out_type != 0)
 	{
 		tmp = first_token;
 		while (tmp && !(tmp->type == FILE_OUT || tmp->type == FILE_OUT_APPEND))
 			tmp = tmp->next;
-		cmd->outfile = ft_strdup(tmp->content[0]);
+		cmd->out_file = ft_strdup(tmp->content[0]);
 	}
 	else
-		cmd->outfile = NULL;
+		cmd->out_file = NULL;
 }
