@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/18 10:52:19 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/26 10:55:20 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ char	**path_arg_cat(char **src, char *root_arg)
 	int		i;
 	char	**pathsrc;
 
-	pathsrc = malloc(sizeof(char *) * (5 + 3));
+	pathsrc = malloc(sizeof(char *) * (ft_array_length((void **)src) + 1));
 	if (!pathsrc)
 		return (NULL);
 	i = 0;
-	while (i < 5)
+	while (src[i])
 	{
 		pathsrc[i] = ft_strjoin(src[i], root_arg);
 		i++;
@@ -56,7 +56,7 @@ char	*process(char *str, char **path, int ind)
 	root_arg = ft_strjoin("/", split_argv[ind]);
 	path_cmb = path_arg_cat(path, root_arg);
 	i = 0;
-	while (access(path_cmb[i], X_OK) == -1 && path_cmb[i])
+	while (path_cmb[i] && access(path_cmb[i], X_OK) == -1)
 		i++;
 	if (!path_cmb[i])
 	{
