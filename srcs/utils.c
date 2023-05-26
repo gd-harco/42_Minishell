@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/15 16:11:56 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/19 13:01:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,16 @@ bool	is_builtin(char *str)
 		return (false);
 }
 
-bool	not_in_out(char **s, int j, char *s_p)
+bool	not_in_out(char **s, int j)
 {
-	if ((s[j][0] == '<' && s[j][1] == '\0')
-	|| (s[j][0] == '>' && s[j][1] == '\0')
-	|| (s[j - 1][0] == '<' && s[j - 1][1] == '\0')	// '\0' permet de gerer 
-	|| (s[j - 1][0] == '>' && s[j - 1][1] == '\0'))	// le cas : cat <Makefile
+	if ((s[j][0] == '<') || (s[j][0] == '<' && s[j][1] == '<')
+	|| (s[j][0] == '>') || (s[j][0] == '>' && s[j][1] == '>')
+	|| (s[j - 1][0] == '<' && s[j - 1][1] == '\0')
+	|| (s[j - 1][0] == '>' && s[j - 1][1] == '\0')
+	|| (s[j - 1][0] == '<' && s[j - 1][1] == '<' && s[j - 1][2] == '\0')
+	|| (s[j - 1][0] == '>' && s[j - 1][1] == '>' && s[j - 1][2] == '\0'))
 		return (false);
-	while (j >= 0 && s[j][0] != '|')	//on remonte la chaine pour voir si
-	{									// s correspond a un arg d'une commande
-		if (access(s_p, X_OK) != -1 || is_builtin(s[j]) == true)
-			return (true);
-		j--;
-	}
-	return (false);
+	return (true);
 }
 
 bool	is_last_infile(char **s, int i)
@@ -86,8 +82,10 @@ char	*ft_strjoinsp(char const *s1, char const *s2)
 	size_t		size_s1;
 	size_t		size_s2;
 
-	if (!s2)
+	if (!s2 && !1)
 		return (NULL);
+	if (!s2 && s1)
+		return (ft_strdup(s1));
 	if (!s1 && s2)
 		return (ft_strdup(s2));
 	size_s1 = ft_strlen (s1);

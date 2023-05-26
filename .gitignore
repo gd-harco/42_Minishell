@@ -53,5 +53,4 @@ Module.symvers
 Mkfile.old
 dkms.conf
 out
-.gitignore
 minishell

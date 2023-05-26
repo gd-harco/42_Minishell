@@ -20,13 +20,21 @@ LIBFT			=	lib/libft/libft.a
 
 HEADERS_LIST	=	minishell.h
 
-SRCS_LIST		=	main.c	\
-					path.c	\
-					token.c	\
-					utils.c	\
-					token_fct.c	\
-					# second_parsing.c	\
-					#arg_init.c
+SRCS_LIST		=	main.c			\
+					prompt.c		\
+					path.c			\
+					token.c			\
+					utils.c			\
+					token_fct.c		\
+					token_cmd_fct.c	\
+					token_check.c	\
+\
+					builtins/echo.c		\
+					builtins/env.c		\
+					builtins/exit.c		\
+					builtins/pwd.c		\
+					builtins/unset.c
+
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
@@ -70,6 +78,7 @@ ${DIR_OBJS}%.o	:	${DIR_SRCS}%.c ${HEADERS}
 
 ${DIR_OBJS}		:
 					${MKDIR} ${DIR_OBJS}
+					${MKDIR} ${DIR_OBJS}builtins
 
 # ---- Usual Rules ---- #
 

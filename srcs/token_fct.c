@@ -6,91 +6,90 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/15 16:07:38 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:26:04 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-int	token_infile(t_token *new, char **s, int **i)
+static void	heredoc_infile(t_var *var)
 {
-	if (is_last_infile(s, **i) != true)
+	if (var->s[var->i][2] != '\0')
+		var->new_tkn->content[0] = ft_strdup(ft_substr
+				(var->s[var->i], 2, ft_strlen(var->s[var->i])));
+	else
 	{
-		++**i;
+		var->i++;
+		var->new_tkn->content[0] = ft_strdup(var->s[var->i]);
+	}
+	var->new_tkn->type = HERE_DOC;
+}
+
+int	token_infile(t_var *var)
+{
+	if (is_last_infile(var->s, var->i) != true && var->s[var->i][1] != '<')
+	{
+		if (var->s[var->i][1] == '\0')
+			++var->i;
 		return (-1);
 	}
-	if (s[**i][1] == '<')
-		new->type = HERE_DOC;
-	else if (s[**i][1] != '\0')
+	if (var->s[var->i][1] == '<')
 	{
-		new->type = FILE_IN;
-		new->content[0] = ft_strdup(s[**i]);
-		new->content[1] = NULL;
-		return (0);
+		heredoc_infile(var);
+	}
+	else if (var->s[var->i][1] != '\0')
+	{
+		var->new_tkn->type = FILE_IN;
+		var->new_tkn->content[0] = ft_strdup(ft_substr
+				(var->s[var->i], 1, ft_strlen(var->s[var->i])));
 	}
 	else
-		new->type = FILE_IN;
-	new->content[0] = ft_strdup(s[++**i]);
-	new->content[1] = NULL;
+	{
+		var->new_tkn->type = FILE_IN;
+		var->new_tkn->content[0] = ft_strdup(var->s[++var->i]);
+	}
+	var->new_tkn->content[1] = NULL;
 	return (0);
 }
 
-void	token_outfile(t_token *new, char **s, int **i)
+void	token_outfile(t_var *var)
 {
-	if (s[**i + 1] && s[**i][1] == '>' )
-		new->type = FILE_OUT_APPEND;
+	if (var->s[var->i][1] && var->s[var->i][1] == '>' )
+	{
+		if (var->s[var->i][2] != '\0')
+			var->new_tkn->content[0] = ft_strdup(ft_substr(
+						var->s[var->i], 2, ft_strlen(var->s[var->i])));
+		else
+		{
+			var->i++;
+			var->new_tkn->content[0] = ft_strdup(var->s[var->i]);
+		}
+		var->new_tkn->type = FILE_OUT_APPEND;
+	}
+	else if (var->s[var->i][1] != '\0')
+	{
+		var->new_tkn->content[0] = ft_strdup(ft_substr
+				(var->s[var->i], 1, ft_strlen(var->s[var->i])));
+		var->new_tkn->type = FILE_OUT;
+	}
 	else
-		new->type = FILE_OUT;
-	new->content[0] = ft_strdup(s[++**i]);
-	new->content[1] = NULL;
-}
-
-void	token_pipe(t_token *new, char **s, int **i)
-{
-	new->type = PIPE;
-	new->content[0] = ft_strdup(s[**i]);
-	new->content[1] = NULL;
-}
-
-void	token_builtin(t_token *new, char **s, int **i)
-{
-	char	*arg;
-	int		j;
-
-	arg = NULL;
-	j = **i + 1;
-	while (s[j] && s[j][0] != '|')
 	{
-		if (s[j][0] == '-' || not_in_out(s, j, NULL) == true)
-			arg = ft_strjoinsp(arg, s[j]);
-		j++;
+		var->new_tkn->content[0] = ft_strdup(var->s[++var->i]);
+		var->new_tkn->type = FILE_OUT;
 	}
-	new->type = BUILTIN;
-	new->content[0] = ft_strdup(s[**i]);
-	new->content[1] = ft_strdup(arg);
+	var->new_tkn->content[1] = NULL;
 }
 
-void	token_cmd(char *str, t_token *new, int **i, char **envp)
+t_token	*token_pipe(void)
 {
-	char	*arg;
-	int		j;
-	char	**path;
-	char	*s_p;
-	char	**s;
+	t_token	*tmp;
 
-	s = ft_split (str, ' ');
-	arg = NULL;
-	path = get_path(envp);
-	s_p = process(str, path, *i);
-	j = **i + 1;
-	while (s[j] && (s[j][0] != '|' || s[j][0] == '\0'))
-	{
-		if (s[j][0] == '-' || not_in_out(s, j, s_p) == true)
-			arg = ft_strjoinsp(arg, s[j]);
-		j++;
-	}
-	new->type = CMD;
-	new->content[0] = ft_strdup(s_p);
-	new->content[1] = ft_strdup(arg);
+	tmp = malloc(sizeof(t_token));
+	tmp->type = PIPE;
+	tmp->content = malloc(sizeof(char *) * 2);
+	tmp->content[0] = ft_strdup("|");
+	tmp->content[1] = NULL;
+	tmp->next = NULL;
+	return (tmp);
 }

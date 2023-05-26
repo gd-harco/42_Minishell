@@ -33,7 +33,7 @@ This project is a part of the 42-Cursus curriculum and is intended for education
 ## 🙇 Author
 #### Guillaume d'harcourt
 - Github: [@gd-harco](https://github.com/gd-harco)<br>
-<a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/cle01db6o00650fmmx6igm6z3/stats?cursusId=21&coalitionId=305" alt="gd-harco's 42 stats" /></a>
+<img src="https://badge42.vercel.app/api/v2/cle01db6o00650fmmx6igm6z3/stats?cursusId=21&coalitionId=305" alt="gd-harco's 42 stats" /></a>
 #### Timothé Dutel
 - Github: [@tdutel](https://github.com/tdutel)<br>
-<a href="https://github.com/JaeSeoKim/badge42"><img src="https://badge42.vercel.app/api/v2/clhg8mkri004408mjejmx1weo/stats?cursusId=21&coalitionId=305" alt="tdutel's 42 stats" /></a>
+<img src="https://badge42.vercel.app/api/v2/clhg8mkri004408mjejmx1weo/stats?cursusId=21&coalitionId=305" alt="tdutel's 42 stats" /></a>

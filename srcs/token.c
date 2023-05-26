@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/15 15:58:42 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/23 10:30:53 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,56 +15,57 @@
 static t_token	*token_last(t_token *token);
 void			token_add_back(t_token **token, t_token *new);
 
-t_token	*get_token(char *str, char **envp)
+t_token	*get_token(t_var *var)
 {
 	t_token	*t_new;
 	t_token	*tmp;
-	char	**s;
-	int		i;
 
-	i = 0;
-	s = ft_split(str, ' ');
-	t_new = token_init(str, envp, &i);
-	while (s[i++])
+	var->index = 0;
+	var->i = 0;
+	t_new = token_init(var);
+	var->i++;
+	while (var->spipe[var->index])
 	{
-		tmp = token_init(str, envp, &i);
-		if (tmp != NULL)
+		while (var->s[var->i])
+		{
+			tmp = token_init(var);
+			if (tmp != NULL && already_cmd(t_new, tmp) != true)
+				token_add_back(&t_new, tmp);
+			var->i++;
+		}
+		if (var->spipe[var->index + 1] != NULL)
+		{
+			tmp = token_pipe();
 			token_add_back(&t_new, tmp);
+		}
+		var->index++;
+		var->i = 0;
 	}
-	// if (no_infile(&t_new == true))
-	// 	replace_type(&t_new);
 	return (t_new);
 }
 
-t_token	*token_init(char *str, char **envp, int *i)
+t_token	*token_init(t_var *var)
 {
-	t_token	*new;
-	char	**s;
-
-	s = ft_split (str, ' ');
-	new = malloc(sizeof(t_token));
-	new->content = malloc(sizeof(char *) * 2);
-	if (!new->content)
+	if (var_init(var) == false || !var->s[var->i]
+		|| (var->i != 0 && var->s[var->i][0] == '-'))
 		return (NULL);
-	if (!s[*i])
-		return (NULL);
-	if (s[*i][0] == '<')
+	if (var->s[var->i][0] == '<')
 	{
-		if (token_infile(new, s, &i) == -1)
+		if (token_infile(var) == -1)
 			return (NULL);
 	}
-	else if (s[*i + 1] && s[*i][0] == '>')
-		token_outfile(new, s, &i);
-	else if (s[*i][0] == '-')
-		return (NULL);
-	else if (s[*i + 1] && s[*i][0] == '|')
-		token_pipe(new, s, &i);
-	else if (is_builtin(s[*i]) == true)
-		token_builtin(new, s, &i);
+	else if (var->s[var->i][0] == '>')
+		token_outfile(var);
 	else
-		token_cmd(str, new, &i, envp);
-	new->next = NULL;
-	return (new);
+	{
+		if (is_builtin(var->s[var->i]) == true)
+			token_builtin(var);
+		else
+			token_cmd(var);
+		token_arg(var);
+	}
+	var->new_tkn->next = NULL;
+	return (var->new_tkn);
 }
 
 static t_token	*token_last(t_token *token)
@@ -89,10 +90,25 @@ void	token_add_back(t_token **token, t_token *new)
 		*token = new;
 }
 
-//gerer le infile sans < (ex: cat Makefile)	ok
+
+
+// gerer var env et '' ""
+
+/*
+echo "$(echo "upg")"
+	upg
+echo '$(echo"upg")'
+	$(echo"upg")
+*/
+
+//gerer les space de '<' et '>' ex: <<in>>out	heredoc et out append
+
+
+
+
+// gerer les string (ex : echo hello)
 //differencier un infile d'un argument de cmd
-//	(ex: echo bonjour : echo, bonjour mais aussi bonjour, null)
+//	(ex: echo bonjour : echo, bonjour mais aussi bonjour, null	a enlever)
 //gerer plusieurs infile	ok
 // refaire strjoin pour add space	ok
-// gerer les string (ex : echo hello)
-// gerer var env et '' ""
+//gerer les spaces de '|' ex : echo bonjour|rev	doit faire ruojnob	ok
