@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/26 10:55:20 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/26 11:11:08 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*process(char *str, char **path, int ind)
 	root_arg = ft_strjoin("/", split_argv[ind]);
 	path_cmb = path_arg_cat(path, root_arg);
 	i = 0;
-	while (access(path_cmb[i] && path_cmb[i], X_OK) == -1)
+	while (path_cmb[i] && access(path_cmb[i], X_OK) == -1)
 		i++;
 	if (!path_cmb[i])
 	{
