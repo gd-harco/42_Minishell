@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/25 14:08:52 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/26 11:53:06 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ enum e_o_type {
 	OUTFILE_APPEND = 2
 };
 
+//in "file_fd", 0 is for input, 1 is for output.
 typedef struct s_cmd
 {
 	size_t			command_id;
@@ -66,10 +67,10 @@ typedef struct s_cmd
 	enum e_o_type	out_type;
 	char			*path;
 	char			**cmd;
-	char			*infile;
-	char			*outfile;
+	char			*in_file;
+	char			*out_file;
 	pid_t			pid;
-	int				pipe_fd[2];
+	int				file_fd[2];
 }				t_cmd;
 
 typedef struct s_exec
@@ -80,6 +81,7 @@ typedef struct s_exec
 	size_t		nb_here_doc;
 	t_here_doc	*here_doc;
 	t_cmd		*cmd;
+	int			pipe_fd[2];
 }				t_exec;
 
 #endif
