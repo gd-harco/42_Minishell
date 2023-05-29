@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/19 13:39:15 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/29 10:57:37 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,15 @@ typedef struct s_var
 	t_token	*new_tkn;
 }				t_var;
 
+typedef struct s_varenv
+{
+	int		i;
+	int		j;
+	int		k;
+	int		m;
+	char	*var_env;
+}				t_varenv;
+
 //------------------PROMPT.C------------------//
 char	*get_user_input(void);
 
@@ -95,6 +104,11 @@ t_token	*token_pipe(void);
 //---------------TOKEN_CMD_FCT.C---------------//
 void	token_builtin(t_var *var);
 void	token_cmd(t_var *var);
+bool	is_metachar(char c);
+char	*ft_trunc(char *str, int start, char c);
+
+//---------------TOKEN_ENV_VAR.C---------------//
+void	env_arg(t_var *var, t_varenv *v_e);
 
 //---------------TOKEN_CHECK.C---------------//
 bool	already_cmd(t_token *t_new, t_token *tmp);

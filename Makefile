@@ -27,6 +27,7 @@ SRCS_LIST		=	main.c			\
 					utils.c			\
 					token_fct.c		\
 					token_cmd_fct.c	\
+					token_env_var.c	\
 					token_check.c	\
 \
 					builtins/echo.c		\
