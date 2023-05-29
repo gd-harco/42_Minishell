@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:56:35 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/27 17:44:57 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/29 15:50:16 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	master_exec(t_minishell *minishell_data)
 	exec->token_list = minishell_data->token_list;
 	exec->nb_cmd = get_nb_cmd(exec->token_list);
 	if (exec->nb_cmd == 0)
-		return ;
+		return ; //TODO: call function pointer exit
 	exec->nb_here_doc = get_nb_here_doc(exec->token_list);
 	if (exec->nb_here_doc != 0)
 		process_here_doc(exec);
@@ -56,11 +56,12 @@ void	exec_loop(t_exec *exec)
 		exec_unique_cmd(&exec->cmd[0], exec->envp, exec);
 	else
 	{
-		while (cur_cmd_nb < exec->nb_cmd)
+		while (cur_cmd_nb < exec->nb_cmd - 1)
 		{
 			exec_cmd(&exec->cmd[cur_cmd_nb], exec->envp, exec);
 			cur_cmd_nb++;
 		}
+		exec_unique_cmd(&exec->cmd[cur_cmd_nb], exec->envp, exec);
 	}
 	dup2(old_stdin, STDIN_FILENO);
 	dup2(old_stdout, STDOUT_FILENO);
@@ -71,17 +72,15 @@ void	open_io_file(t_cmd	*cmd)
 	if (cmd->in_type == INFILE)
 		cmd->file_fd[0] = open(cmd->in_file, O_RDONLY);
 	else if (cmd->in_type == HERE_DOC_I)
-		ft_dprintf(STDOUT_FILENO, "todo here_doc");
-		//TODO: handled here_doc;
+		ft_dprintf(STDOUT_FILENO, "todo here_doc"); //TODO: here_doc
 	else
-		cmd->file_fd[0] = STDIN_FILENO;
+		cmd->file_fd[0] = dup(STDIN_FILENO);
 	if (cmd->out_type == OUTFILE)
 		cmd->file_fd[1]
 			= open(cmd->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (cmd->out_type == OUTFILE_APPEND)
 		cmd->file_fd[1]
 			= open(cmd->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	//TODO: call function pointer exit
 	else
 		cmd->file_fd[1] = STDOUT_FILENO;
 	if (cmd->file_fd[0] == -1 || cmd->file_fd[1] == -1)
@@ -107,8 +106,21 @@ void	exec_unique_cmd(t_cmd *cmd, char **envp, t_exec *exec)
 
 void	exec_cmd(t_cmd *cmd, char **envp, t_exec *exec)
 {
-	(void)envp;
-	(void)exec;
-	(void)cmd;
-	printf("TODO multi cmd\n");
+	open_io_file(cmd);
+	pipe(exec->pipe_fd);
+	cmd->pid = fork();
+	if (cmd->pid == 0)
+	{
+		close(exec->pipe_fd[0]);
+		dup2(exec->pipe_fd[1], STDOUT_FILENO);
+		close(exec->pipe_fd[1]);
+		execve(cmd->path, cmd->cmd, envp);
+	}
+	else
+	{
+		wait(&cmd->pid);
+		close(exec->pipe_fd[1]);
+		dup2(exec->pipe_fd[0], STDIN_FILENO);
+		close(exec->pipe_fd[0]);
+	}
 }
