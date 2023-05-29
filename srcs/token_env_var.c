@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:47:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/29 12:56:19 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/29 15:22:33 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,14 @@ void	find_env_var(t_var *var, t_varenv *v_e, int l)
 
 int	fill_env_var(t_var *var, t_varenv *v_e)
 {
-	if (var->s[v_e->j] && var->s[v_e->j][v_e->i + 1 + v_e->k] == '?')
-		return (env_symbol(var, var->s[v_e->j][v_e->i + 1 + v_e->k],
-			var->s[v_e->j][v_e->i + 1 + v_e->k + 1]));
 	v_e->var_env = ft_substr(var->s[v_e->j], v_e->i + 1, v_e->k);
-	if (v_e->var_env && (v_e->var_env[0] == '\0'))
+	if (var->s[v_e->j] && var->s[v_e->j][v_e->i + 1 + v_e->k] == '?')
+	{	
+		env_symbol(var, var->s[v_e->j][v_e->i + 1 + v_e->k],
+			var->s[v_e->j][v_e->i + 1 + v_e->k + 1]);
+		v_e->k++;
+	}
+	else if (v_e->var_env && (v_e->var_env[0] == '\0'))
 		return (env_symbol(var, var->s[v_e->j][v_e->i + 1 + v_e->k],
 			var->s[v_e->j][v_e->i + 1 + v_e->k + 1]));
 	v_e->m = 0;
