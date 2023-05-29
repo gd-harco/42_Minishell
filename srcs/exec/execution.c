@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:56:35 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/26 14:38:56 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/27 17:44:57 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	exec_loop(t_exec *exec);
 static void	open_io_file(t_cmd *cmd);
-static void	exec_cmd(t_cmd *cmd, char **envp);
+static void	exec_unique_cmd(t_cmd *cmd, char **envp, t_exec *exec);
+static void	exec_cmd(t_cmd *cmd, char **envp, t_exec *exec);
 
 void	master_exec(t_minishell *minishell_data)
 {
@@ -51,10 +52,15 @@ void	exec_loop(t_exec *exec)
 	cur_cmd_nb = 0;
 	old_stdin = dup(STDIN_FILENO);
 	old_stdout = dup(STDOUT_FILENO);
-	while (cur_cmd_nb < exec->nb_cmd)
+	if (exec->nb_cmd == 1)
+		exec_unique_cmd(&exec->cmd[0], exec->envp, exec);
+	else
 	{
-		exec_cmd(&exec->cmd[cur_cmd_nb], exec->envp);
-		cur_cmd_nb++;
+		while (cur_cmd_nb < exec->nb_cmd)
+		{
+			exec_cmd(&exec->cmd[cur_cmd_nb], exec->envp, exec);
+			cur_cmd_nb++;
+		}
 	}
 	dup2(old_stdin, STDIN_FILENO);
 	dup2(old_stdout, STDOUT_FILENO);
@@ -82,13 +88,13 @@ void	open_io_file(t_cmd	*cmd)
 		exit(EXIT_FAILURE);
 }
 
-void	exec_cmd(t_cmd *cmd, char **envp, t_exec *exec)
+void	exec_unique_cmd(t_cmd *cmd, char **envp, t_exec *exec)
 {
 	open_io_file(cmd);
 	dup2(cmd->file_fd[0], STDIN_FILENO);
 	dup2(cmd->file_fd[1], STDOUT_FILENO);
-	pipe(exec->pipe_fd);
 	cmd->pid = fork();
+	(void)exec;
 	if (cmd->pid == 0)
 	{
 		execve(cmd->path, cmd->cmd, envp);
@@ -97,4 +103,12 @@ void	exec_cmd(t_cmd *cmd, char **envp, t_exec *exec)
 	{
 		wait(&cmd->pid);
 	}
+}
+
+void	exec_cmd(t_cmd *cmd, char **envp, t_exec *exec)
+{
+	(void)envp;
+	(void)exec;
+	(void)cmd;
+	printf("TODO multi cmd\n");
 }
