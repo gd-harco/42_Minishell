@@ -21,14 +21,14 @@ LIBFT			=	lib/libft/libft.a
 HEADERS_LIST	=	minishell.h
 
 SRCS_LIST		=	main.c			\
-					prompt.c		\
 					path.c			\
+					prompt.c		\
 					token.c			\
-					utils.c			\
-					token_fct.c		\
+					token_check.c	\
 					token_cmd_fct.c	\
 					token_env_var.c	\
-					token_check.c	\
+					token_fct.c		\
+					utils.c			\
 \
 					builtins/echo.c		\
 					builtins/env.c		\

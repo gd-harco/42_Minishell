@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/29 13:03:39 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/29 15:35:24 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	token_outfile(t_var *var);
 t_token	*token_pipe(void);
 
 //---------------TOKEN_CMD_FCT.C---------------//
+bool	is_env_in(t_var var, int j);
 void	token_builtin(t_var *var);
 void	token_cmd(t_var *var);
 bool	is_metachar(char c);
@@ -114,6 +115,7 @@ void	env_arg(t_var *var, t_varenv *v_e);
 bool	already_cmd(t_token *t_new, t_token *tmp);
 void	token_arg(t_var *var);
 bool	var_init(t_var *var);
+char	*check_var(t_var *var, t_varenv *v_e);
 
 //-----------------UTILS.C-----------------//
 bool	is_builtin(char *str);
