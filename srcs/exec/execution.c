@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:56:35 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/29 15:50:16 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/29 17:40:39 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,28 @@ void	exec_loop(t_exec *exec)
 
 void	open_io_file(t_cmd	*cmd)
 {
+	int	cur_outfile;
+
 	if (cmd->in_type == INFILE)
 		cmd->file_fd[0] = open(cmd->in_file, O_RDONLY);
 	else if (cmd->in_type == HERE_DOC_I)
 		ft_dprintf(STDOUT_FILENO, "todo here_doc"); //TODO: here_doc
 	else
 		cmd->file_fd[0] = dup(STDIN_FILENO);
-	if (cmd->out_type == OUTFILE)
-		cmd->file_fd[1]
-			= open(cmd->out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (cmd->out_type == OUTFILE_APPEND)
-		cmd->file_fd[1]
-			= open(cmd->out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	cur_outfile = 0;
+	if (cmd->out_type == OUTFILE || cmd->out_type == OUTFILE_APPEND)
+	{
+		while (cmd->out_file[cur_outfile] != NULL)
+		{
+			if (cmd->out_type == OUTFILE)
+				cmd->file_fd[1]
+					= open(cmd->out_file[cur_outfile], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			else if (cmd->out_type == OUTFILE_APPEND)
+				cmd->file_fd[1]
+					= open(cmd->out_file[cur_outfile], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			cur_outfile++;
+		}
+	}
 	else
 		cmd->file_fd[1] = STDOUT_FILENO;
 	if (cmd->file_fd[0] == -1 || cmd->file_fd[1] == -1)

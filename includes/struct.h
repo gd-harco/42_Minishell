@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/26 11:53:06 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/29 16:48:53 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_cmd
 	char			*path;
 	char			**cmd;
 	char			*in_file;
-	char			*out_file;
+	char			**out_file;
 	pid_t			pid;
 	int				file_fd[2];
 }				t_cmd;

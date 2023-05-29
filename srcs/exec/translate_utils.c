@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:59:10 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/26 11:40:55 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/29 17:37:41 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	**exec_create_cmd(t_token	*cur_token)
 void	get_io_file_path(t_cmd *cmd, t_token *first_token)
 {
 	t_token	*tmp;
+	int		nb_outfile;
 
 	if (cmd->in_type == INFILE)
 	{
@@ -44,10 +45,24 @@ void	get_io_file_path(t_cmd *cmd, t_token *first_token)
 		cmd->in_file = NULL;
 	if (cmd->out_type != 0)
 	{
+		nb_outfile = 0;
 		tmp = first_token;
-		while (tmp && !(tmp->type == FILE_OUT || tmp->type == FILE_OUT_APPEND))
+		while (tmp)
+		{
+			if (tmp->type == FILE_OUT || tmp->type == FILE_OUT_APPEND)
+				nb_outfile++;
 			tmp = tmp->next;
-		cmd->out_file = ft_strdup(tmp->content[0]);
+		}
+		tmp = first_token;
+		cmd->out_file = ft_calloc(sizeof(char *), (nb_outfile + 1));
+		cmd->out_file[nb_outfile] = NULL;
+		nb_outfile = 0;
+		while (tmp)
+		{
+			if (tmp->type == FILE_OUT || tmp->type == FILE_OUT_APPEND)
+				cmd->out_file[nb_outfile++] = ft_strdup(tmp->content[0]);
+			tmp = tmp->next;
+		}
 	}
 	else
 		cmd->out_file = NULL;
