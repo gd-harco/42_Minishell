@@ -54,7 +54,7 @@ Mkfile.old
 dkms.conf
 
 # Local files
-out
+out*
 minishell
 infile
 Out
