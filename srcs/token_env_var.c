@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:47:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/29 10:55:33 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/29 11:20:38 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int		add_env_arg(t_var *var, t_varenv *v_e, int l);
 void	find_env_var(t_var *var, t_varenv *v_e, int l);
 int		fill_env_var(t_var *var, t_varenv *v_e);
 int		env_symbol(t_var *var, char c);
+
+/*
+	la variable l va permettre de faire une comparaison dans la chaine,
+	pour savoir combien de var d'env ont été check et pour toutes les gérer.
+*/
 
 void	env_arg(t_var *var, t_varenv *v_e)
 {
@@ -28,6 +33,13 @@ void	env_arg(t_var *var, t_varenv *v_e)
 		l++;
 	}
 }
+
+/*
+	add_env_arg permet de remplir var->env de toutes
+	les variable d'env et d'autres metachar.
+	On return 0 si l'indice de fin est toujours un $
+	car cela s'ignifie qu'il reste des var d'env à join.
+*/
 
 int	add_env_arg(t_var *var, t_varenv *v_e, int l)
 {
@@ -50,6 +62,14 @@ int	add_env_arg(t_var *var, t_varenv *v_e, int l)
 		return (1);
 }
 
+/*
+	find_env_var permet de parcourir la chaine jusqu'à trouver le $
+	i est ainsi l'indice du $. On parcourt ensuite la suite avec k
+	k est ainsi le nombre de charactere de la variable d'env $.
+	On regarde si m = l pour voir si on a déjà traité cette variable
+	d'environnement $. Sinon, on remet k à 0 et on implémente m.
+*/
+
 void	find_env_var(t_var *var, t_varenv *v_e, int l)
 {
 	v_e->i++;
@@ -65,6 +85,14 @@ void	find_env_var(t_var *var, t_varenv *v_e, int l)
 	}
 	v_e->m++;
 }
+
+/*
+	fill_env_var permet de remplir la variable var_env avec la variable
+	d'environnement associée via ft_strjoin() ft_substr() et en cherchant
+	la ligne d'envp correspondant via ft_strnstr. le return permet de gérer
+	le cas d'un simple $ dans add_env_arg()
+	et ansi de sortir de la boucle dans env_arg()
+*/
 
 int	fill_env_var(t_var *var, t_varenv *v_e)
 {
@@ -86,6 +114,11 @@ int	fill_env_var(t_var *var, t_varenv *v_e)
 						(var->s[v_e->j], v_e->i + 1 + v_e->k, '$'))));
 	return (2);
 }
+
+/*
+	le return permet de définir s'il reste des charactères à join
+	dans var->env et sinon de sortir de la boucle dans env_arg()
+*/
 
 int	env_symbol(t_var *var, char c)
 {
