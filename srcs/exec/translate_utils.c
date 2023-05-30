@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:59:10 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/29 17:37:41 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/30 10:11:54 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**exec_create_cmd(t_token	*cur_token)
 	tmp = ft_split(cur_token->content[1], ' ');
 	nb_arg = ft_array_length((void **)tmp);
 	cmd = ft_calloc(sizeof(char *), (nb_arg + 2));
+	if (cmd == NULL)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	cmd[0] = cur_token->content[0];
 	cmd[nb_arg++] = NULL;
 	while (--nb_arg > 0)
@@ -55,6 +57,8 @@ void	get_io_file_path(t_cmd *cmd, t_token *first_token)
 		}
 		tmp = first_token;
 		cmd->out_file = ft_calloc(sizeof(char *), (nb_outfile + 1));
+		if (cmd->out_file == NULL)
+			exit(EXIT_FAILURE); //TODO: call function pointer exit
 		cmd->out_file[nb_outfile] = NULL;
 		nb_outfile = 0;
 		while (tmp)

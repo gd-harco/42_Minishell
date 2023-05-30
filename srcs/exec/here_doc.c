@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:33:05 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/25 11:48:25 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/30 10:11:38 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	process_here_doc(t_exec *data)
 
 	i = -1;
 	data->here_doc = malloc(sizeof(t_here_doc) * data->nb_here_doc);
+	if (data->here_doc == NULL)
+		exit(EXIT_FAILURE);//TODO: call function pointer exit
 	while (++i < data->nb_here_doc)
 		fill_here_doc(data, &data->here_doc[i]);
 }

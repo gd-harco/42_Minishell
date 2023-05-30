@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:56:35 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/29 17:40:39 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/30 10:11:05 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	master_exec(t_minishell *minishell_data)
 	size_t	cur_cmd_nb;
 
 	exec = malloc(sizeof(t_exec));
+	if (exec == NULL)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	exec->envp = minishell_data->envp;
 	exec->token_list = minishell_data->token_list;
 	exec->nb_cmd = get_nb_cmd(exec->token_list);
@@ -34,9 +36,8 @@ void	master_exec(t_minishell *minishell_data)
 	else
 		exec->here_doc = NULL;
 	exec->cmd = ft_calloc(exec->nb_cmd, sizeof(t_cmd));
-	//TODO : call funciton pointer exit
 	if (exec->cmd == NULL)
-		exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);//TODO : call function pointer exit
 	cur_cmd_nb = 0;
 	while (cur_cmd_nb < exec->nb_cmd)
 		translate_token_in_cmd(exec, cur_cmd_nb++);
