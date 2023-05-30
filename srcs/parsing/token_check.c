@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/29 15:49:59 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/30 11:10:24 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ int	is_quote_in(char *str)
 	return (0);
 }
 
-bool	var_init(t_var *var)
+bool	var_init(t_var *var, t_quote *quote)
 {
+	if (is_quote_in(var->str) != 0)
+		quote->is_quote = true;
 	var->spipe = ft_split(var->str, '|');
 	var->s = ft_split(var->spipe[var->index], ' ');
 	var->new_tkn = malloc(sizeof(t_token));

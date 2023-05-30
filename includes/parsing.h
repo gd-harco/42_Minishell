@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/30 10:48:32 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/30 16:26:03 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*token_init(t_var *var);
 //################# TOKEN_CHECK.C################# //
 bool	already_cmd(t_token *t_new, t_token *tmp);
 void	token_arg(t_var *var);
-bool	var_init(t_var *var);
+bool	var_init(t_var *var, t_quote *quote);
 char	*check_var(t_var *var, t_varenv *v_e);
 
 //-----------------UTILS.C-----------------//
@@ -46,5 +46,16 @@ t_token	*token_pipe(void);
 //---------------TOKEN_CMD_FCT.C---------------//
 void	token_builtin(t_var *var);
 void	token_cmd(t_var *var);
+bool	is_env_in(t_var var, int j);
+bool	is_metachar(char c);
+char	*ft_trunc(char *str, int start, char c);
+
+//---------------TOKEN_ENV_VAR.C---------------//
+void	env_arg(t_var *var, t_varenv *v_e);
+
+//---------------TOKEN_ENV_VAR.C---------------//
+bool	is_redirect_in(char *str);
+t_token	*get_recutoken(t_var *var);
+char	*ft_split_redirect(char **str);
 
 #endif

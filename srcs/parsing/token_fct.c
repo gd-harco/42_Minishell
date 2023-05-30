@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/29 15:47:44 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/30 11:38:35 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,7 @@ static void	heredoc_infile(t_var *var)
 
 int	token_infile(t_var *var)
 {
-	if (is_last_infile(var->s, var->i) != true && var->s[var->i][1] != '<')
-	{
-		if (var->s[var->i][1] == '\0')
-			++var->i;
-		return (-1);
-	}
-	if (var->s[var->i][1] == '<')
+	if (var->s[var->i][1] && var->s[var->i][1] == '<')
 	{
 		heredoc_infile(var);
 	}

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/30 10:53:38 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/30 16:55:05 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,53 +44,38 @@ t_token	*get_token(t_var *var)
 	return (t_new);
 }
 
-
-int	is_quote(t_var	*var)
+t_token	*token_init(t_var *var)
 {
 	t_quote	quote;
 
-	quote.len = 0;
-	if (var->s[var->i] == '\'')
-	{
-		var->i++;
-		while (var->s[var->i + quote.len] && var->s[var->i + quote.len] != '\'')
-		{
-			quote.len++;
-		}
-		
-	}
-		return (1);
-	
-}
-
-t_token	*token_init(t_var *var)
-{
-	if (var_init(var) == false || !var->s[var->i]
+	if (var_init(var, &quote) == false || !var->s[var->i]
 		|| (var->i != 0 && var->s[var->i][0] == '-'))
 		return (NULL);
-	if (var->s[var->i][0] == '<')
+	if (var->s && is_redirect_in(var->s[var->i]) == true && var->recu == false)
+		return (get_recutoken(var));
+	quote.is_quote = false;
+	if (var->s && var->s[var->i] && var->s[var->i][0] == '<')
 	{
 		if (token_infile(var) == -1)
 			return (NULL);
 	}
-	else if (var->s[var->i][0] == '>')
+	else if (var->s && var->s[var->i] && var->s[var->i][0] == '>')
 		token_outfile(var);
-	else
+	else if (var->s && var->s[var->i])
 	{
-		if (is_quote(var) != 0)
-			dub_quote(var);
-		else if (is_quote(var->s[var->i]) == 1)
-			single_quote(var);
+		// if (is_quote(var) != 0)
+		// 	dub_quote(var);
+		// else if (is_quote(var->s[var->i]) == 1)
+		// 	single_quote(var);
+		// else
+		// {
+		if (is_builtin(var->s[var->i]) == true)
+			token_builtin(var);
 		else
-		{
-			if (is_builtin(var->s[var->i]) == true)
-				token_builtin(var);
-			else
-				token_cmd(var);
-			token_arg(var);
-		}
+			token_cmd(var);
+		token_arg(var);
 	}
-	var->new_tkn->next = NULL;
+		var->new_tkn->next = NULL;
 	return (var->new_tkn);
 }
 
