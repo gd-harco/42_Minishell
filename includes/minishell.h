@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/16 14:31:24 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/19 13:39:15 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,46 @@ typedef struct s_minishell
 	t_token	*token_list;
 }				t_minishell;
 
-//------------------PATH.C-------------------//
+typedef struct s_var
+{
+	char	*str;
+	char	**s;
+	char	**spipe;
+	char	**envp;
+	int		index;
+	int		i;
+	char	**path;
+	char	*s_p;
+	char	*arg;
+	char	*env;
+	t_token	*new_tkn;
+}				t_var;
+
+//------------------PROMPT.C------------------//
 char	*get_user_input(void);
-char	**path_arg_cat(char **src, char *root_arg);
+
+//------------------PATH.C-------------------//
 char	**get_path(char **envp);
-char	*process(char *str, char **path, int *ind);
+char	**path_arg_cat(char **src, char *root_arg);
+char	*process(char *str, char **path, int ind);
 
 //-----------------TOKEN.C-------------------//
-t_token	*get_token(char *str, char **envp);
-t_token	*token_init(char *str, char **envp, int *i, char **s);
+t_token	*get_token(t_var *var);
+t_token	*token_init(t_var *var);
 
-//--------------SECOND_PARSING.C------------//
-void	second_parsing(t_token *token_list);
+//---------------TOKEN_FCT.C---------------//
+int		token_infile(t_var *var);
+void	token_outfile(t_var *var);
+t_token	*token_pipe(void);
+
+//---------------TOKEN_CMD_FCT.C---------------//
+void	token_builtin(t_var *var);
+void	token_cmd(t_var *var);
+
+//---------------TOKEN_CHECK.C---------------//
+bool	already_cmd(t_token *t_new, t_token *tmp);
+void	token_arg(t_var *var);
+bool	var_init(t_var *var);
 
 //-----------------UTILS.C-----------------//
 bool	is_builtin(char *str);
@@ -79,15 +107,10 @@ bool	not_in_out(char **s, int j);
 bool	is_last_infile(char **s, int i);
 char	*ft_strjoinsp(char const *s1, char const *s2);
 
-//---------------TOKEN_FCT.C---------------//
-int		token_infile(t_token *new, char **s, int **i);
-void	token_outfile(t_token *new, char **s, int **i);
-void	token_pipe(t_token *new, char **s, int **i);
-void	token_builtin(t_token *new, char **s, int **i);
-void	token_cmd(char *str, t_token *new, int **i, char **envp);
+//--------------SECOND_PARSING.C------------//
+void	second_parsing(t_token *token_list);
 
-
-#define ROCKET_LOGO "##################################\n\
+# define ROCKET_LOGO "##################################\n\
 ####################################,\n\
 ######################################\n\
 ######################################,\n\
@@ -105,32 +128,3 @@ void	token_cmd(char *str, t_token *new, int **i, char **envp);
 
 
 #endif
-
-// int	token_infile(t_token *new, char **s, int **i)
-// {
-// 	if (is_last_infile(s, **i) != true)
-// 	{
-// 		++**i;
-// 		return (-1);
-// 	}
-// 	if (s[**i][1] == '<')
-// 	{
-// 		if (s[**i][2] != '\0')
-// 			new->content[0] = ft_strdup(ft_substr(s[**i], 1, ft_strlen(s[**i])));
-// 		else
-// 			new->content[0] = ft_strdup(s[++**i]);
-// 		new->type = HERE_DOC;
-// 	}
-// 	else if (s[**i][1] != '\0')
-// 	{
-// 		new->type = FILE_IN;
-// 		new->content[0] = ft_strdup(ft_substr(s[**i], 1, ft_strlen(s[**i])));
-// 	}
-// 	else
-// 	{
-// 		new->type = FILE_IN;
-// 		new->content[0] = ft_strdup(s[++**i]);
-// 	}
-// 	new->content[1] = NULL;
-// 	return (0);
-// }
