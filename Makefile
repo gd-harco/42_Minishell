@@ -24,6 +24,7 @@ HEADERS_LIST	=	builtins.h\
 					struct.h	\
 
 SRCS_LIST		=	main.c			\
+					path.c			\
 					prompt.c		\
 \
 					builtins/echo.c		\
