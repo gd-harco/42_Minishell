@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:06:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/30 16:39:11 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/30 17:02:32 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*get_recutoken(t_var *var)
 	var->str = ft_split_redirect(var->s);
 	var->new_tkn = get_token(var);
 	get_token_backup(*tmp, var);
-	var->i++;
+	// var->i++;
 	var->recu = false;
 	return (var->new_tkn);
 }
