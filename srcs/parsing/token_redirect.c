@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:06:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/30 17:02:32 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/31 10:27:49 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ t_token	*get_recutoken(t_var *var)
 	get_token_backup(*var, tmp);
 	var->str = ft_split_redirect(var->s);
 	var->new_tkn = get_token(var);
+	if (tmp->spipe[1])
+	{
+		tmp->new_tkn = token_pipe();
+		token_add_back(&var->new_tkn, tmp->new_tkn);
+	}
 	get_token_backup(*tmp, var);
 	// var->i++;
 	var->recu = false;
@@ -100,7 +105,10 @@ char	*ft_split_redirect(char **str)
 				new = ft_strjoinsp(new, to_join);
 			else if ((str[i][j] == '<' && str[i][j + 1] == '<')
 				|| (str[i][j] == '>' && str[i][j + 1] == '>'))
+			{
 				new = ft_strjoinsp(new, ft_strjoin(to_join, to_join1));
+				j++;
+			}
 			else
 				new = ft_strjoin(new, to_join);
 			j++;
