@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:06:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/31 10:27:49 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/31 14:58:28 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,17 @@ t_token	*get_recutoken(t_var *var)
 	get_token_backup(*var, tmp);
 	var->str = ft_split_redirect(var->s);
 	var->new_tkn = get_token(var);
-	if (tmp->spipe[1])
+	get_token_backup(*tmp, var);
+	if (tmp->spipe[tmp->index + 1])
 	{
 		tmp->new_tkn = token_pipe();
 		token_add_back(&var->new_tkn, tmp->new_tkn);
+		var->i--;
 	}
-	get_token_backup(*tmp, var);
-	// var->i++;
+	var->index++;	//	si | alors on passe au spipe[index++]
 	var->recu = false;
+	// var->tkn_past = malloc(sizeof(t_token));
+	// var->tkn_past = var->new_tkn;
 	return (var->new_tkn);
 }
 
@@ -57,6 +60,7 @@ void	get_token_backup(t_var var, t_var *tmp)
 	tmp->spipe = ft_str2dup(var.spipe);
 	tmp->s = ft_str2dup(var.s);
 	tmp->i = var.i;
+	tmp->index = var.index;
 }
 
 char	**ft_str2dup(char **s1)
@@ -121,3 +125,18 @@ char	*ft_split_redirect(char **str)
 	}
 	return (new);
 }
+
+// TODO : enlever les arg de trop de la lst_tkn (cat <in>ot makefile 	sup makefile)
+
+//gerer  dans infile : cat < in>out makefile
+//	gerer quand n'ecrit pas tout : cat <in >out<in2 Makefile	n'ecrit pas le >out<in2
+//ok
+
+//	<in>out cat -e Makefile et
+//	gerer cat <in0<in>out makefile	ecrit 2 fois la cmd
+
+//		cat in>out makefile|cat<in>out > out		segfault
+//mettre la condition dans infile outfile argument et autres...
+
+
+//	<in>out >out cat|echo lo	
