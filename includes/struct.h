@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/31 14:57:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 14:18:33 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_var
 	char	*str;		//la commande prompt
 	char	**s;		// chaque mots espacés
 	char	**spipe;	//phrase split par les |
+	int		nb_pipe;
 	char	**envp;
 	int		index;
 	int		i;
@@ -98,6 +99,9 @@ typedef struct s_var
 	char	*env;
 	bool	recu;
 	t_token	*new_tkn;
+	int		lenquote;
+	char	*quote;
+	bool	is_quote;
 	// t_token	*tkn_past;
 }				t_var;
 
@@ -109,13 +113,5 @@ typedef struct s_varenv
 	int		m;
 	char	*var_env;
 }				t_varenv;
-
-typedef struct s_quote
-{
-	int		len;
-	char	*quote;
-	bool	is_quote;
-
-}			t_quote;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/31 10:20:31 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 12:17:18 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	token_add_back(t_token **token, t_token *new);
 //################# TOKEN_CHECK.C################# //
 bool	already_cmd(t_token *t_new, t_token *tmp);
 void	token_arg(t_var *var);
-bool	var_init(t_var *var, t_quote *quote);
+bool	var_init(t_var *var);
 char	*check_var(t_var *var, t_varenv *v_e);
 
 //-----------------UTILS.C-----------------//
@@ -38,6 +38,12 @@ bool	is_builtin(char *str);
 bool	not_in_out(char **s, int j);
 bool	is_last_infile(char **s, int i);
 char	*ft_strjoinsp(char const *s1, char const *s2);
+
+//-----------------UTILS2.C----------------//
+bool	already_pipe(t_token t_new);
+int		ft_nb_pipe(char *str);
+void	token_add_back(t_token **token, t_token *new);
+void	token_add_front(t_token **token, t_token *new);
 
 //---------------TOKEN_FCT.C---------------//
 int		token_infile(t_var *var);
@@ -57,6 +63,7 @@ void	env_arg(t_var *var, t_varenv *v_e);
 //---------------TOKEN_ENV_VAR.C---------------//
 bool	is_redirect_in(char *str);
 t_token	*get_recutoken(t_var *var);
+char	**ft_str2dup(char **s1);
 char	*ft_split_redirect(char **str);
 
 #endif

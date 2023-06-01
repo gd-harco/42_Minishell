@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/30 11:38:35 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 11:53:14 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	token_outfile(t_var *var)
 t_token	*token_pipe(void)
 {
 	t_token	*tmp;
+
 
 	tmp = malloc(sizeof(t_token));
 	tmp->type = PIPE;

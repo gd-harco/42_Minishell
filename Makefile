@@ -46,7 +46,8 @@ SRCS_LIST		=	main2.c			\
 					parsing/token_fct.c			\
 					parsing/token_env_var.c		\
 					parsing/token_redirect.c	\
-					parsing/utils.c
+					parsing/utils.c				\
+					parsing/utils2.c
 
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/31 13:55:28 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 14:35:31 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	is_quote_in(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 	{
@@ -68,10 +70,10 @@ int	is_quote_in(char *str)
 	return (0);
 }
 
-bool	var_init(t_var *var, t_quote *quote)
+bool	var_init(t_var *var)
 {
 	if (is_quote_in(var->str) != 0)
-		quote->is_quote = true;
+		var->is_quote = true;
 	var->spipe = ft_split(var->str, '|');
 	var->s = ft_split(var->spipe[var->index], ' ');
 	var->new_tkn = malloc(sizeof(t_token));

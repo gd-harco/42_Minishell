@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:06:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/31 14:58:28 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 14:20:07 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	*get_recutoken(t_var *var)
 	var->str = ft_split_redirect(var->s);
 	var->new_tkn = get_token(var);
 	get_token_backup(*tmp, var);
-	if (tmp->spipe[tmp->index + 1])
+	if (var->nb_pipe-- > 0) //tmp->spipe[tmp->index + 1])
 	{
 		tmp->new_tkn = token_pipe();
 		token_add_back(&var->new_tkn, tmp->new_tkn);
@@ -59,6 +59,7 @@ void	get_token_backup(t_var var, t_var *tmp)
 	tmp->str = ft_strdup(var.str);
 	tmp->spipe = ft_str2dup(var.spipe);
 	tmp->s = ft_str2dup(var.s);
+	tmp->nb_pipe = var.nb_pipe;
 	tmp->i = var.i;
 	tmp->index = var.index;
 }
