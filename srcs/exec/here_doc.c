@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:06:42 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/01 16:10:08 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/01 16:36:33 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc);
 static void			write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc);
 static size_t		count_here_doc(t_token *token_list);
-static int			*get_here_doc_fd(t_here_doc *here_doc, size_t nb_here_doc);
+static int			*turn_pipe_in_fd(t_here_doc *here_doc, size_t nb_here_doc);
 
-int	*get_here_doc_data(t_token *token_list)
+int	*get_here_doc_fd(t_token *token_list)
 {
 	size_t		nb_here_doc;
 	t_token		*tmp;
@@ -29,12 +29,12 @@ int	*get_here_doc_data(t_token *token_list)
 	if (nb_here_doc == 0)
 		return (NULL);
 	here_doc = fill_hd_data(token_list, nb_here_doc);
-	here_doc_fd = get_here_doc_fd(here_doc, nb_here_doc);
+	here_doc_fd = turn_pipe_in_fd(here_doc, nb_here_doc);
 	free(here_doc);
 	return (here_doc_fd);
 }
 
-size_t	count_here_doc(t_token *token_list)
+static size_t	count_here_doc(t_token *token_list)
 {
 	size_t	nb_here_doc;
 
@@ -48,7 +48,7 @@ size_t	count_here_doc(t_token *token_list)
 	return (nb_here_doc);
 }
 
-int	*get_here_doc_fd(t_here_doc *here_doc, size_t nb_here_doc)
+static int	*turn_pipe_in_fd(t_here_doc *here_doc, size_t nb_here_doc)
 {
 	size_t	i;
 	int		*here_doc_fd;
@@ -63,7 +63,7 @@ int	*get_here_doc_fd(t_here_doc *here_doc, size_t nb_here_doc)
 	return (here_doc_fd);
 }
 
-t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc)
+static t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc)
 {
 	t_here_doc	*here_doc;
 	t_token		*tmp;
@@ -89,7 +89,7 @@ t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc)
 	return (here_doc);
 }
 
-void	write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc)
+static void	write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc)
 {
 	size_t	i;
 

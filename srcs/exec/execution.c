@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/01 14:09:28 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/01 16:23:10 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data->envp = minishell->envp;
 	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
 	exec_data->cmd = malloc(sizeof(t_cmd) * exec_data->nb_cmd);
-	exec_data->here_doc = get_here_doc_data(minishell->token_list);
+	exec_data->here_doc = get_here_doc_fd(minishell->token_list);
 	return (exec_data);
 }
 
