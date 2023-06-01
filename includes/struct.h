@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/29 16:48:53 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/31 13:22:02 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,13 @@ typedef struct s_here_doc
 	int		pipe_fd[2];
 	char	*delimiter;
 	char	*tmp_char;
-	t_token	*link;
 }				t_here_doc;
-
-enum e_i_type {
-	STDIN = 0,
-	INFILE = 1,
-	HERE_DOC_I = 2
-};
-
-enum e_o_type {
-	STDOUT = 0,
-	OUTFILE = 1,
-	OUTFILE_APPEND = 2
-};
 
 //in "file_fd", 0 is for input, 1 is for output.
 typedef struct s_cmd
 {
-	size_t			command_id;
-	enum e_i_type	in_type;
-	enum e_o_type	out_type;
 	char			*path;
 	char			**cmd;
-	char			*in_file;
-	char			**out_file;
 	pid_t			pid;
 	int				file_fd[2];
 }				t_cmd;
@@ -78,7 +60,6 @@ typedef struct s_exec
 	char		**envp;
 	t_token		*token_list;
 	size_t		nb_cmd;
-	size_t		nb_here_doc;
 	t_here_doc	*here_doc;
 	t_cmd		*cmd;
 	int			pipe_fd[2];
