@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/01 14:32:02 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 15:57:33 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_token	*get_token(t_var *var)
 	t_token	*t_new;
 	t_token	*tmp;
 
+	// if (!var->str)
+	// 	return (NULL);
 	init_start(var);
 	t_new = token_init(var);
 	// if (tmp && tmp->next)

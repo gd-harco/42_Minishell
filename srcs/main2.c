@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:33:44 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/01 14:17:04 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 15:37:16 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ int	main(int argc, char **argv, char **envp)
 	printf("Bienvenue dans le Minishell de la Team Rocket!\n\n");
 	printf(ROCKET_LOGO);
 	printf("\033[0m");
-	var->str = get_user_input();
+	var->str_in = get_user_input();
+	var->str = ft_space_str(var);
 	while (42)
 	{
-		add_history(var->str);
+		add_history(var->str_in);
 		data->token_list = get_token(var);
 		tmp = data->token_list;
 		while (tmp)
@@ -44,7 +45,8 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("next : %p\n", tmp->next);
 			tmp = tmp->next;
 		}
-		var->str = get_user_input();
+		var->str_in = get_user_input();
+		var->str = ft_space_str(var);
 	}
 	return (0);
 }

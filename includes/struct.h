@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/01 14:18:33 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 15:34:21 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_exec
 
 typedef struct s_var
 {
+	char	*str_in;
 	char	*str;		//la commande prompt
 	char	**s;		// chaque mots espacés
 	char	**spipe;	//phrase split par les |

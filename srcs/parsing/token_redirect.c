@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:06:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/01 14:20:07 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/01 15:57:26 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,34 @@ char	*ft_split_redirect(char **str)
 	}
 	return (new);
 }
+
+char	*ft_space_str(t_var *var)
+{
+	int		i;
+	char	*new;
+	char	to_join[2];
+
+	var->str = ft_strdup(var->str_in);
+	i = 0;
+	to_join[1] = 0;
+	new = NULL;
+	while (var->str[i])
+	{
+		to_join[0] = var->str[i];
+		if (var->str[i] == '|')
+		{	
+			new = ft_strjoin(new, " |");
+			var->nb_pipe++;
+		}
+		else
+			new = ft_strjoin(new, to_join);
+		i++;
+	}
+	return (new);
+}
+
+
+//<in>out cat makefile| cat<in2 || ls|
 
 // TODO : enlever les arg de trop de la lst_tkn (cat <in>ot makefile 	sup makefile)
 
