@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:06:42 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/01 14:36:27 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/01 16:10:08 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,53 @@
 
 static t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc);
 static void			write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc);
+static size_t		count_here_doc(t_token *token_list);
+static int			*get_here_doc_fd(t_here_doc *here_doc, size_t nb_here_doc);
 
-t_here_doc	*get_here_doc_data(t_token *token_list)
+int	*get_here_doc_data(t_token *token_list)
 {
 	size_t		nb_here_doc;
 	t_token		*tmp;
+	t_here_doc	*here_doc;
+	int			*here_doc_fd;
 
 	tmp = token_list;
-	nb_here_doc = 0;
-	while (tmp)
-	{
-		if (tmp->type == HERE_DOC)
-			nb_here_doc++;
-		tmp = tmp->next;
-	}
+	nb_here_doc = count_here_doc(tmp);
 	if (nb_here_doc == 0)
 		return (NULL);
-	return (fill_hd_data(token_list, nb_here_doc));
+	here_doc = fill_hd_data(token_list, nb_here_doc);
+	here_doc_fd = get_here_doc_fd(here_doc, nb_here_doc);
+	free(here_doc);
+	return (here_doc_fd);
+}
+
+size_t	count_here_doc(t_token *token_list)
+{
+	size_t	nb_here_doc;
+
+	nb_here_doc = 0;
+	while (token_list)
+	{
+		if (token_list->type == HERE_DOC)
+			nb_here_doc++;
+		token_list = token_list->next;
+	}
+	return (nb_here_doc);
+}
+
+int	*get_here_doc_fd(t_here_doc *here_doc, size_t nb_here_doc)
+{
+	size_t	i;
+	int		*here_doc_fd;
+
+	i = -1;
+	here_doc_fd = malloc(sizeof(int) * nb_here_doc);
+	while (++i < nb_here_doc)
+	{
+		here_doc_fd[i] = dup(here_doc[i].pipe_fd[0]);
+		close(here_doc[i].pipe_fd[0]);
+	}
+	return (here_doc_fd);
 }
 
 t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc)
