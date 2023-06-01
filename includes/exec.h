@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:57:11 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/01 14:09:53 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/01 14:13:48 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //-----------------FUNCTION-----------------//
 
 //########### EXECUTION.C ###########//
-void	master_exec(t_minishell *minishell_data);
+void		master_exec(t_minishell *minishell_data);
 
 //########### HERE_DOC.C ###########//
 t_here_doc	*get_here_doc_data(t_token *token_list);

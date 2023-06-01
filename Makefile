@@ -33,6 +33,7 @@ SRCS_LIST		=	main.c			\
 					builtins/unset.c	\
 \
 					exec/execution.c		\
+					exec/here_doc.c			\
 \
 					parsing/path.c			\
 					parsing/token.c			\
