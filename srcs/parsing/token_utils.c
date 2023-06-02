@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 10:35:01 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 17:25:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	token_add_back(t_token **token, t_token *new)
 		*token = new;
 }
 
-void	token_delone(t_token *tkn, void (*del)(void *))
+static void	token_delone(t_token *tkn, void (*del)(void *))
 {
 	if (!tkn || !del)
 		return ;

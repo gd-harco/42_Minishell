@@ -6,14 +6,14 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 16:38:56 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 17:28:46 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-char	*ft_quote_str(char *str, int *start, char c)
+static char	*ft_quote_str(char *str, int *start, char c)
 {
 	int		i;
 	int		j;
@@ -73,6 +73,52 @@ char	*ft_space_str(t_var *var)
 	return (new);
 }
 
+static char	*joning(char *result, char *s2, char *s1)
+{
+	size_t	x;
+	size_t	y;
+
+	x = 0;
+	y = 0;
+	while (s1[x])
+	{
+		result[x] = s1[x];
+		x++;
+	}
+	result[x] = ' ';
+	x++;
+	while (s2[y])
+	{
+		result[x] = s2[y];
+		x++;
+		y++;
+	}
+	result[x] = '\0';
+	return (result);
+}
+
+char	*ft_strjoinsp(char const *s1, char const *s2)
+{
+	size_t		joined_size;
+	char		*result;
+	size_t		size_s1;
+	size_t		size_s2;
+
+	if (!s2 && !1)
+		return (NULL);
+	if (!s2 && s1)
+		return (ft_strdup(s1));
+	if (!s1 && s2)
+		return (ft_strdup(s2));
+	size_s1 = ft_strlen (s1);
+	size_s2 = ft_strlen (s2);
+	joined_size = (size_s1 + size_s2);
+	result = malloc(sizeof(char) * joined_size + 2);
+	if (!result)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
+	return (joning(result, (char *)s2, (char *)s1));
+}
+
 /*bool	already_pipe(t_token t_new)		//plus besoin
 {
 	if (token_last(&t_new)->type == PIPE)
@@ -80,52 +126,6 @@ char	*ft_space_str(t_var *var)
 	else
 		return (false);
 }*/
-
-int	ft_nb_pipe(char *str)
-{
-	int	i;
-	int	c;
-
-	if (!str)
-		return (0);
-	i = 0;
-	c = 0;
-	while (str[i])
-	{
-		if (str[i] == '|')
-			c++;
-		i++;
-	}
-	return (c);
-}
-
-char	*ft_trunc(char *str, int start, char c)
-{
-	char	*s;
-	int		i;
-	int		j;
-	int		k;
-
-	i = start;
-	j = 0;
-	k = 0;
-	if (!str || str[i] == c)
-		return ("");
-	while (str[i] && str[i] != c)
-	{
-		i++;
-		k++;
-	}
-	s = malloc(sizeof(char) * (k + 1));
-	j = 0;
-	while (j < k)
-	{
-		s[j] = str[start + j];
-		j++;
-	}
-	s[j] = '\0';
-	return (s);
-}
 
 /*
 char	*ft_truncstr(char *str, int start, char *c)

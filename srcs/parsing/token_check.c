@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 16:13:07 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 17:28:54 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 	}
 	if (t_new && (tmp->type == CMD || tmp->type == BUILTIN))
 	{
-		while (t_new->next && t_new->type != PIPE
-			&& t_new->type != CMD && t_new->type != BUILTIN)
+		while (t_new->next && t_new->type != PIPE && t_new->type != CMD && t_new->type != BUILTIN)
 			t_new = t_new->next;
 		if (!t_new->next || t_new == tmp)
 			return (false);
@@ -54,52 +53,20 @@ void	token_arg(t_var *var)
 	}
 }
 
-int	is_quote_in(char *str)
+int	ft_nb_pipe(char *str)
 {
 	int	i;
+	int	c;
 
 	if (!str)
 		return (0);
 	i = 0;
+	c = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'')
-			return (1);
-		if (str[i] == '"')
-			return (2);
+		if (str[i] == '|')
+			c++;
 		i++;
 	}
-	return (0);
+	return (c);
 }
-
-bool	var_init(t_var *var)
-{
-	var->spipe = ft_split(var->str, '|');
-	var->s = ft_split(var->spipe[var->index], ' ');
-	var->new_tkn = malloc(sizeof(t_token));
-	if (!var->new_tkn)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	var->new_tkn->content = malloc(sizeof(char *) * 2);
-	if (!var->new_tkn->content)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	if (!var->spipe || !var->s || !var->s[var->i])
-		return (false);
-	return (true);
-}
-
-char	*check_var(t_var *var, t_varenv *v_e)
-{
-	v_e->j = var->i;
-	if (is_env_in(*var, v_e->j) == true)
-	{
-		var->s_p = ft_strjoinsp(NULL, ft_trunc(var->s[0], 0, '$'));
-		env_arg(var, v_e);
-		var->s_p = ft_strjoin(var->s_p, var->env);
-		return (var->s_p);
-	}
-	else
-		return (ft_strdup(var->s_p));
-}
-
-// ____________________________________________________________________________________________________________________________
-// ____________________________________________________________________________________________________________________________

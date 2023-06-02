@@ -6,16 +6,16 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:47:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/29 15:33:45 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 17:07:50 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		add_env_arg(t_var *var, t_varenv *v_e, int l);
-void	find_env_var(t_var *var, t_varenv *v_e, int l);
-int		fill_env_var(t_var *var, t_varenv *v_e);
-int		env_symbol(t_var *var, char c, char d);
+static int		add_env_arg(t_var *var, t_varenv *v_e, int l);
+static void		find_env_var(t_var *var, t_varenv *v_e, int l);
+static int		fill_env_var(t_var *var, t_varenv *v_e);
+static int		env_symbol(t_var *var, char c, char d);
 
 /*
 	la variable l va permettre de faire une comparaison dans la chaine,
@@ -41,7 +41,7 @@ void	env_arg(t_var *var, t_varenv *v_e)
 	car cela s'ignifie qu'il reste des var d'env à join.
 */
 
-int	add_env_arg(t_var *var, t_varenv *v_e, int l)
+static int	add_env_arg(t_var *var, t_varenv *v_e, int l)
 {
 	int	ret_value;
 
@@ -70,7 +70,7 @@ int	add_env_arg(t_var *var, t_varenv *v_e, int l)
 	d'environnement $. Sinon, on remet k à 0 et on implémente m.
 */
 
-void	find_env_var(t_var *var, t_varenv *v_e, int l)
+static void	find_env_var(t_var *var, t_varenv *v_e, int l)
 {
 	v_e->i++;
 	while (var->s[v_e->j]
@@ -95,7 +95,7 @@ void	find_env_var(t_var *var, t_varenv *v_e, int l)
 	et ansi de sortir de la boucle dans env_arg()
 */
 
-int	fill_env_var(t_var *var, t_varenv *v_e)
+static int	fill_env_var(t_var *var, t_varenv *v_e)
 {
 	v_e->var_env = ft_substr(var->s[v_e->j], v_e->i + 1, v_e->k);
 	if (var->s[v_e->j] && var->s[v_e->j][v_e->i + 1 + v_e->k] == '?')
@@ -128,7 +128,7 @@ int	fill_env_var(t_var *var, t_varenv *v_e)
 	dans var->env et sinon de sortir de la boucle dans env_arg()
 */
 
-int	env_symbol(t_var *var, char c, char d)
+static int	env_symbol(t_var *var, char c, char d)
 {
 	if (c == '?')
 		var->env = ft_strjoin(var->env, "var_global");

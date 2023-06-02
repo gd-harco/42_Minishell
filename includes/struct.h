@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/02 16:47:25 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 17:30:22 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ typedef struct s_exec
 
 typedef struct s_var
 {
-	char	*str_in;
-	char	*str;		//la commande prompt
+	char	*str_in;	//la commande prompt
+	char	*str;		//la copie de commande prompt
 	char	**s;		// chaque mots espacés
 	char	**spipe;	//phrase split par les |
 	int		nb_pipe;
@@ -99,9 +99,8 @@ typedef struct s_var
 	char	*arg;
 	char	*env;
 	t_token	*new_tkn;
-	char	*quote;
 	bool	is_quote;
-	// t_token	*tkn_past;
+	char	*quote;
 }				t_var;
 
 typedef struct s_varenv
