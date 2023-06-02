@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:06:42 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/01 16:36:33 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/02 14:26:54 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	*turn_pipe_in_fd(t_here_doc *here_doc, size_t nb_here_doc)
 	int		*here_doc_fd;
 
 	i = -1;
-	here_doc_fd = malloc(sizeof(int) * nb_here_doc);
+	here_doc_fd = ft_calloc(nb_here_doc, sizeof(int));
 	while (++i < nb_here_doc)
 	{
 		here_doc_fd[i] = dup(here_doc[i].pipe_fd[0]);
