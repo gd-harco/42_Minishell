@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/26 11:11:08 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/02 10:00:52 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**path_arg_cat(char **src, char *root_arg)
 
 	pathsrc = malloc(sizeof(char *) * (ft_array_length((void **)src) + 1));
 	if (!pathsrc)
-		return (NULL);
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	i = 0;
 	while (src[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/01 15:30:06 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:20:02 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ char	*ft_strjoinsp(char const *s1, char const *s2);
 //-----------------UTILS2.C----------------//
 bool	already_pipe(t_token t_new);
 int		ft_nb_pipe(char *str);
-void	token_add_back(t_token **token, t_token *new);
-void	token_add_front(t_token **token, t_token *new);
 char	*ft_space_str(t_var *var);
+
+//---------------TOKEN_UTILS.C---------------//
+t_token	*token_last(t_token *token);
+void	token_add_back(t_token **token, t_token *new);
+void	token_clear(t_token **tkn, void (*f)(void*));
 
 //---------------TOKEN_FCT.C---------------//
 int		token_infile(t_var *var);

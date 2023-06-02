@@ -6,13 +6,36 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/01 14:33:53 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:18:44 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token	*token_last(t_token *token);
+char	*ft_space_str(t_var *var)
+{
+	int		i;
+	char	*new;
+	char	to_join[2];
+
+	var->str = ft_strdup(var->str_in);
+	i = 0;
+	to_join[1] = 0;
+	new = NULL;
+	while (var->str[i])
+	{
+		to_join[0] = var->str[i];
+		if (var->str[i] == '|')
+		{	
+			new = ft_strjoin(new, " |");
+			var->nb_pipe++;
+		}
+		else
+			new = ft_strjoin(new, to_join);
+		i++;
+	}
+	return (new);
+}
 
 bool	already_pipe(t_token t_new)
 {
@@ -38,28 +61,6 @@ int	ft_nb_pipe(char *str)
 		i++;
 	}
 	return (c);
-}
-
-t_token	*token_last(t_token *token)
-{
-	while (token && token->next)
-		token = token->next;
-	return (token);
-}
-
-void	token_add_back(t_token **token, t_token *new)
-{
-	t_token	*tail;
-
-	if (!token)
-		return ;
-	if (*token)
-	{
-		tail = token_last(*token);
-		tail->next = new;
-	}
-	else
-		*token = new;
 }
 
 // void	token_add_front(t_token **token, t_token *new)

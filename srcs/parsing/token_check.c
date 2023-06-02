@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/01 14:35:31 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:02:29 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 	t_token	*tmp2;
 
 	tmp2 = malloc(sizeof(t_token));
+	if (!tmp2)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	tmp2 = t_new;
 	while (tmp2 && tmp2 != tmp)
 	{
@@ -77,7 +79,11 @@ bool	var_init(t_var *var)
 	var->spipe = ft_split(var->str, '|');
 	var->s = ft_split(var->spipe[var->index], ' ');
 	var->new_tkn = malloc(sizeof(t_token));
+	if (!var->new_tkn)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	var->new_tkn->content = malloc(sizeof(char *) * 2);
+	if (!var->new_tkn->content)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	if (!var->new_tkn->content || !var->spipe || !var->s)
 		return (false);
 	return (true);

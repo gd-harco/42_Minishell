@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:06:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/01 15:57:26 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:56:43 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_token	*get_recutoken(t_var *var)
 	var->recu = false;
 	// var->tkn_past = malloc(sizeof(t_token));
 	// var->tkn_past = var->new_tkn;
+	// free(tmp);
 	return (var->new_tkn);
 }
 
@@ -73,7 +74,9 @@ char	**ft_str2dup(char **s1)
 	while (s1[x] != NULL)
 		x++;
 	s2 = malloc(sizeof(char *) * x + 1);
-	if (!s2 || !s1)
+	if (!s2)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
+	if (!s1)
 		return (NULL);
 	x = 0;
 	while (s1[x])
@@ -122,31 +125,6 @@ char	*ft_split_redirect(char **str)
 			break ;
 		new = ft_strjoinsp(new, "");
 		j = 0;
-		i++;
-	}
-	return (new);
-}
-
-char	*ft_space_str(t_var *var)
-{
-	int		i;
-	char	*new;
-	char	to_join[2];
-
-	var->str = ft_strdup(var->str_in);
-	i = 0;
-	to_join[1] = 0;
-	new = NULL;
-	while (var->str[i])
-	{
-		to_join[0] = var->str[i];
-		if (var->str[i] == '|')
-		{	
-			new = ft_strjoin(new, " |");
-			var->nb_pipe++;
-		}
-		else
-			new = ft_strjoin(new, to_join);
 		i++;
 	}
 	return (new);

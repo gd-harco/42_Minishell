@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/19 13:01:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:04:28 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ char	*ft_strjoinsp(char const *s1, char const *s2)
 	joined_size = (size_s1 + size_s2);
 	result = malloc(sizeof(char) * joined_size + 2);
 	if (!result)
-		return (NULL);
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	return (joning(result, (char *)s2, (char *)s1));
 }
