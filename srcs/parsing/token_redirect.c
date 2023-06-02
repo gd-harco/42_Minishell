@@ -6,13 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 15:06:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 10:56:43 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 16:38:00 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-bool	is_redirect_in(char *str)
+/*
+bool	is_redirect_in(char *str)		//plus besoin
 {
 	int	i;
 
@@ -29,7 +29,7 @@ bool	is_redirect_in(char *str)
 void	get_token_backup(t_var var, t_var *tmp);
 char	**ft_str2dup(char **s1);
 
-t_token	*get_recutoken(t_var *var)
+t_token	*get_recutoken(t_var *var)		//plus besoin
 {
 	t_var	*tmp;
 
@@ -147,3 +147,5 @@ char	*ft_split_redirect(char **str)
 
 
 //	<in>out >out cat|echo lo	
+
+*/

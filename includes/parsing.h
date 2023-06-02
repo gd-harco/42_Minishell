@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 10:20:02 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 16:49:54 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ char	*check_var(t_var *var, t_varenv *v_e);
 
 //-----------------UTILS.C-----------------//
 bool	is_builtin(char *str);
-bool	not_in_out(char **s, int j);
-bool	is_last_infile(char **s, int i);
+bool	has_in_out(char **s, int j);
 char	*ft_strjoinsp(char const *s1, char const *s2);
+// bool	is_last_infile(char **s, int i);
 
 //-----------------UTILS2.C----------------//
-bool	already_pipe(t_token t_new);
 int		ft_nb_pipe(char *str);
 char	*ft_space_str(t_var *var);
+char	*ft_trunc(char *str, int start, char c);
+// bool	already_pipe(t_token t_new);
+// char	*ft_truncstr(char *str, int start, char *c);
+// char	*trunc_rest(char *str, int start, char *c);
 
 //---------------TOKEN_UTILS.C---------------//
 t_token	*token_last(t_token *token);
@@ -50,7 +53,7 @@ void	token_add_back(t_token **token, t_token *new);
 void	token_clear(t_token **tkn, void (*f)(void*));
 
 //---------------TOKEN_FCT.C---------------//
-int		token_infile(t_var *var);
+void	token_infile(t_var *var);
 void	token_outfile(t_var *var);
 t_token	*token_pipe(void);
 
@@ -59,15 +62,14 @@ void	token_builtin(t_var *var);
 void	token_cmd(t_var *var);
 bool	is_env_in(t_var var, int j);
 bool	is_metachar(char c);
-char	*ft_trunc(char *str, int start, char c);
 
 //---------------TOKEN_ENV_VAR.C---------------//
 void	env_arg(t_var *var, t_varenv *v_e);
 
-//---------------TOKEN_ENV_VAR.C---------------//
-bool	is_redirect_in(char *str);
-t_token	*get_recutoken(t_var *var);
-char	**ft_str2dup(char **s1);
-char	*ft_split_redirect(char **str);
+//---------------TOKEN_REDIRECT.C---------------//
+// bool	is_redirect_in(char *str);
+// t_token	*get_recutoken(t_var *var);
+// char	**ft_str2dup(char **s1);
+// char	*ft_split_redirect(char **str);
 
 #endif

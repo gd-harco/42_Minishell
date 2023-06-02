@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 10:02:29 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 16:13:07 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ int	is_quote_in(char *str)
 
 bool	var_init(t_var *var)
 {
-	if (is_quote_in(var->str) != 0)
-		var->is_quote = true;
 	var->spipe = ft_split(var->str, '|');
 	var->s = ft_split(var->spipe[var->index], ' ');
 	var->new_tkn = malloc(sizeof(t_token));
@@ -84,7 +82,7 @@ bool	var_init(t_var *var)
 	var->new_tkn->content = malloc(sizeof(char *) * 2);
 	if (!var->new_tkn->content)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	if (!var->new_tkn->content || !var->spipe || !var->s)
+	if (!var->spipe || !var->s || !var->s[var->i])
 		return (false);
 	return (true);
 }
@@ -103,4 +101,5 @@ char	*check_var(t_var *var, t_varenv *v_e)
 		return (ft_strdup(var->s_p));
 }
 
-	// if (var->spipe[var->index][0] != '\'' && var->spipe[var->index][0] != '"')
+// ____________________________________________________________________________________________________________________________
+// ____________________________________________________________________________________________________________________________

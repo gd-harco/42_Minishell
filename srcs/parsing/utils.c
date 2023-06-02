@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 10:04:28 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 16:39:40 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	is_builtin(char *str)
 		return (false);
 }
 
-bool	not_in_out(char **s, int j)
+bool	has_in_out(char **s, int j)
 {
 	if ((s[j][0] == '<') || (s[j][0] == '<' && s[j][1] == '<')
 	|| (s[j][0] == '>') || (s[j][0] == '>' && s[j][1] == '>')
@@ -31,11 +31,11 @@ bool	not_in_out(char **s, int j)
 	|| (s[j - 1][0] == '>' && s[j - 1][1] == '\0')
 	|| (s[j - 1][0] == '<' && s[j - 1][1] == '<' && s[j - 1][2] == '\0')
 	|| (s[j - 1][0] == '>' && s[j - 1][1] == '>' && s[j - 1][2] == '\0'))
-		return (false);
-	return (true);
+		return (true);
+	return (false);
 }
 
-bool	is_last_infile(char **s, int i)
+/*bool	is_last_infile(char **s, int i)
 {
 	int	j;
 
@@ -49,7 +49,7 @@ bool	is_last_infile(char **s, int i)
 		return (true);
 	else
 		return (false);
-}
+}*/
 
 static char	*joning(char *result, char *s2, char *s1)
 {

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/01 15:34:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/02 16:47:25 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ typedef struct s_var
 	char	*s_p;
 	char	*arg;
 	char	*env;
-	bool	recu;
 	t_token	*new_tkn;
-	int		lenquote;
 	char	*quote;
 	bool	is_quote;
 	// t_token	*tkn_past;
