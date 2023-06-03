@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 12:47:51 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/03 12:56:41 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/03 13:40:48 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,9 @@ static void	set_input_fd(t_token token, int fd_to_change[2], t_exec *exec_data)
 static void	set_output_fd(t_token token, int fd_to_change[2])
 {
 	if (token.type == FILE_OUT)
-	{
-		close(fd_to_change[1]);
-		fd_to_change[1] = open(token.content[0],
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
+		dup2(open(token.content[0],
+				O_WRONLY | O_CREAT | O_TRUNC, 0644), fd_to_change[1]);
 	else if (token.type == FILE_OUT_APPEND)
-	{
-		close(fd_to_change[1]);
-		fd_to_change[1] = open(token.content[0],
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-	}
+		dup2(open(token.content[0],
+				O_WRONLY | O_CREAT | O_APPEND, 0644), fd_to_change[1]);
 }

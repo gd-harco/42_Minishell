@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/02 18:09:13 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/03 13:39:10 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 t_exec		*get_exec_data(t_minishell *minishell);
 size_t		get_nb_cmd(t_token *token_list);
+void		exec_command(t_cmd cmd, t_exec *exec_data);
+void		exec_final_cmd(t_exec *exec_data);
 
 void	master_exec(t_minishell	*minishell)
 {
-	// t_token	*tmp;
 	t_exec	*exec_data;
+	size_t	current_cmd;
 
 	exec_data = get_exec_data(minishell);
-	(void)exec_data;
+	current_cmd = 0;
+
+	dup2(exec_data->std_save[0], STDIN_FILENO);
+	dup2(exec_data->std_save[1], STDOUT_FILENO);
 }
 
 t_exec	*get_exec_data(t_minishell *minishell)
