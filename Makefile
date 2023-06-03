@@ -34,6 +34,7 @@ SRCS_LIST		=	main.c			\
 \
 					exec/execution.c		\
 					exec/here_doc.c			\
+					exec/translate_cmd.c	\
 \
 					parsing/path.c			\
 					parsing/token.c			\
