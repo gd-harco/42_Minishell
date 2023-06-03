@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/02 14:22:57 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/02 17:34:04 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ typedef struct s_here_doc
 typedef struct s_cmd
 {
 	char			*path;
-	char			**cmd;
-	int				file_fd[2];
+	char			**argv;
+	int				io_fd[2];
 }				t_cmd;
 
 typedef struct s_exec
@@ -60,9 +60,10 @@ typedef struct s_exec
 	t_token		*token_list;
 	size_t		nb_cmd;
 	int			*here_doc_fd;
-	size_t		nb_current_here_doc;
+	size_t		nb_current_hd;
 	t_cmd		*cmd;
 	pid_t		*pid;
+	int			std_save[2];
 	int			pipe_fd[2];
 }				t_exec;
 

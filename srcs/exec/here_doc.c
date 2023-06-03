@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:06:42 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/02 14:26:54 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/02 14:33:59 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ static void	write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc)
 	i = 0;
 	while (i < nb_here_doc)
 	{
-		here_doc[i].tmp_char = readline("here doc content> ");
+		here_doc[i].tmp_char = readline(HD_PROMPT);
 		while (!ft_strcmp(here_doc[i].tmp_char, here_doc[i].delimiter))
 		{
 			write(here_doc[i].pipe_fd[1], here_doc[i].tmp_char,
 				ft_strlen(here_doc[i].tmp_char));
 			free(here_doc[i].tmp_char);
-			here_doc[i].tmp_char = readline("> ");
+			here_doc[i].tmp_char = readline(HD_PROMPT);
 		}
 		free(here_doc[i].tmp_char);
 		close(here_doc[i].pipe_fd[1]);

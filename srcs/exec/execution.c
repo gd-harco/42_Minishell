@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/02 14:24:47 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/02 18:09:13 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	master_exec(t_minishell	*minishell)
 
 	exec_data = get_exec_data(minishell);
 	(void)exec_data;
-	//TODO: Check for pipe and allocate the good nimber of command
 }
 
 t_exec	*get_exec_data(t_minishell *minishell)
@@ -34,9 +33,11 @@ t_exec	*get_exec_data(t_minishell *minishell)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	exec_data->token_list = minishell->token_list;
 	exec_data->envp = minishell->envp;
+	exec_data->std_save[0] = dup(STDIN_FILENO);
+	exec_data->std_save[1] = dup(STDOUT_FILENO);
 	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
-	exec_data->cmd = ft_calloc(exec_data->nb_cmd, sizeof(t_cmd));
 	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list);
+	exec_data->cmd = get_cmd_data(exec_data);
 	return (exec_data);
 }
 
