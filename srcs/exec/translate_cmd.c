@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:40:24 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/03 12:48:20 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 16:06:47 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_cmd	*get_cmd_data(t_exec *exec_data)
 	{
 		cmd[current_cmd].path = get_cmd_path(cmd_first_token);
 		cmd[current_cmd].argv = get_cmd_argv(cmd_first_token);
-		get_cmd_io(cmd_first_token, cmd[current_cmd], exec_data);
 		current_cmd++;
 	}
 	return (cmd);
@@ -69,7 +68,7 @@ char	**get_cmd_argv(t_token *f_token)
 	if (!argv)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	argv[0] = ft_strdup(f_token->content[0]);
-	i = 0;
+	i = -1;
 	while (tmp[++i])
 		argv[i + 1] = ft_strdup(tmp[i]);
 	return (argv);
