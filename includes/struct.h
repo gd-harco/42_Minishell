@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/05 21:49:33 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 21:51:08 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ typedef struct s_here_doc
 	char	*tmp_char;
 }				t_here_doc;
 
-//in "file_fd", 0 is for input, 1 is for output.
-//TODO virer Path, inutile car deja dans argv[0]
 typedef struct s_cmd
 {
 	char			**argv;
