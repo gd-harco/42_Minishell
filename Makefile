@@ -55,7 +55,7 @@ CC				=	cc
 
 CFLAGS			=	 -Wall -Werror -Wextra -g3 #-fsanitize=address
 
-FRAMEWORKS		=	-Llib/libft -lft
+FRAMEWORKS		=	-Llib/libft -lft -lreadline
 
 
 # ---- Commands ---- #
@@ -76,7 +76,7 @@ all				:	${OBJS} ${HEADERS}
 # ---- Variables Rules ---- #
 
 ${NAME}			:	${OBJS} ${HEADERS} ${LIBFT}
-					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${FRAMEWORKS} -o ${NAME} -lreadline
+					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${FRAMEWORKS} -o ${NAME}
 
 # ---- Compiled Rules ---- #
 
