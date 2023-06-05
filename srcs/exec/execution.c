@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/05 16:58:03 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 22:25:45 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,21 @@ void		exec_final_cmd(t_exec *exec_data);
 void	master_exec(t_minishell	*minishell)
 {
 	t_exec	*exec_data;
-	// size_t	current_cmd;
+	size_t	current_cmd;
 
 	exec_data = get_exec_data(minishell);
-	// current_cmd = 0;
-
+	current_cmd = 0;
+	while (current_cmd < exec_data->nb_cmd)
+	{
+		exec_data->pid[current_cmd] = fork();
+		if (exec_data->pid[current_cmd] == -1)
+			exit(EXIT_FAILURE);//TODO: Call exit function
+		if (exec_data->pid[current_cmd] == 0)
+		{
+			//TODO restart here tomorrow
+			dup2(STDIN_FILENO, exec_data->pipe_fd[current_cmd][0]);
+		}
+	}
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
 }
@@ -32,6 +42,7 @@ void	master_exec(t_minishell	*minishell)
 t_exec	*get_exec_data(t_minishell *minishell)
 {
 	t_exec	*exec_data;
+	size_t	current_pipe;
 
 	exec_data = ft_calloc(1, sizeof(t_exec));
 	if (!exec_data)
@@ -41,9 +52,18 @@ t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data->std_save[0] = dup(STDIN_FILENO);
 	exec_data->std_save[1] = dup(STDOUT_FILENO);
 	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
+	exec_data->nb_pipe = exec_data->nb_cmd - 1;
 	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list);
 	exec_data->cmd = get_cmd_data(exec_data);
-	exec_data->pid = malloc(sizeof(pid_t) * exec_data->nb_cmd);
+	exec_data->pid = ft_calloc(exec_data->nb_cmd, sizeof(pid_t));
+	if (!exec_data->pid)
+		exit(EXIT_FAILURE);//TODO: Call exit function
+	exec_data->pipe_fd = ft_calloc(exec_data->nb_pipe, sizeof(int *));
+	if (!exec_data->pipe_fd)
+		exit(EXIT_FAILURE);//TODO: Call exit function
+	current_pipe = 0;
+	while (current_pipe < exec_data->nb_pipe)
+		pipe(exec_data->pipe_fd[current_pipe++]);
 	return (exec_data);
 }
 
@@ -60,3 +80,5 @@ size_t	get_nb_cmd(t_token *token_list)
 	}
 	return (nb_cmd);
 }
+
+void
