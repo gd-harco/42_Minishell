@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 16:48:04 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 10:18:18 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	while (42)
 	{
 		add_history(var->str);
-		data->token_list = get_token(var);
+		data->token_list = get_token_list(var);
 		master_exec(data);
 		free(data->token_list);
 		var->str = get_user_input();

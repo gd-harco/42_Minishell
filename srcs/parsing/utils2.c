@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 17:28:46 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 10:27:51 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_space_str(t_var *var)
 	i = 0;
 	to_join[1] = 0;
 	new = NULL;
-	while (var->str[i])
+	while (var->str && var->str[i])
 	{
 		to_join[0] = var->str[i];
 		if (var->str[i] == '\'')

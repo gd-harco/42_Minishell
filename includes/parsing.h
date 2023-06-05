@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 17:29:18 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 10:22:43 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**path_arg_cat(char **src, char *root_arg);
 char	*process(char *str, char **path, int ind);
 
 //################# TOKEN.C #################//
-t_token	*get_token(t_var *var);
+t_token	*get_token_list(t_var *var);
 t_token	*token_init(t_var *var);
 
 //################# TOKEN_CHECK.C################# //

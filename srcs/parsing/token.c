@@ -6,11 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 17:24:36 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 10:28:43 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	get_token(t_token *t_new, t_token *tmp, t_var *var);
 
 static void	init_start(t_var *var)
 {
@@ -19,41 +21,44 @@ static void	init_start(t_var *var)
 	var->i = 0;
 }
 
-t_token	*get_token(t_var *var)
+t_token	*get_token_list(t_var *var)
 {
 	t_token	*t_new;
 	t_token	*tmp;
 
-	// if (!var->str)
-	// 	return (NULL);
+	if (!var->str)
+		return (NULL);
 	init_start(var);
 	tmp = NULL;
 	t_new = token_init(var);
-	// if (tmp && tmp->next)
-		// token_add_front(&t_new, tmp);
 	var->i++;
 	while ((var->index == 0 || var->spipe[var->index - 1])
 		&& var->spipe[var->index])
 	{
-		var_init(var);
-		while ((var->s && var->s[var->i]))
-		{
-				tmp = token_init(var);
-				var->i++;
-			if (tmp != NULL && already_cmd(t_new, tmp) != true) //&& already_cmd(var->tkn_past, tmp) != true)
-				token_add_back(&t_new, tmp);
-		}
-		if (var->nb_pipe-- > 0) //&& var->spipe[var->index + 1] != NULL)
-		{
-			tmp = token_pipe();
-			token_add_back(&t_new, tmp);
-		}
-		var_init(var);
-		var->index++;
-		var->i = 0;
+		get_token(t_new, tmp, var);
 	}
 	// 	token_clear(&tmp, free);
 	return (t_new);
+}
+
+static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
+{
+	var_init(var);
+	while ((var->s && var->s[var->i]))
+	{
+		tmp = token_init(var);
+		var->i++;
+		if (tmp != NULL && already_cmd(t_new, tmp) != true)
+			token_add_back(&t_new, tmp);
+	}
+	if (var->nb_pipe-- > 0)	//&& var->spipe[var->index + 1] != NULL)
+	{
+		tmp = token_pipe();
+		token_add_back(&t_new, tmp);
+	}
+	var_init(var);
+	var->index++;
+	var->i = 0;
 }
 
 t_token	*token_init(t_var *var)
@@ -83,6 +88,8 @@ t_token	*token_init(t_var *var)
 	var->new_tkn->next = NULL;
 	return (var->new_tkn);
 }
+
+//gerer si name infile est <e 	error si < ou > dans fct in/out.file
 
 // GERER LE CAS OU -e AVANT COMMANDE MAIS PAS EN POSITION 0	
 //	ok en remove "|| (var->i != 0 && var->s[var->i][0] == '-')"
