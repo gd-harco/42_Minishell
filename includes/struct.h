@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/05 15:25:22 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 21:49:33 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_here_doc
 //TODO virer Path, inutile car deja dans argv[0]
 typedef struct s_cmd
 {
-	char			*path;
 	char			**argv;
 }				t_cmd;
 

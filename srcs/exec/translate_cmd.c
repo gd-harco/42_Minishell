@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:40:24 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/05 16:06:47 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 21:49:49 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,8 @@ t_cmd	*get_cmd_data(t_exec *exec_data)
 	if (!cmd)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	while (current_cmd < exec_data->nb_cmd)
-	{
-		cmd[current_cmd].path = get_cmd_path(cmd_first_token);
-		cmd[current_cmd].argv = get_cmd_argv(cmd_first_token);
-		current_cmd++;
-	}
+		cmd[current_cmd++].argv = get_cmd_argv(cmd_first_token);
 	return (cmd);
-}
-
-
-char	*get_cmd_path(t_token *f_token)
-{
-	char	*path;
-
-	path = NULL;
-	while (f_token && f_token->type != CMD)
-		f_token = f_token->next;
-	path = ft_strdup(f_token->content[0]);
-	return (path);
 }
 
 char	**get_cmd_argv(t_token *f_token)
