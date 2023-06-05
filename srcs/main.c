@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 14:25:22 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/03 13:10:00 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,14 @@ int	main(int argc, char **argv, char **envp)
 	var->envp = envp;
 	printf(ROCKET_LOGO);
 	var->str = get_user_input();
-	if (var->str && *(var->str))
-		add_history(var->str);
-	data->token_list = get_token(var);
-	master_exec(data);
+	while (42)
+	{
+		if (var->str && *(var->str))
+			add_history(var->str);
+		data->token_list = get_token(var);
+		master_exec(data);
+		free(var->str);
+		var->str = get_user_input();
+	}
 	return (0);
 }

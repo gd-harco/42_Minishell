@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/02 18:09:13 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 16:58:03 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 t_exec		*get_exec_data(t_minishell *minishell);
 size_t		get_nb_cmd(t_token *token_list);
+void		exec_command(t_cmd cmd, t_exec *exec_data);
+void		exec_final_cmd(t_exec *exec_data);
 
 void	master_exec(t_minishell	*minishell)
 {
-	// t_token	*tmp;
 	t_exec	*exec_data;
+	// size_t	current_cmd;
 
 	exec_data = get_exec_data(minishell);
-	(void)exec_data;
+	// current_cmd = 0;
+
+	dup2(exec_data->std_save[0], STDIN_FILENO);
+	dup2(exec_data->std_save[1], STDOUT_FILENO);
 }
 
 t_exec	*get_exec_data(t_minishell *minishell)
@@ -38,6 +43,7 @@ t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
 	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list);
 	exec_data->cmd = get_cmd_data(exec_data);
+	exec_data->pid = malloc(sizeof(pid_t) * exec_data->nb_cmd);
 	return (exec_data);
 }
 
