@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/05 10:22:43 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 16:28:24 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	*process(char *str, char **path, int ind);
 
 //################# TOKEN.C #################//
 t_token	*get_token_list(t_var *var);
-t_token	*token_init(t_var *var);
-
+// void	struct_clear(t_var *var);
+void	free_var(t_var *var);
 //################# TOKEN_CHECK.C################# //
 bool	already_cmd(t_token *t_new, t_token *tmp);
 void	token_arg(t_var *var);
@@ -49,7 +49,7 @@ t_token	*token_pipe(void);
 //---------------TOKEN_UTILS.C---------------//
 t_token	*token_last(t_token *token);
 void	token_add_back(t_token **token, t_token *new);
-void	token_clear(t_token **tkn, void (*f)(void*));
+void	token_clear(t_token *tkn);
 
 //-----------------UTILS.C-----------------//
 bool	var_init(t_var *var);
@@ -60,7 +60,9 @@ char	*ft_trunc(char *str, int start, char c);
 
 //-----------------UTILS2.C----------------//
 char	*ft_space_str(t_var *var);
-char	*ft_strjoinsp(char const *s1, char const *s2);
+char	*ft_strjoinsp(char *s1, char *s2);
+char	*ft_freestrjoin(char *s1, char *s2);
+char	*ft_free_process(char *to_free, char *to_return);
 
 // bool	already_pipe(t_token t_new);
 // char	*ft_truncstr(char *str, int start, char *c);

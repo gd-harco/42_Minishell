@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 17:02:34 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 14:46:10 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*check_var(t_var *var, t_varenv *v_e)
 	{
 		var->s_p = ft_strjoinsp(NULL, ft_trunc(var->s[0], 0, '$'));
 		env_arg(var, v_e);
-		var->s_p = ft_strjoin(var->s_p, var->env);
+		var->s_p = ft_freestrjoin(var->s_p, var->env);
 		return (var->s_p);
 	}
 	else
@@ -82,6 +82,8 @@ char	*ft_trunc(char *str, int start, char c)
 		k++;
 	}
 	s = malloc(sizeof(char) * (k + 1));
+	if (!s)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	j = 0;
 	while (j < k)
 	{

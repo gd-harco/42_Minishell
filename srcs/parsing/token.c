@@ -6,13 +6,14 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/05 10:28:43 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 16:07:54 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	get_token(t_token *t_new, t_token *tmp, t_var *var);
+static void		get_token(t_token *t_new, t_token *tmp, t_var *var);
+static t_token	*token_init(t_var *var);
 
 static void	init_start(t_var *var)
 {
@@ -37,7 +38,6 @@ t_token	*get_token_list(t_var *var)
 	{
 		get_token(t_new, tmp, var);
 	}
-	// 	token_clear(&tmp, free);
 	return (t_new);
 }
 
@@ -50,18 +50,20 @@ static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
 		var->i++;
 		if (tmp != NULL && already_cmd(t_new, tmp) != true)
 			token_add_back(&t_new, tmp);
+		// token_clear(&tmp, free);
 	}
 	if (var->nb_pipe-- > 0)	//&& var->spipe[var->index + 1] != NULL)
 	{
 		tmp = token_pipe();
 		token_add_back(&t_new, tmp);
 	}
+	free_var(var);
 	var_init(var);
 	var->index++;
 	var->i = 0;
 }
 
-t_token	*token_init(t_var *var)
+static t_token	*token_init(t_var *var)
 {
 	if (var_init(var) == false)	// || (var->i != 0 && var->s[var->i][0] == '-') var->i != 0 prmet de gerer le cas ou | -e | comme une cmd
 		return (NULL);

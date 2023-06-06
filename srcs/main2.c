@@ -6,11 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:33:44 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/05 10:18:00 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 16:50:01 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	struct_clear(t_var *var);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -31,9 +33,8 @@ int	main(int argc, char **argv, char **envp)
 	var->str_in = get_user_input();
 	var->str = ft_space_str(var);
 	ft_printf("%s\n", var->str);
-	while (42)
-	{
 		add_history(var->str_in);
+		free(var->str_in);
 		data->token_list = get_token_list(var);
 		tmp = data->token_list;
 		while (tmp)
@@ -45,8 +46,50 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("next : %p\n", tmp->next);
 			tmp = tmp->next;
 		}
-		var->str_in = get_user_input();
-		var->str = ft_space_str(var);
-	}
+	token_clear(data->token_list);
+	// free(var->s_p);
+	free_var(var);
+	free(var->str);
+	free(data);
+	free(var);
 	return (0);
 }
+
+void	struct_clear(t_var *var)
+{
+	int	i;
+
+	i = 0;
+	free(var->s_p);
+	free(var->arg);
+	while (var->s[i])
+	{
+		free(var->spipe[i]);
+		free(var->s[i]);
+		i++;
+	}
+	free(var->s);
+	free(var->spipe);
+	free(var->path);
+}
+
+void	free_var(t_var *var)
+{
+	if (var->s)
+		ft_free_array((void *)var->s);
+	if (var->spipe)
+		ft_free_array((void *)var->spipe);
+	// if (var->envp)
+	// 	ft_free_array((void *)var->envp);
+	// if (var->path)
+	// 	ft_free_array((void *)var->path);
+	if (var->s_p)
+		free(var->s_p);
+	if (var->arg)
+		free(var->arg);
+	// if (var->env)
+	// 	free(var->env);
+	// if (var->new_tkn)
+	// 	token_clear(&var->new_tkn, free);
+}
+// cat Makefile | rev | wc -l >> out

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 17:17:25 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 13:22:21 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	token_builtin(t_var *var)
 		{
 			var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$'));
 			env_arg(var, &v_e);
-			var->arg = ft_strjoin(var->arg, var->env);
+			var->arg = ft_freestrjoin(var->arg, var->env);
 		}
 		v_e.j++;
 	}
@@ -39,6 +39,7 @@ void	token_builtin(t_var *var)
 void	token_cmd(t_var *var)
 {
 	t_varenv	v_e;
+	char		*tmp;
 
 	var->arg = NULL;
 	var->path = get_path(var->envp);
@@ -48,12 +49,16 @@ void	token_cmd(t_var *var)
 	{
 		if (has_in_out(var->s, v_e.j) == false
 			&& is_env_in(*var, v_e.j) == false)
-			var->arg = ft_strjoinsp(var->arg, var->s[v_e.j]);
+		{
+			tmp = ft_strjoinsp(var->arg, var->s[v_e.j]);
+			var->arg = ft_strdup(tmp);
+			free(tmp);
+		}
 		else if (is_env_in(*var, v_e.j) == true)
 		{
 			var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$'));
 			env_arg(var, &v_e);
-			var->arg = ft_strjoin(var->arg, var->env);
+			var->arg = ft_freestrjoin(var->arg, var->env);
 		}
 		v_e.j++;
 	}

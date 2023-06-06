@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 17:28:54 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 16:28:53 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 			t_new = tmp2->next;
 		tmp2 = tmp2->next;
 	}
+	token_clear(tmp2);
 	if (t_new && (tmp->type == CMD || tmp->type == BUILTIN))
 	{
 		while (t_new->next && t_new->type != PIPE && t_new->type != CMD && t_new->type != BUILTIN)

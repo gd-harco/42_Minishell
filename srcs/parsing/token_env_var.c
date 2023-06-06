@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:47:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/02 17:07:50 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/05 12:03:52 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ static int	fill_env_var(t_var *var, t_varenv *v_e)
 		var->env = ft_strjoin(var->env, ft_substr(var->envp[v_e->m],
 					v_e->k + 1, ft_strlen(var->envp[v_e->m]) - v_e->k));
 	else
-		var->env = ft_strjoin(var->env, NULL);
+		var->env = ft_freestrjoin(var->env, NULL);
 	if (var->s[v_e->j] && var->s[v_e->j][v_e->i + 1 + v_e->k] != '$')
-		var->env = ft_strjoin(var->env, ft_substr(var->s[v_e->j],
+		var->env = ft_freestrjoin(var->env, ft_substr(var->s[v_e->j],
 					v_e->i + 1 + v_e->k, ft_strlen(ft_trunc
 						(var->s[v_e->j], v_e->i + 1 + v_e->k, '$'))));
 	return (2);
@@ -131,9 +131,9 @@ static int	fill_env_var(t_var *var, t_varenv *v_e)
 static int	env_symbol(t_var *var, char c, char d)
 {
 	if (c == '?')
-		var->env = ft_strjoin(var->env, "var_global");
+		var->env = ft_freestrjoin(var->env, "var_global");
 	else
-		var->env = ft_strjoin(var->env, "$");
+		var->env = ft_freestrjoin(var->env, "$");
 	if (d != '\0')
 		return (0);
 	else
