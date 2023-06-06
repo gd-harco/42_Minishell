@@ -6,16 +6,15 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/05 22:25:45 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/06 14:26:34 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_exec		*get_exec_data(t_minishell *minishell);
-size_t		get_nb_cmd(t_token *token_list);
-void		exec_command(t_cmd cmd, t_exec *exec_data);
-void		exec_final_cmd(t_exec *exec_data);
+static t_exec		*get_exec_data(t_minishell *minishell);
+static size_t		get_nb_cmd(t_token *token_list);
+
 
 void	master_exec(t_minishell	*minishell)
 {
@@ -27,19 +26,25 @@ void	master_exec(t_minishell	*minishell)
 	while (current_cmd < exec_data->nb_cmd)
 	{
 		exec_data->pid[current_cmd] = fork();
-		if (exec_data->pid[current_cmd] == -1)
-			exit(EXIT_FAILURE);//TODO: Call exit function
-		if (exec_data->pid[current_cmd] == 0)
+		if(exec_data->pid[current_cmd] == 0)
 		{
-			//TODO restart here tomorrow
-			dup2(STDIN_FILENO, exec_data->pipe_fd[current_cmd][0]);
+			dprintf(2, "child %zu\n", current_cmd);
+			close_child_unused_fd(current_cmd, exec_data->pipe_fd, exec_data->nb_pipe);
+			printf("Unused fd for command %zu closed\n", current_cmd);
+			execve("/usr/bin/ls", exec_data->cmd[current_cmd].argv, exec_data->envp);
+		}
+		else
+		{
+			dprintf(2, "parent %zu\n", current_cmd);
+			waitpid(exec_data->pid[current_cmd], NULL, 0);
+			current_cmd++;
 		}
 	}
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
 }
 
-t_exec	*get_exec_data(t_minishell *minishell)
+static t_exec	*get_exec_data(t_minishell *minishell)
 {
 	t_exec	*exec_data;
 	size_t	current_pipe;
@@ -58,16 +63,16 @@ t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data->pid = ft_calloc(exec_data->nb_cmd, sizeof(pid_t));
 	if (!exec_data->pid)
 		exit(EXIT_FAILURE);//TODO: Call exit function
-	exec_data->pipe_fd = ft_calloc(exec_data->nb_pipe, sizeof(int *));
+	exec_data->pipe_fd = ft_calloc(exec_data->nb_pipe, sizeof(t_pipe_fd));
 	if (!exec_data->pipe_fd)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	current_pipe = 0;
 	while (current_pipe < exec_data->nb_pipe)
-		pipe(exec_data->pipe_fd[current_pipe++]);
+		pipe(exec_data->pipe_fd[current_pipe++].pipe_fd);
 	return (exec_data);
 }
 
-size_t	get_nb_cmd(t_token *token_list)
+static size_t	get_nb_cmd(t_token *token_list)
 {
 	size_t	nb_cmd;
 
@@ -80,5 +85,3 @@ size_t	get_nb_cmd(t_token *token_list)
 	}
 	return (nb_cmd);
 }
-
-void
