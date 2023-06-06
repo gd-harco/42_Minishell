@@ -36,6 +36,7 @@ SRCS_LIST		=	main.c			\
 					exec/here_doc.c			\
 					exec/translate_cmd.c	\
 					exec/io_handling.c		\
+					exec/close_fd.c			\
 \
 					parsing/path.c			\
 					parsing/token.c			\
@@ -53,7 +54,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 CC				=	cc
 
-CFLAGS			=	 -Wall -Werror -Wextra -g3 #-fsanitize=address
+CFLAGS			=	 -Wall -Werror -Wextra -g3 -fsanitize=address
 
 FRAMEWORKS		=	-Llib/libft -lft -lreadline
 

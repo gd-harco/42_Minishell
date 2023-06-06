@@ -51,6 +51,11 @@ typedef struct s_cmd
 	char			**argv;
 }				t_cmd;
 
+typedef struct s_pipe_fd
+{
+	int		pipe_fd[2];
+}				t_pipe_fd;
+
 typedef struct s_exec
 {
 	char		**envp;
@@ -62,7 +67,7 @@ typedef struct s_exec
 	t_cmd		*cmd;
 	pid_t		*pid;
 	int			std_save[2];
-	int			(*pipe_fd)[2];
+	t_pipe_fd	*pipe_fd;
 }				t_exec;
 
 #endif
