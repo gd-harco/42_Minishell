@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:33:44 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/05 16:50:01 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/06 10:09:17 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ int	main(int argc, char **argv, char **envp)
 	printf("\033[0m");
 	var->str_in = get_user_input();
 	var->str = ft_space_str(var);
-	ft_printf("%s\n", var->str);
+	while(42)
+	{
 		add_history(var->str_in);
 		free(var->str_in);
 		data->token_list = get_token_list(var);
 		tmp = data->token_list;
+		ft_printf("%s\n", var->str);
 		while (tmp)
 		{
 			ft_printf("\n\nTOKEN\n");
@@ -46,9 +48,12 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("next : %p\n", tmp->next);
 			tmp = tmp->next;
 		}
+		var->str_in = get_user_input();
+		var->str = ft_space_str(var);
+	}
 	token_clear(data->token_list);
 	// free(var->s_p);
-	free_var(var);
+	// free_var(var);
 	free(var->str);
 	free(data);
 	free(var);

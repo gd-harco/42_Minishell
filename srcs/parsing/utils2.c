@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/05 16:21:12 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/06 10:16:17 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,9 @@ char	*ft_space_str(t_var *var)
 	char	to_join[2];
 	char	*temp;
 
-	//TODO What if strdup returns NULL ?
 	temp = ft_strdup(var->str_in);
+	if (!temp)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	i = 0;
 	to_join[1] = 0;
 	new = NULL;
