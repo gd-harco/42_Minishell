@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/05 16:28:24 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/06 16:39:18 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ char	**get_path(char **envp);
 char	**path_arg_cat(char **src, char *root_arg);
 char	*process(char *str, char **path, int ind);
 
+//-----------------QUOTES.C----------------//
+void	quote_manager(t_var *var, t_varenv *v_e);
+
+char	*ft_truncstr(t_var var, t_varenv v_e, int start, char *c);
+
 //################# TOKEN.C #################//
 t_token	*get_token_list(t_var *var);
 // void	struct_clear(t_var *var);
@@ -35,9 +40,10 @@ int		ft_nb_pipe(char *str);
 void	token_builtin(t_var *var);
 void	token_cmd(t_var *var);
 bool	is_env_in(t_var var, int j);
+bool	is_env_in_quote(t_var var, int j);
 bool	is_metachar(char c);
-int		is_quote_in(char *str);
-
+int		is_quote_instr(char *str, int ind);
+int		is_quote_in(char *str, int nb);
 //---------------TOKEN_ENV_VAR.C---------------//
 void	env_arg(t_var *var, t_varenv *v_e);
 

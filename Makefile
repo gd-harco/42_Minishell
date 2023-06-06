@@ -40,6 +40,7 @@ SRCS_LIST		=	main2.c			\
 					exec/translate_utils.c	\
 \
 					parsing/path.c				\
+					parsing/quotes.c			\
 					parsing/token.c				\
 					parsing/token_check.c		\
 					parsing/token_cmd_fct.c		\

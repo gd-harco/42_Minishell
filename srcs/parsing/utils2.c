@@ -6,14 +6,14 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/06 10:16:17 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/06 15:57:20 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-static char	*ft_quote_str(char *str, int *start, char c)
+static char	*ft_quote_str(char *str, int *start, char c, t_var *var)
 {
 	int		i;
 	int		j;
@@ -21,7 +21,7 @@ static char	*ft_quote_str(char *str, int *start, char c)
 
 	i = 1;
 	j = 0;
-	while (str[*start + i] != c)
+	while (str[*start + i] != c && str[*start + i])
 	{
 		i++;
 	}
@@ -31,7 +31,18 @@ static char	*ft_quote_str(char *str, int *start, char c)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	while (j < i)
 	{
-		new[j] = str[*start];
+		if (str[*start] == '|')
+		{
+			new[j] = '`';
+			var->is_pquote = true;
+		}
+		else if (str[*start] == ' ')
+		{
+			new[j] = '*';
+			var->is_squote = true;
+		}
+		else
+			new[j] = str[*start];
 		j++;
 		*start = *start + 1;
 	}
@@ -47,6 +58,7 @@ char	*ft_space_str(t_var *var)
 	char	to_join[2];
 	char	*temp;
 
+	var->is_pquote = false;
 	temp = ft_strdup(var->str_in);
 	if (!temp)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
@@ -57,9 +69,9 @@ char	*ft_space_str(t_var *var)
 	{
 		to_join[0] = temp[i];
 		if (temp[i] == '\'')
-			new = ft_freestrjoin(new, ft_quote_str(temp, &i, '\''));
-		if (temp[i] == '"')
-			new = ft_freestrjoin(new, ft_quote_str(temp, &i, '"'));
+			new = ft_freestrjoin(new, ft_quote_str(temp, &i, '\'', var));
+		else if (temp[i] == '"')
+			new = ft_freestrjoin(new, ft_quote_str(temp, &i, '"', var));
 		else if (temp[i] == '|')
 		{	
 			new = ft_freestrjoin(new, " | ");
