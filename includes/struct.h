@@ -67,7 +67,7 @@ typedef struct s_exec
 	t_cmd		*cmd;
 	pid_t		*pid;
 	int			std_save[2];
-	t_pipe_fd	*pipe_fd;
+	int			pipe_fd[2];
 }				t_exec;
 
 #endif

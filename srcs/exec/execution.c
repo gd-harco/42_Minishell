@@ -14,6 +14,7 @@
 
 static t_exec		*get_exec_data(t_minishell *minishell);
 static size_t		get_nb_cmd(t_token *token_list);
+void	exec_last_cmd(t_exec *exec_data, size_t current_cmd);
 
 
 void	master_exec(t_minishell	*minishell)
@@ -25,24 +26,33 @@ void	master_exec(t_minishell	*minishell)
 	current_cmd = 0;
 	while (current_cmd < exec_data->nb_cmd - 1)
 	{
+		dprintf(STDERR_FILENO, "current_cmd: %zu\n", current_cmd);
+		pipe(exec_data->pipe_fd);
 		exec_data->pid[current_cmd] = fork();
+		if (exec_data->pid[current_cmd] == -1)
+			exit(EXIT_FAILURE); //TODO: Call exit function
 		if(exec_data->pid[current_cmd] == 0)
 		{
-			//TODO: Delete debug printf
-			dprintf(2, "child %zu\n", current_cmd);
-			close_child_unused_fd(current_cmd, exec_data->pipe_fd, exec_data->nb_pipe);
-			printf("Unused fd for command %zu closed\n", current_cmd);
-			execve("/usr/bin/ls", exec_data->cmd[current_cmd].argv, exec_data->envp);
+			dup2(exec_data->pipe_fd[1], STDOUT_FILENO);
+			close(exec_data->pipe_fd[0]);
+			close(exec_data->pipe_fd[1]);
+			//TODO call functtion that check for file redirection than call execve
+			dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
+			execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
+			dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
+			exit(EXIT_FAILURE);//TODO: Call exit function
 		}
-		else
-		{
-			//TODO: Delete debug printf
-			dprintf(2, "parent %zu\n", current_cmd);
-			waitpid(exec_data->pid[current_cmd], NULL, 0);
-			current_cmd++;
-		}
+		dup2(exec_data->pipe_fd[0], STDIN_FILENO);
+		close(exec_data->pipe_fd[0]);
+		close(exec_data->pipe_fd[1]);
+		current_cmd++;
 	}
-	//TODO: Handle last command
+	exec_last_cmd(exec_data, current_cmd);
+	current_cmd = -1;
+	printf("Test");
+	while (++current_cmd < exec_data->nb_cmd)
+		waitpid(exec_data->pid[current_cmd], NULL, 0);
+	//TODO Wait for all child process
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
 }
@@ -50,7 +60,7 @@ void	master_exec(t_minishell	*minishell)
 static t_exec	*get_exec_data(t_minishell *minishell)
 {
 	t_exec	*exec_data;
-	size_t	current_pipe;
+	size_t	i;
 
 	exec_data = ft_calloc(1, sizeof(t_exec));
 	if (!exec_data)
@@ -63,15 +73,12 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data->nb_pipe = exec_data->nb_cmd - 1;
 	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list);
 	exec_data->cmd = get_cmd_data(exec_data);
-	exec_data->pid = ft_calloc(exec_data->nb_cmd, sizeof(pid_t));
+	exec_data->pid = malloc(sizeof(pid_t) * exec_data->nb_cmd);
 	if (!exec_data->pid)
 		exit(EXIT_FAILURE);//TODO: Call exit function
-	exec_data->pipe_fd = ft_calloc(exec_data->nb_pipe, sizeof(t_pipe_fd));
-	if (!exec_data->pipe_fd)
-		exit(EXIT_FAILURE);//TODO: Call exit function
-	current_pipe = 0;
-	while (current_pipe < exec_data->nb_pipe)
-		pipe(exec_data->pipe_fd[current_pipe++].pipe_fd);
+	i = -1;
+	while (++i < exec_data->nb_cmd)
+		exec_data->pid[i] = -1;
 	return (exec_data);
 }
 
@@ -87,4 +94,19 @@ static size_t	get_nb_cmd(t_token *token_list)
 		token_list = token_list->next;
 	}
 	return (nb_cmd);
+}
+
+void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
+{
+	dprintf(STDERR_FILENO, "current_cmd: %zu\n", current_cmd);
+	exec_data->pid[current_cmd] = fork();
+	if (exec_data->pid[current_cmd] == -1)
+		exit(EXIT_FAILURE); //TODO: Call exit function
+	if(exec_data->pid[current_cmd] != 0)
+		return ;
+	//TODO call functtion that check for file redirection than call execve
+	dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
+	execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
+	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
+	exit(EXIT_FAILURE);//TODO: Call exit function
 }

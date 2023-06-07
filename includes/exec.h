@@ -33,5 +33,5 @@ void	get_cmd_io(t_token *f_token, t_cmd cmd, t_exec *exec_data);
 
 //########### CLOSE_FD.C ###########//
 void	close_child_unused_fd(size_t cmd_nb, t_pipe_fd *pipe_fd, size_t nb_pipe);
-
+void	close_parent_unused_fd(size_t cmd_nb, t_pipe_fd *pipe_fd, size_t nb_pipe);
 #endif
