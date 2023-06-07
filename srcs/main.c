@@ -34,7 +34,8 @@ int	main(int argc, char **argv, char **envp)
 		if (var->str && *(var->str))
 			add_history(var->str);
 		data->token_list = get_token(var);
-		master_exec(data);
+		if (data->token_list)
+			master_exec(data);
 		free(var->str);
 		var->str = get_user_input();
 	}

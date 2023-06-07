@@ -14,7 +14,7 @@
 
 static t_exec		*get_exec_data(t_minishell *minishell);
 static size_t		get_nb_cmd(t_token *token_list);
-void	exec_last_cmd(t_exec *exec_data, size_t current_cmd);
+static void			exec_last_cmd(t_exec *exec_data, size_t current_cmd);
 
 
 void	master_exec(t_minishell	*minishell)
@@ -49,7 +49,6 @@ void	master_exec(t_minishell	*minishell)
 	}
 	exec_last_cmd(exec_data, current_cmd);
 	current_cmd = -1;
-	printf("Test");
 	while (++current_cmd < exec_data->nb_cmd)
 		waitpid(exec_data->pid[current_cmd], NULL, 0);
 	//TODO Wait for all child process
