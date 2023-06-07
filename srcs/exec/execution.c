@@ -23,11 +23,12 @@ void	master_exec(t_minishell	*minishell)
 
 	exec_data = get_exec_data(minishell);
 	current_cmd = 0;
-	while (current_cmd < exec_data->nb_cmd)
+	while (current_cmd < exec_data->nb_cmd - 1)
 	{
 		exec_data->pid[current_cmd] = fork();
 		if(exec_data->pid[current_cmd] == 0)
 		{
+			//TODO: Delete debug printf
 			dprintf(2, "child %zu\n", current_cmd);
 			close_child_unused_fd(current_cmd, exec_data->pipe_fd, exec_data->nb_pipe);
 			printf("Unused fd for command %zu closed\n", current_cmd);
@@ -35,11 +36,13 @@ void	master_exec(t_minishell	*minishell)
 		}
 		else
 		{
+			//TODO: Delete debug printf
 			dprintf(2, "parent %zu\n", current_cmd);
 			waitpid(exec_data->pid[current_cmd], NULL, 0);
 			current_cmd++;
 		}
 	}
+	//TODO: Handle last command
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
 }
