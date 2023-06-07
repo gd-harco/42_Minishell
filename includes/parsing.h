@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/06 16:39:18 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 10:50:29 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool	is_env_in(t_var var, int j);
 bool	is_env_in_quote(t_var var, int j);
 bool	is_metachar(char c);
 int		is_quote_instr(char *str, int ind);
-int		is_quote_in(char *str, int nb);
+int		is_quote_in(char *str);
 //---------------TOKEN_ENV_VAR.C---------------//
 void	env_arg(t_var *var, t_varenv *v_e);
 

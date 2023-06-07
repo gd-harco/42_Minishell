@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/06 16:39:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 11:06:12 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,14 @@ void	token_cmd(t_var *var)
 {
 	t_varenv	v_e;
 	char		*tmp;
-	int			nb;
 
-	nb = 0;
 	var->arg = NULL;
 	var->path = get_path(var->envp);
 	var->s_p = process(var->spipe[var->index], var->path, var->i);
 	v_e.j = var->i + 1;
 	while (var->s[v_e.j])
 	{
-		if (is_quote_in(var->s[var->i + 1], nb) == 0)
+		if (is_quote_in(var->s[v_e.j]) == 0)
 		{
 			if (has_in_out(var->s, v_e.j) == false
 				&& is_env_in(*var, v_e.j) == false)
@@ -65,9 +63,8 @@ void	token_cmd(t_var *var)
 				var->arg = ft_freestrjoin(var->arg, var->env);
 			}
 		}
-		else if (is_quote_in(var->s[var->i + 1], nb) != 0)
+		else if (is_quote_in(var->s[v_e.j]) != 0)
 		{
-			nb++;
 			var->arg = ft_strjoinsp(var->arg, ft_truncstr(*var, v_e, 0, "\"\'"));
 			quote_manager(var, &v_e);
 			var->arg = ft_freestrjoin(var->arg, var->quote);
@@ -120,23 +117,19 @@ int	is_quote_instr(char *str, int ind)
 	return (0);
 }
 
-int	is_quote_in(char *str, int nb)
+int	is_quote_in(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (!str || !str[nb])
+	if (!str)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == '\'' && nb == 0)
+		if (str[i] == '\'')
 			return (1);
-		else if (str[i] == '"' && nb == 0)
+		else if (str[i] == '"')
 			return (2);
-		else if (str[i] == '\'' && nb > 0)
-			--nb;
-		else if (str[i] == '"' && nb > 0)
-			--nb;
 		i++;
 	}
 	return (0);

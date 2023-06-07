@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:25:29 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/06 16:41:22 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 11:15:20 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,22 @@ void	dub_quote(t_var *var, t_varenv *v_e, char **tmp, int *j)
 }
 
 
-void	single_quote(t_var *var, char *t, char **tmp, int *j)
+void	single_quote(t_var *var, t_varenv *v_e, char **tmp, int *i)
 {
-	++*j;
-	while (var->quote[*j] != '\'' && var->quote[*j])
+	char	t[2];
+
+	t[1] = '\0';
+	++*i;
+	while (var->s[v_e->j][*i] != '\'' && var->s[v_e->j][*i])
 	{
-		if (var->quote[*j] == '`' && var->is_pquote == true)
+		if (var->s[v_e->j][*i] == '`' && var->is_pquote == true)
 			t[0] = '|';
-		else if (var->quote[*j] == '*' && var->is_squote == true)
+		else if (var->s[v_e->j][*i] == '*' && var->is_squote == true)
 			t[0] = ' ';
 		else
-			t[0] = var->quote[*j];
+			t[0] = var->s[v_e->j][*i];
 		*tmp = ft_freestrjoin(*tmp, t);
-		++*j;
+		++*i;
 	}
 }
 
@@ -104,36 +107,39 @@ char	*ft_reload_dup(t_var *var)
 void	quote_manager(t_var *var, t_varenv *v_e)
 {
 	char	*tmp;
-	int		j;
+	int		i;
 	char	t[2];
 
 	t[1] = '\0';
 	tmp = NULL;
 	var->quote = NULL;
-	var->quote = ft_reload_dup(var);
+	// var->quote = ft_reload_dup(var);
 	var->env = NULL;
-	j = 0;
-	while (var->quote[j])
+	i = 0;
+	while (var->s[v_e->j][i] != '\'' && var->s[v_e->j][i] != '"')
+		i++;
+	while (var->s[v_e->j][i])
 	{
-		if (var->quote[j] == '"')
+		if (var->s[v_e->j][i] == '"')
 		{
-			dub_quote(var, v_e, &tmp, &j);
+			dub_quote(var, v_e, &tmp, &i);
+			var->i++;
 		}
-		else if (var->quote[j] == '\'')
+		else if (var->s[v_e->j][i] == '\'')
 		{
-			single_quote(var, t, &tmp, &j);
+			single_quote(var, v_e, &tmp, &i);
 		}
 		else
 		{
-			if (var->s[var->i + 1][j] == '`' && var->is_pquote == true)
+			if (var->s[v_e->j][i] == '`' && var->is_pquote == true)
 				t[0] = '|';
-			else if (var->s[var->i + 1][j] == '*' && var->is_squote == true)
+			else if (var->s[v_e->j][i] == '*' && var->is_squote == true)
 				t[0] = ' ';
 			else
-				t[0] = var->s[var->i + 1][j];
+				t[0] = var->s[v_e->j][i];
 			tmp = ft_freestrjoin(tmp, t);
 		}
-		j++;
+		i++;
 	}
 	var->quote = ft_strdup(tmp);
 	free(tmp);
@@ -147,19 +153,18 @@ char	*ft_truncstr(t_var var, t_varenv v_e, int start, char *c)
 	int		k;
 
 	i = start;
-	(void)v_e;
 	j = 0;
 	k = 0;
 	while (c[k])
 	{
-		if (!var.quote || var.quote[i] == c[k])
+		if (!var.s[v_e.j] || var.s[v_e.j][i] == c[k])
 			return ("");
 		k++;
 	}
 	k = 0;
-	while (var.quote[i] && var.quote[i] != c[j])
+	while (var.s[v_e.j][i] && var.s[v_e.j][i] != c[j])
 	{
-		while (c[j] && var.quote[i] != c[j])
+		while (c[j] && var.s[v_e.j][i] != c[j])
 			j++;
 		if (c[j])
 			break ;
@@ -171,12 +176,12 @@ char	*ft_truncstr(t_var var, t_varenv v_e, int start, char *c)
 	j = 0;
 	while (j < k)
 	{
-		if (var.quote[start + j] == '`' && var.is_pquote == true)
+		if (var.s[v_e.j][start + j] == '`' && var.is_pquote == true)
 			s[j] = '|';
-		else if (var.quote[start + j] == '*' && var.is_squote == true)
+		else if (var.s[v_e.j][start + j] == '*' && var.is_squote == true)
 			s[j] = ' ';
 		else
-			s[j] = var.quote[start + j];
+			s[j] = var.s[v_e.j][start + j];
 		j++;
 	}
 	s[j] = '\0';
