@@ -6,59 +6,87 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:25:29 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 11:15:20 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 13:25:07 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-bool	is_env_in_str(char *str, int nb)
+// bool	is_env_in_str(char *str, int nb)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '$' && nb == 0)
+// 			return (true);
+// 		else if (str[i] == '$' && nb > 0)
+// 			nb--;
+// 		i++;
+// 	}
+// 	return (false);
+// }
+
+char	*ft_reload_dup(char *str, t_var *var)
 {
-	int	i;
+	char	*tmp;
+	char	t[2];
+	int		i;
 
 	i = 0;
+	tmp = NULL;
+	t[1] = '\0';
 	while (str[i])
 	{
-		if (str[i] == '$' && nb == 0)
-			return (true);
-		else if (str[i] == '$' && nb > 0)
-			nb--;
+		if (str[i] == '`' && var->is_pquote == true)
+		{
+			t[0] = '|';
+			var->is_pquote = false;
+		}
+		else if (str[i] == '*' && var->is_squote == true)
+		{
+			t[0] = ' ';
+			var->is_squote = false;
+		}
+		else
+			t[0] = str[i];
+		tmp = ft_freestrjoin(tmp, t);
 		i++;
 	}
-	return (false);
+	return (tmp);
 }
 
-void	dub_quote(t_var *var, t_varenv *v_e, char **tmp, int *j)
+void	dub_quote(t_var *var, t_varenv *v_e, char **tmp, int *i)
 {
-	int		nb;
 	char	t[2];
 
 	t[1] = '\0';
-	nb = 0;
-	++*j;
-	while (var->quote[*j] != '"' && var->quote[*j])
+	++*i;
+	var->env = NULL;
+	if (is_env_in(*var, v_e->j) == true)
 	{
-		if (is_env_in_str(var->quote, nb) == true)
+		*tmp = ft_strjoinsp(*tmp, ft_truncstr(*var, *v_e, 1, "$"));
+		env_arg(var, v_e);
+		var->env = ft_reload_dup(var->env, var);
+		*tmp = ft_freestrjoin(*tmp, var->env);
+		while (var->s[v_e->j][*i] != '"' && var->s[v_e->j][*i])
+			++*i;
+	}
+	else
+	{
+		while (var->s[v_e->j][*i] != '"' && var->s[v_e->j][*i])
 		{
-			nb++;
-			*tmp = ft_strjoinsp(*tmp, ft_truncstr(*var, *v_e, 1, "$"));
-			env_arg(var, v_e);
-			*tmp = ft_freestrjoin(*tmp, var->env);
-			break ;
-		}
-		else
-		{
-			if (var->s[var->i + 1][*j] == '`' && var->is_pquote == true)
+			if (var->s[v_e->j][*i] == '`' && var->is_pquote == true)
 				t[0] = '|';
-			else if (var->s[var->i + 1][*j] == '*' && var->is_squote == true)
+			else if (var->s[v_e->j][*i] == '*' && var->is_squote == true)
 				t[0] = ' ';
 			else
-				t[0] = var->s[var->i + 1][*j];
+				t[0] = var->s[v_e->j][*i];
 			*tmp = ft_freestrjoin(*tmp, t);
-			++*j;
+			++*i;
 		}
 	}
-	++*j;
 }
 
 
@@ -81,29 +109,6 @@ void	single_quote(t_var *var, t_varenv *v_e, char **tmp, int *i)
 	}
 }
 
-char	*ft_reload_dup(t_var *var)
-{
-	char	*tmp;
-	char	t[2];
-	int		i;
-
-	i = 0;
-	tmp = NULL;
-	t[1] = '\0';
-	while (var->s[var->i + 1][i])
-	{
-		if (var->s[var->i + 1][i] == '`' && var->is_pquote == true)
-			t[0] = '|';
-		else if (var->s[var->i + 1][i] == '*' && var->is_squote == true)
-			t[0] = ' ';
-		else
-			t[0] = var->s[var->i + 1][i];
-		tmp = ft_freestrjoin(tmp, t);
-		i++;
-	}
-	return (tmp);
-}
-
 void	quote_manager(t_var *var, t_varenv *v_e)
 {
 	char	*tmp;
@@ -114,7 +119,6 @@ void	quote_manager(t_var *var, t_varenv *v_e)
 	tmp = NULL;
 	var->quote = NULL;
 	// var->quote = ft_reload_dup(var);
-	var->env = NULL;
 	i = 0;
 	while (var->s[v_e->j][i] != '\'' && var->s[v_e->j][i] != '"')
 		i++;
@@ -123,7 +127,6 @@ void	quote_manager(t_var *var, t_varenv *v_e)
 		if (var->s[v_e->j][i] == '"')
 		{
 			dub_quote(var, v_e, &tmp, &i);
-			var->i++;
 		}
 		else if (var->s[v_e->j][i] == '\'')
 		{
@@ -201,3 +204,54 @@ echo '$(echo"upg")'
 	$(echo"upg")
 
 */
+
+static size_t	get_length(char const *s, unsigned int start, size_t len)
+{
+	size_t	x;
+	size_t	y;
+
+	if (start > ft_strlen(s))
+		return (0);
+	x = start;
+	y = 0;
+	if (len == 0)
+		return (0);
+	if (len == start)
+		return (len);
+	while (s[x] && x < (len + start))
+	{
+		x++;
+		y++;
+	}
+	return (y);
+}
+
+char	*ft_substrv(char const *s, unsigned int start, size_t len, t_var var)
+{
+	char	*result;
+	size_t	result_length;
+	size_t	x;
+
+	if (s == NULL)
+		return (NULL);
+	result_length = get_length(s, start, len);
+	result = malloc(sizeof(char) * (result_length + 1));
+	if (result == NULL)
+		return (NULL);
+	x = 0;
+	while (x < result_length)
+	{
+		if (s[start] == '`' && var.is_pquote == true)
+			result[x] = '|';
+		else if (s[start] == '*' && var.is_squote == true)
+			result[x] = ' ';
+		else
+			result[x] = s[start];
+		x++;
+		start++;
+	}
+	result[x] = '\0';
+	return (result);
+}
+
+//		cat "$$" doit etre pareil que cat $$

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 10:50:29 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 13:17:33 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*process(char *str, char **path, int ind);
 void	quote_manager(t_var *var, t_varenv *v_e);
 
 char	*ft_truncstr(t_var var, t_varenv v_e, int start, char *c);
+char	*ft_substrv(char const *s, unsigned int start, size_t len, t_var var);
 
 //################# TOKEN.C #################//
 t_token	*get_token_list(t_var *var);
@@ -62,7 +63,8 @@ bool	var_init(t_var *var);
 bool	is_builtin(char *str);
 bool	has_in_out(char **s, int j);
 char	*check_var(t_var *var, t_varenv *v_e);
-char	*ft_trunc(char *str, int start, char c);
+// char	*ft_trunc(char *str, int start, char c);
+char	*ft_trunc(char *str, int start, char c, t_var var);
 
 //-----------------UTILS2.C----------------//
 char	*ft_space_str(t_var *var);

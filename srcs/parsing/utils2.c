@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/06 15:57:20 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 11:33:03 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*ft_space_str(t_var *var)
 	char	*temp;
 
 	var->is_pquote = false;
+	var->is_squote = false;
 	temp = ft_strdup(var->str_in);
 	if (!temp)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit

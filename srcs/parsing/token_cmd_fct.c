@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 11:06:12 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 13:21:04 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	token_builtin(t_var *var)
 			var->arg = ft_strjoinsp(var->arg, var->s[v_e.j]);
 		else if (is_env_in(*var, v_e.j) == true)
 		{
-			var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$'));
+			var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$', *var));
 			env_arg(var, &v_e);
 			var->arg = ft_freestrjoin(var->arg, var->env);
 		}
@@ -58,7 +58,7 @@ void	token_cmd(t_var *var)
 			}
 			else if (is_env_in(*var, v_e.j) == true)
 			{
-				var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$'));
+				var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$', *var));
 				env_arg(var, &v_e);
 				var->arg = ft_freestrjoin(var->arg, var->env);
 			}
@@ -93,29 +93,29 @@ bool	is_env_in(t_var var, int j)
 bool	is_metachar(char c)
 {
 	if (c == '.' || c == ',' || c == '/' || c == '\\' || c == '^' || c == '$'
-		|| c == '-' || c == '+' || c == '=' || c == '?' || c == '!'
-		|| c == '@' || c == '#' || c == '%' || c == '[' || c == ']'
-		|| c == '{' || c == '}' || c == ':' || c == '`')
+		|| c == '-' || c == '+' || c == '"' || c == '=' || c == '?' || c == '!'
+		|| c == '@' || c == '#' || c == '%' || c == '[' || c == ']' || c == '{'
+		|| c == '}' || c == '\'' || c == '*' || c == '`' || c == ':')
 		return (true);
 	else
 		return (false);
 }
 
-int	is_quote_instr(char *str, int ind)
-{
+// int	is_quote_instr(char *str, int ind)
+// {
 
-	if (!str || !str[ind])
-		return (0);
-	while (str[ind])
-	{
-		if (str[ind] == '\'')
-			return (1);
-		if (str[ind] == '"')
-			return (2);
-		ind++;
-	}
-	return (0);
-}
+// 	if (!str || !str[ind])
+// 		return (0);
+// 	while (str[ind])
+// 	{
+// 		if (str[ind] == '\'')
+// 			return (1);
+// 		if (str[ind] == '"')
+// 			return (2);
+// 		ind++;
+// 	}
+// 	return (0);
+// }
 
 int	is_quote_in(char *str)
 {

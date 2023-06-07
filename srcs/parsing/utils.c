@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/06 13:01:37 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 13:17:48 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*check_var(t_var *var, t_varenv *v_e)
 	v_e->j = var->i;
 	if (is_env_in(*var, v_e->j) == true)
 	{
-		var->s_p = ft_strjoinsp(NULL, ft_trunc(var->s[0], 0, '$'));
+		var->s_p = ft_strjoinsp(NULL, ft_trunc(var->s[0], 0, '$', *var));
 		env_arg(var, v_e);
 		var->s_p = ft_freestrjoin(var->s_p, var->env);
 		return (var->s_p);
@@ -65,7 +65,7 @@ char	*check_var(t_var *var, t_varenv *v_e)
 		return (ft_strdup(var->s_p));
 }
 
-char	*ft_trunc(char *str, int start, char c)
+char	*ft_trunc(char *str, int start, char c, t_var var)
 {
 	char	*s;
 	int		i;
@@ -88,12 +88,47 @@ char	*ft_trunc(char *str, int start, char c)
 	j = 0;
 	while (j < k)
 	{
-		s[j] = str[start + j];
+		if (str[start + j] == '`' && var.is_pquote == true)
+			s[j] = '|';
+		else if (str[start + j] == '*' && var.is_squote == true)
+			s[j] = ' ';
+		else
+			s[j] = str[start + j];
 		j++;
 	}
 	s[j] = '\0';
 	return (s);
 }
+
+// char	*ft_trunc(char *str, int start, char c)
+// {
+// 	char	*s;
+// 	int		i;
+// 	int		j;
+// 	int		k;
+
+// 	i = start;
+// 	j = 0;
+// 	k = 0;
+// 	if (!str || str[i] == c)
+// 		return ("");
+// 	while (str[i] && str[i] != c)
+// 	{
+// 		i++;
+// 		k++;
+// 	}
+// 	s = malloc(sizeof(char) * (k + 1));
+// 	if (!s)
+// 		exit(EXIT_FAILURE); //TODO: call function pointer exit
+// 	j = 0;
+// 	while (j < k)
+// 	{
+// 		s[j] = str[start + j];
+// 		j++;
+// 	}
+// 	s[j] = '\0';
+// 	return (s);
+// }
 
 /*bool	is_last_infile(char **s, int i)
 {

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/06 13:40:55 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 14:37:49 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_varenv
 	int		j;
 	int		k;
 	int		m;
+	int		o;
 	char	*var_env;
 }				t_varenv;
 
