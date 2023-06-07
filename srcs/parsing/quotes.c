@@ -6,27 +6,27 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:25:29 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 13:25:07 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 16:09:56 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// bool	is_env_in_str(char *str, int nb)
-// {
-// 	int	i;
+bool	is_env_in_str(char *str, int nb)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '$' && nb == 0)
-// 			return (true);
-// 		else if (str[i] == '$' && nb > 0)
-// 			nb--;
-// 		i++;
-// 	}
-// 	return (false);
-// }
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && nb == 0)
+			return (true);
+		else if (str[i] == '$' && nb > 0)
+			nb--;
+		i++;
+	}
+	return (false);
+}
 
 char	*ft_reload_dup(char *str, t_var *var)
 {
@@ -49,6 +49,10 @@ char	*ft_reload_dup(char *str, t_var *var)
 			t[0] = ' ';
 			var->is_squote = false;
 		}
+		if (str[i] == '"')
+		{
+			t[0] = '\0';
+		}
 		else
 			t[0] = str[i];
 		tmp = ft_freestrjoin(tmp, t);
@@ -56,17 +60,58 @@ char	*ft_reload_dup(char *str, t_var *var)
 	}
 	return (tmp);
 }
+	//	cat "$USER$HOME""$USER" donne,
+	//	"tdutel/nfs/homes/tdutel""tdutel"$USER		il ecrit les "" et $USER en trop
+
+char	**ft_str2dup(char **s1)
+{
+	char	**s2;
+	int		x;
+
+
+	x = 0;
+	while (s1[x] != NULL)
+		x++;
+	s2 = malloc(sizeof(char *) * x + 1);
+	if (!s2)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
+	if (!s1)
+		return (NULL);
+	x = 0;
+	while (s1[x])
+	{
+		s2[x] = ft_strdup(s1[x]);
+		x++;
+	}
+	s2[x] = NULL;
+	return (s2);
+}
+
+void	get_token_backup(t_var var, t_var *tmp)
+{
+	tmp->str = ft_strdup(var.str);
+	tmp->spipe = ft_str2dup(var.spipe);
+	tmp->s = ft_str2dup(var.s);
+	tmp->nb_pipe = var.nb_pipe;
+	tmp->i = var.i;
+	tmp->index = var.index;
+}
+
+
 
 void	dub_quote(t_var *var, t_varenv *v_e, char **tmp, int *i)
 {
 	char	t[2];
+	t_var	tmp_var;
 
+	get_token_backup(*var, &tmp_var);
 	t[1] = '\0';
+	tmp_var.s[v_e->j] = ft_substr(var->s[v_e->j], *i, ft_strlen(var->s[v_e->j] - *i + 1));
 	++*i;
 	var->env = NULL;
-	if (is_env_in(*var, v_e->j) == true)
+	if (is_env_in_str(tmp_var.s[v_e->j], var->nb_quote) == true)
 	{
-		*tmp = ft_strjoinsp(*tmp, ft_truncstr(*var, *v_e, 1, "$"));
+		*tmp = ft_strjoinsp(*tmp, ft_truncstr(*var, *v_e, 0, "$"));
 		env_arg(var, v_e);
 		var->env = ft_reload_dup(var->env, var);
 		*tmp = ft_freestrjoin(*tmp, var->env);
@@ -116,6 +161,7 @@ void	quote_manager(t_var *var, t_varenv *v_e)
 	char	t[2];
 
 	t[1] = '\0';
+	var->nb_quote = 0;
 	tmp = NULL;
 	var->quote = NULL;
 	// var->quote = ft_reload_dup(var);
@@ -127,6 +173,7 @@ void	quote_manager(t_var *var, t_varenv *v_e)
 		if (var->s[v_e->j][i] == '"')
 		{
 			dub_quote(var, v_e, &tmp, &i);
+			// var->nb_quote = var->nb_quote + 2;
 		}
 		else if (var->s[v_e->j][i] == '\'')
 		{
@@ -218,6 +265,8 @@ static size_t	get_length(char const *s, unsigned int start, size_t len)
 		return (0);
 	if (len == start)
 		return (len);
+	// if (s[x] == '"')
+	// 	y--;
 	while (s[x] && x < (len + start))
 	{
 		x++;
@@ -239,6 +288,8 @@ char	*ft_substrv(char const *s, unsigned int start, size_t len, t_var var)
 	if (result == NULL)
 		return (NULL);
 	x = 0;
+	// while (s[start] == '"')
+	// 	start++;
 	while (x < result_length)
 	{
 		if (s[start] == '`' && var.is_pquote == true)

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:47:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 14:45:48 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/07 15:32:58 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	env_arg(t_var *var, t_varenv *v_e)
 
 	var->env = NULL;
 	v_e->o = 0;
-	l = 0;
+	if (!var->nb_quote)
+		l = 0;
+	else
+		l = var->nb_quote;
 	while (add_env_arg(var, v_e, l) == 0)
 	{
 		l++;
