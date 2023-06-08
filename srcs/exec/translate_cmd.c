@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-char	*get_cmd_path(t_token *f_token);
 char	**get_cmd_argv(t_token **f_token);
+char	**cmd_with_no_args(t_token **f_token);
 
 t_cmd	*get_cmd_data(t_exec *exec_data)
 {
@@ -40,14 +40,7 @@ char	**get_cmd_argv(t_token **f_token)
 	while (*f_token && (*f_token)->type != CMD && (*f_token)->type != BUILTIN)
 		*f_token = (*f_token)->next;
 	if (!(*f_token)->content[1])
-	{
-		argv = ft_calloc(2, sizeof(char *));
-		if (!argv)
-			exit(EXIT_FAILURE);//TODO: Call exit function
-		argv[0] = ft_strdup((*f_token)->content[0]);
-		*f_token = (*f_token)->next;
-		return (argv);
-	}
+		return (cmd_with_no_args(f_token));
 	tmp = ft_split ((*f_token)->content[1], ' ');
 	argv = ft_calloc(ft_array_length((void **)tmp) + 2, sizeof(char *));
 	if (!argv)
@@ -58,5 +51,17 @@ char	**get_cmd_argv(t_token **f_token)
 		argv[i + 1] = ft_strdup(tmp[i]);
 	*f_token = (*f_token)->next;
 	ft_free_split(tmp);
+	return (argv);
+}
+
+char	**cmd_with_no_args(t_token **f_token)
+{
+	char	**argv;
+
+	argv = ft_calloc(2, sizeof(char *));
+	if (!argv)
+		exit(EXIT_FAILURE);//TODO: Call exit function
+	argv[0] = ft_strdup((*f_token)->content[0]);
+	*f_token = (*f_token)->next;
 	return (argv);
 }
