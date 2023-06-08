@@ -49,6 +49,7 @@ void	master_exec(t_minishell	*minishell)
 	//TODO Wait for all child process
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
+	free_exec(exec_data);
 }
 
 static t_exec	*get_exec_data(t_minishell *minishell)
@@ -65,7 +66,7 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data->std_save[1] = dup(STDOUT_FILENO);
 	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
 	exec_data->nb_pipe = exec_data->nb_cmd - 1;
-	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list);
+	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list, exec_data);
 	exec_data->cmd = get_cmd_data(exec_data);
 	exec_data->pid = malloc(sizeof(pid_t) * exec_data->nb_cmd);
 	if (!exec_data->pid)
@@ -103,4 +104,33 @@ static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 	execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
 	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
 	exit(EXIT_FAILURE);//TODO: Call exit function
+}
+
+void	free_exec(t_exec *exec_data)
+{
+	size_t	i;
+	size_t	str_to_free;
+	size_t	last_hd_free;
+
+	i = 0;
+	close(exec_data->std_save[0]);
+	close(exec_data->std_save[1]);
+	last_hd_free = 0;
+	while (last_hd_free < exec_data->nb_here_doc)
+		close(exec_data->here_doc_fd[last_hd_free++]);
+	free(exec_data->here_doc_fd);
+	free(exec_data->pid);
+	i = exec_data->nb_cmd;
+	while (i--)
+	{
+		str_to_free = ft_array_length((void **)exec_data->cmd[i].argv);
+		while (str_to_free--)
+			free(exec_data->cmd[i].argv[str_to_free]);
+		free(exec_data->cmd[i].argv);
+	}
+	free(exec_data->cmd);
+	free(exec_data);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 }

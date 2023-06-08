@@ -10,3 +10,9 @@ leak readline
 	...
 	fun:add_history
 }
+{
+	leak get_token
+	Memcheck:Leak
+	...
+	fun:get_token
+}

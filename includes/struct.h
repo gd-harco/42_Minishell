@@ -62,6 +62,7 @@ typedef struct s_exec
 	t_token		*token_list;
 	size_t		nb_cmd;
 	size_t		nb_pipe;
+	size_t		nb_here_doc;
 	int			*here_doc_fd;
 	size_t		nb_current_hd;
 	t_cmd		*cmd;

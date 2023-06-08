@@ -17,19 +17,18 @@ static void			write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc);
 static size_t		count_here_doc(t_token *token_list);
 static int			*turn_pipe_in_fd(t_here_doc *here_doc, size_t nb_here_doc);
 
-int	*get_here_doc_fd(t_token *token_list)
+int	*get_here_doc_fd(t_token *token_list, t_exec *exec_data)
 {
-	size_t		nb_here_doc;
 	t_token		*tmp;
 	t_here_doc	*here_doc;
 	int			*here_doc_fd;
 
 	tmp = token_list;
-	nb_here_doc = count_here_doc(tmp);
-	if (nb_here_doc == 0)
+	exec_data->nb_here_doc = count_here_doc(tmp);
+	if (exec_data->nb_here_doc == 0)
 		return (NULL);
-	here_doc = fill_hd_data(token_list, nb_here_doc);
-	here_doc_fd = turn_pipe_in_fd(here_doc, nb_here_doc);
+	here_doc = fill_hd_data(token_list, exec_data->nb_here_doc);
+	here_doc_fd = turn_pipe_in_fd(here_doc, exec_data->nb_here_doc);
 	free(here_doc);
 	return (here_doc_fd);
 }

@@ -12,7 +12,7 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
+# define EXIT_EOF 101
 //-----------------INCLUDES-----------------//
 
 //########### PERSONNAL LIB HEADERS ##########//
