@@ -41,6 +41,7 @@ SRCS_LIST		=	main2.c			\
 \
 					parsing/path.c				\
 					parsing/quotes.c			\
+					parsing/quotes_env.c		\
 					parsing/token.c				\
 					parsing/token_check.c		\
 					parsing/token_cmd_fct.c		\

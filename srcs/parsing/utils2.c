@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 11:33:03 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/08 16:12:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ static char	*ft_quote_str(char *str, int *start, char c, t_var *var)
 		i++;
 	}
 	i++;
-	new = malloc(sizeof(char) * (i + 1));
+	new = malloc(sizeof(char) * (i + 3));
 	if (!new)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	while (j < i)
+	new[j++] = ';';
+	while (j < i + 1)
 	{
 		if (str[*start] == '|')
 		{
@@ -38,7 +39,7 @@ static char	*ft_quote_str(char *str, int *start, char c, t_var *var)
 		}
 		else if (str[*start] == ' ')
 		{
-			new[j] = '*';
+			new[j] = '~';
 			var->is_squote = true;
 		}
 		else
@@ -47,7 +48,8 @@ static char	*ft_quote_str(char *str, int *start, char c, t_var *var)
 		*start = *start + 1;
 	}
 	*start = *start - 1;
-	new[j] = '\0';
+	new[j] = ';';
+	new[j + 1] = '\0';
 	return (new);
 }
 

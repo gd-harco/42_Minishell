@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 15:12:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/08 17:02:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,22 @@ void	token_builtin(t_var *var)
 	v_e.j = var->i + 1;
 	while (var->s[v_e.j])
 	{
-		if (has_in_out(var->s, v_e.j) == false
-			&& is_env_in(*var, v_e.j) == false)
-			var->arg = ft_strjoinsp(var->arg, var->s[v_e.j]);
-		else if (is_env_in(*var, v_e.j) == true)
+		if (is_quote_in(var->s[v_e.j]) == 0)
 		{
-			var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$', *var));
-			env_arg(var, &v_e);
-			var->arg = ft_freestrjoin(var->arg, var->env);
+			if (has_in_out(var->s, v_e.j) == false
+				&& is_env_in(*var, v_e.j) == false)
+				var->arg = ft_strjoinsp(var->arg, var->s[v_e.j]);
+			else if (is_env_in(*var, v_e.j) == true)
+			{
+				var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$', *var));
+				env_arg(var, &v_e);
+				var->arg = ft_freestrjoin(var->arg, var->env);
+			}
+		}
+		else if (is_quote_in(var->s[v_e.j]) != 0)
+		{
+			quote_manager(var, &v_e);
+			var->arg = ft_strjoinsp(var->arg, var->quote);
 		}
 		v_e.j++;
 	}
@@ -65,9 +73,13 @@ void	token_cmd(t_var *var)
 		}
 		else if (is_quote_in(var->s[v_e.j]) != 0)
 		{
-			var->arg = ft_strjoinsp(var->arg, ft_truncstr(*var, v_e, 0, "\"\'"));
+			// if (is_env_instr(ft_truncstr(*var, v_e, 0, "\"\'")) == true)
+			// {
+			// 	env_arg_quote(var, &v_e);
+			// 	var->arg = ft_freestrjoin(var->arg, var->env);
+			// }
 			quote_manager(var, &v_e);
-			var->arg = ft_freestrjoin(var->arg, var->quote);
+			var->arg = ft_strjoinsp(var->arg, var->quote);
 		}
 		v_e.j++;
 	}
@@ -90,12 +102,26 @@ bool	is_env_in(t_var var, int j)
 	return (false);
 }
 
+bool	is_env_instr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 bool	is_metachar(char c)
 {
 	if (c == '.' || c == ',' || c == '/' || c == '\\' || c == '^' || c == '$'
 		|| c == '-' || c == '+' || c == '"' || c == '=' || c == '?' || c == '!'
 		|| c == '@' || c == '#' || c == '%' || c == '[' || c == ']' || c == '{'
-		|| c == '}' || c == '\'' || c == '*' || c == '`' || c == ':')
+		|| c == '}' || c == '\'' || c == '~' || c == '`' || c == ':')
 		return (true);
 	else
 		return (false);

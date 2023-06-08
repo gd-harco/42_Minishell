@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 13:17:48 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/08 12:04:38 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,50 @@ char	*ft_trunc(char *str, int start, char c, t_var var)
 	{
 		if (str[start + j] == '`' && var.is_pquote == true)
 			s[j] = '|';
-		else if (str[start + j] == '*' && var.is_squote == true)
+		else if (str[start + j] == '~' && var.is_squote == true)
+			s[j] = ' ';
+		else
+			s[j] = str[start + j];
+		j++;
+	}
+	s[j] = '\0';
+	return (s);
+}
+
+char	*ft_truncs(char *str, int start, char *c, t_var var)
+{
+	char	*s;
+	int		i;
+	int		j;
+	int		k;
+
+	i = start;
+	j = 0;
+	k = 0;
+	while (c[k])
+	{
+		if (!str || str[i] == c[k])
+			return ("");
+		k++;
+	}
+	k = 0;
+	while (str[i] && str[i] != c[j])
+	{
+		while (c[j] && str[i] != c[j])
+			j++;
+		if (c[j])
+			break ;
+		i++;
+		k++;
+		j = 0;
+	}
+	s = malloc(sizeof(char) * (k + 1));
+	j = 0;
+	while (j < k)
+	{
+		if (str[start + j] == '`' && var.is_pquote == true)
+			s[j] = '|';
+		else if (str[start + j] == '~' && var.is_squote == true)
 			s[j] = ' ';
 		else
 			s[j] = str[start + j];
