@@ -22,8 +22,10 @@ HEADERS_LIST	=	builtins.h\
 					exec.h		\
 					minishell.h	\
 					struct.h	\
+					parsing.h
 
 SRCS_LIST		=	main.c			\
+					path.c			\
 					prompt.c		\
 \
 					builtins/echo.c		\
@@ -43,6 +45,7 @@ SRCS_LIST		=	main.c			\
 					parsing/token_check.c	\
 					parsing/token_cmd_fct.c	\
 					parsing/token_fct.c		\
+					parsing/token_env_var.c	\
 					parsing/utils.c
 
 

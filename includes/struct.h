@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
 /*   Updated: 2023/06/05 22:18:03 by gd-harco         ###   ########lyon.fr   */
@@ -69,5 +69,29 @@ typedef struct s_exec
 	int			std_save[2];
 	int			pipe_fd[2];
 }				t_exec;
+
+typedef struct s_var
+{
+	char	*str;
+	char	**s;
+	char	**spipe;
+	char	**envp;
+	int		index;
+	int		i;
+	char	**path;
+	char	*s_p;
+	char	*arg;
+	char	*env;
+	t_token	*new_tkn;
+}				t_var;
+
+typedef struct s_varenv
+{
+	int		i;
+	int		j;
+	int		k;
+	int		m;
+	char	*var_env;
+}				t_varenv;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/23 10:30:53 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/29 15:50:12 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,10 @@ void	token_add_back(t_token **token, t_token *new)
 		*token = new;
 }
 
-
-
 // gerer var env et '' ""
 
 /*
-echo "$(echo "upg")"
+echo "$(echo "upg")"		echo $(echo "upg")
 	upg
 echo '$(echo"upg")'
 	$(echo"upg")
@@ -103,8 +101,7 @@ echo '$(echo"upg")'
 
 //gerer les space de '<' et '>' ex: <<in>>out	heredoc et out append
 
-
-
+//ok	:
 
 // gerer les string (ex : echo hello)
 //differencier un infile d'un argument de cmd
