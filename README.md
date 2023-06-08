@@ -19,7 +19,7 @@ To compile the program, run the following command:
 ```shell
 make
 ```
-It will compile the program and create an executable called "Minishell".<br>
+It will compile the program and create an executable called "minishell".<br>
 
 To run the program, simply execute the created executable:
 ```shell

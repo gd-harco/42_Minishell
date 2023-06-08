@@ -6,11 +6,11 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/30 10:10:25 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/03 13:10:00 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -19,10 +19,10 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	data = malloc(sizeof(t_minishell));
+	data = ft_calloc(1, sizeof(t_minishell));
 	if (!data)
-		exit(EXIT_FAILURE);//TODO: Call exit function
-	var = malloc(sizeof(t_var));
+		exit(EXIT_FAILURE);
+	var = ft_calloc(1, sizeof(t_var));
 	if (!var)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	data->envp = envp;
@@ -31,10 +31,12 @@ int	main(int argc, char **argv, char **envp)
 	var->str = get_user_input();
 	while (42)
 	{
-		add_history(var->str);
+		if (var->str && *(var->str))
+			add_history(var->str);
 		data->token_list = get_token(var);
-		master_exec(data);
-		free(data->token_list);
+		if (data->token_list)
+			master_exec(data);
+		free(var->str);
 		var->str = get_user_input();
 	}
 	return (0);
