@@ -31,6 +31,11 @@ int	main(int argc, char **argv, char **envp)
 	var->str = get_user_input();
 	while (42)
 	{
+		if (!var->str)
+		{
+			free(var->str);
+			exit(EXIT_EOF);
+		}
 		if (var->str && *(var->str))
 			add_history(var->str);
 		data->token_list = get_token(var);
