@@ -90,7 +90,7 @@ static size_t	get_nb_cmd(t_token *token_list)
 	return (nb_cmd);
 }
 
-void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
+static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 {
 	dprintf(STDERR_FILENO, "current_cmd: %zu\n", current_cmd);
 	exec_data->pid[current_cmd] = fork();
@@ -98,8 +98,8 @@ void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 		exit(EXIT_FAILURE); //TODO: Call exit function
 	if(exec_data->pid[current_cmd] != 0)
 		return ;
-	//TODO call functtion that check for file redirection than call execve
 	dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
+	handle_io(exec_data, current_cmd);
 	execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
 	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
 	exit(EXIT_FAILURE);//TODO: Call exit function
