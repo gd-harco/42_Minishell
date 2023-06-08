@@ -34,6 +34,9 @@ int	main(int argc, char **argv, char **envp)
 		if (!var->str)
 		{
 			free(var->str);
+			free(data);
+			free(var);
+			ft_printf("exit\n");
 			exit(EXIT_EOF);
 		}
 		if (var->str && *(var->str))

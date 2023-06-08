@@ -21,9 +21,10 @@
 
 //########### EXECUTION.C ###########//
 void	master_exec(t_minishell *minishell_data);
+void	free_exec(t_exec *exec_data);
 
 //########### HERE_DOC.C ###########//
-int		*get_here_doc_fd(t_token *token_list);
+int		*get_here_doc_fd(t_token *token_list, t_exec *exec_data);
 
 //########### TRANSLATE.C ###########//
 t_cmd	*get_cmd_data(t_exec *exec_data);
