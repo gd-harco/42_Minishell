@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/19 13:18:42 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/05/29 15:49:59 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 
 	tmp2 = malloc(sizeof(t_token));
 	tmp2 = t_new;
-
 	while (tmp2 && tmp2 != tmp)
 	{
 		if (tmp2->type == PIPE)
@@ -53,7 +52,6 @@ void	token_arg(t_var *var)
 	}
 }
 
-
 int	is_quote_in(char *str)
 {
 	int	i;
@@ -79,6 +77,20 @@ bool	var_init(t_var *var)
 	if (!var->new_tkn->content || !var->spipe || !var->s)
 		return (false);
 	return (true);
+}
+
+char	*check_var(t_var *var, t_varenv *v_e)
+{
+	v_e->j = var->i;
+	if (is_env_in(*var, v_e->j) == true)
+	{
+		var->s_p = ft_strjoinsp(NULL, ft_trunc(var->s[0], 0, '$'));
+		env_arg(var, v_e);
+		var->s_p = ft_strjoin(var->s_p, var->env);
+		return (var->s_p);
+	}
+	else
+		return (ft_strdup(var->s_p));
 }
 
 	// if (var->spipe[var->index][0] != '\'' && var->spipe[var->index][0] != '"')
