@@ -33,10 +33,10 @@ SRCS_LIST		=	main.c			\
 					builtins/unset.c	\
 \
 					exec/execution.c		\
+					exec/exec_cmd.c			\
 					exec/here_doc.c			\
 					exec/translate_cmd.c	\
 					exec/io_handling.c		\
-					exec/close_fd.c			\
 \
 					parsing/path.c			\
 					parsing/token.c			\

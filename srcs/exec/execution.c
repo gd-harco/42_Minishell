@@ -16,7 +16,6 @@ static t_exec		*get_exec_data(t_minishell *minishell);
 static size_t		get_nb_cmd(t_token *token_list);
 static void			exec_last_cmd(t_exec *exec_data, size_t current_cmd);
 
-
 void	master_exec(t_minishell	*minishell)
 {
 	t_exec	*exec_data;
@@ -31,16 +30,12 @@ void	master_exec(t_minishell	*minishell)
 		exec_data->pid[current_cmd] = fork();
 		if (exec_data->pid[current_cmd] == -1)
 			exit(EXIT_FAILURE); //TODO: Call exit function
-		if(exec_data->pid[current_cmd] == 0)
+		if (exec_data->pid[current_cmd] == 0)
 		{
 			dup2(exec_data->pipe_fd[1], STDOUT_FILENO);
 			close(exec_data->pipe_fd[0]);
 			close(exec_data->pipe_fd[1]);
-			//TODO call functtion that check for file redirection than call execve
-			dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
-			execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
-			dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
-			exit(EXIT_FAILURE);//TODO: Call exit function
+			exec_piped_cmd(exec_data, current_cmd);
 		}
 		dup2(exec_data->pipe_fd[0], STDIN_FILENO);
 		close(exec_data->pipe_fd[0]);
