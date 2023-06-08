@@ -87,7 +87,6 @@ t_token	*token_pipe(void)
 
 	tmp = malloc(sizeof(t_token));
 	tmp->type = PIPE;
-	tmp->content = malloc(sizeof(char *) * 2);
 	tmp->content[0] = ft_strdup("|");
 	tmp->content[1] = NULL;
 	tmp->next = NULL;

@@ -75,8 +75,7 @@ bool	var_init(t_var *var)
 	var->spipe = ft_split(var->str, '|');
 	var->s = ft_split(var->spipe[var->index], ' ');
 	var->new_tkn = malloc(sizeof(t_token));
-	var->new_tkn->content = malloc(sizeof(char *) * 2);
-	if (!var->new_tkn->content || !var->spipe || !var->s)
+	if (!var->spipe || !var->s)
 		return (false);
 	return (true);
 }

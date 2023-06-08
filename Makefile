@@ -33,10 +33,10 @@ SRCS_LIST		=	main.c			\
 					builtins/unset.c	\
 \
 					exec/execution.c		\
-					exec/get_item_nb.c		\
+					exec/exec_cmd.c			\
 					exec/here_doc.c			\
-					exec/translate.c		\
-					exec/translate_utils.c	\
+					exec/translate_cmd.c	\
+					exec/io_handling.c		\
 \
 					parsing/path.c			\
 					parsing/token.c			\
@@ -54,9 +54,9 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 CC				=	cc
 
-CFLAGS			=	 -Wall -Werror -Wextra -g3 #-fsanitize=address
+CFLAGS			=	 -Wall -Werror -Wextra -g3 -fsanitize=address
 
-FRAMEWORKS		=	-Llib/libft -lft
+FRAMEWORKS		=	-Llib/libft -lft -lreadline
 
 
 # ---- Commands ---- #
@@ -77,7 +77,7 @@ all				:	${OBJS} ${HEADERS}
 # ---- Variables Rules ---- #
 
 ${NAME}			:	${OBJS} ${HEADERS} ${LIBFT}
-					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${FRAMEWORKS} -o ${NAME} -lreadline
+					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${FRAMEWORKS} -o ${NAME}
 
 # ---- Compiled Rules ---- #
 
