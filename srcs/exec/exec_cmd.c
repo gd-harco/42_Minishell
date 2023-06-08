@@ -17,7 +17,7 @@ void	handle_io(t_exec *exec_data, size_t current_cmd)
 {
 	size_t	i;
 	t_token	*tmp;
-	int 	fd[2];
+	int		fd[2];
 
 	i = 0;
 	tmp = exec_data->token_list;
@@ -33,11 +33,13 @@ void	handle_io(t_exec *exec_data, size_t current_cmd)
 		{
 			fd[0] = get_in_fd(tmp, exec_data);
 			dup2(fd[0], STDIN_FILENO);
+			close(fd[0]);
 		}
 		else if (tmp->type == FILE_OUT || tmp->type == FILE_OUT_APPEND)
 		{
 			fd[1] = get_out_fd(tmp);
-			dup2(STDOUT_FILENO, fd[1]);
+			dup2(fd[1], STDOUT_FILENO);
+			close(fd[1]);
 		}
 		tmp = tmp->next;
 	}
