@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:25:29 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/08 16:37:22 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 10:32:44 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void	quote_manager(t_var *var, t_varenv *v_e)
 		{
 			if (is_env_instr(split_tmp[i]) == true)
 			{
-				tmp = ft_strjoinsp(tmp, ft_truncs(split_tmp[i], 0, "$", *var));
+				tmp = ft_strjoin(tmp, ft_truncs(split_tmp[i], 0, "$", *var));
 				quote_env(split_tmp[i], var, v_e);
 				var->env = ft_reload_dup(var->env, var);
 				tmp = ft_freestrjoin(tmp, var->env);
