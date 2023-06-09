@@ -6,11 +6,29 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/05 16:28:53 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 13:35:48 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static bool	cmd_check(t_token *t_new, t_token *tmp)
+{
+	if (t_new && (tmp->type == CMD || tmp->type == BUILTIN))
+	{
+		while (t_new->next && t_new->type != PIPE
+			&& t_new->type != CMD && t_new->type != BUILTIN)
+			t_new = t_new->next;
+		if (!t_new->next || t_new == tmp)
+			return (false);
+		else if (t_new->type == PIPE)
+			return (already_cmd(t_new->next, tmp));
+		else
+			return (true);
+	}
+	else
+		return (false);
+}
 
 bool	already_cmd(t_token *t_new, t_token *tmp)
 {
@@ -27,19 +45,7 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 		tmp2 = tmp2->next;
 	}
 	token_clear(tmp2);
-	if (t_new && (tmp->type == CMD || tmp->type == BUILTIN))
-	{
-		while (t_new->next && t_new->type != PIPE && t_new->type != CMD && t_new->type != BUILTIN)
-			t_new = t_new->next;
-		if (!t_new->next || t_new == tmp)
-			return (false);
-		else if (t_new->type == PIPE)
-			return (already_cmd(t_new->next, tmp));
-		else
-			return (true);
-	}
-	else
-		return (false);
+	return (cmd_check(t_new, tmp));
 }
 
 void	token_arg(t_var *var)

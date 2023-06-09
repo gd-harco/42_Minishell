@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/05 16:40:18 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 16:10:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**get_path(char **envp)
 	return (split_path);
 }
 
-char	**path_arg_cat(char **src, char *root_arg)
+static char	**path_arg_cat(char **src, char *root_arg)
 {
 	int		i;
 	char	**pathsrc;
@@ -38,7 +38,7 @@ char	**path_arg_cat(char **src, char *root_arg)
 	i = 0;
 	while (src[i])
 	{
-		pathsrc[i] = ft_freestrjoin(src[i], root_arg);
+		pathsrc[i] = ft_strjoinsp(src[i], root_arg, 0);
 		i++;
 	}
 	pathsrc[i] = NULL;

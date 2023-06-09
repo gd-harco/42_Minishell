@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/07 12:16:37 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 16:47:29 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
 			token_add_back(&t_new, tmp);
 		// token_clear(&tmp, free);
 	}
-	if (var->nb_pipe-- > 0)	//&& var->spipe[var->index + 1] != NULL)
+	if (var->nb_pipe-- > 0) //&& var->spipe[var->index + 1] != NULL)
 	{
 		tmp = token_pipe();
 		token_add_back(&t_new, tmp);
@@ -65,7 +65,7 @@ static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
 
 static t_token	*token_init(t_var *var)
 {
-	if (var_init(var) == false)	// || (var->i != 0 && var->s[var->i][0] == '-') var->i != 0 prmet de gerer le cas ou | -e | comme une cmd
+	if (var_init(var) == false)
 		return (NULL);
 	if (var->s && var->s[var->i] && var->s[var->i][0] == '<')
 	{
@@ -75,22 +75,27 @@ static t_token	*token_init(t_var *var)
 		token_outfile(var);
 	else if (var->s && var->s[var->i])
 	{
-		// if (var->s[var->i][0] == '"')
-		// 	dub_quote(var);
-		// else if (var->s[var->i][0] == '\'' )
-		// 	single_quote(var);
-		// else
-		// {
-			if (is_builtin(var->s[var->i]) == true)
-				token_builtin(var);
-			else
-				token_cmd(var);
-			token_arg(var);
-		// }
+		if (is_builtin(var->s[var->i]) == true)
+			token_builtin(var);
+		else
+			token_cmd(var);
+		token_arg(var);
 	}
 	var->new_tkn->next = NULL;
 	return (var->new_tkn);
 }
+
+/*
+/!\
+TODO
+// gerer "$ , $USER" et $,$USER pour afficher la , est non $tdutel
+// gerer les quote dans infile outfile : ls > "<E" doit creer un file <E
+
+/!\
+*/
+
+	// || (var->i != 0 && var->s[var->i][0] == '-') var->i != 0
+	//prmet de gerer le cas ou | -e | comme une cmd
 
 //gerer si name infile est <e 	error si < ou > dans fct in/out.file
 
@@ -98,13 +103,6 @@ static t_token	*token_init(t_var *var)
 //	ok en remove "|| (var->i != 0 && var->s[var->i][0] == '-')"
 
 // gerer var env et '' ""
-
-/*
-echo "$(echo "upg")"		echo $(echo "upg")
-	upg
-echo '$(echo"upg")'
-	$(echo"upg")
-*/
 
 //gerer les space de '<' et '>' ex: <<in>>out	heredoc et out append
 
@@ -118,15 +116,14 @@ echo '$(echo"upg")'
 // refaire strjoin pour add space	ok
 //gerer les spaces de '|' ex : echo bonjour|rev	doit faire ruojnob	ok
 
-
 //TOKEN-REDIRECT.C
 
 //<in>out cat makefile| cat<in2 || ls|
 
-// TODO : enlever les arg de trop de la lst_tkn (cat <in>ot makefile 	sup makefile)
+// enlever les arg de trop de la lst_tkn (cat <in>ot makefile 	sup makefile)
 
 //gerer  dans infile : cat < in>out makefile
-//	gerer quand n'ecrit pas tout : cat <in >out<in2 Makefile	n'ecrit pas le >out<in2
+//gerer quandnecrit pas tout: cat <in >out<in2 Makefile	n'ecrit pas le >out<in2
 //ok
 
 //	<in>out cat -e Makefile et

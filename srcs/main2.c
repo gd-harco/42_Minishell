@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:33:44 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/08 15:01:18 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 15:37:07 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	var = malloc(sizeof(t_var));
 	data->envp = envp;
 	var->envp = envp;
+	var->env_cpy = envp;
 	printf("\033[0;31m");
 	printf("Bienvenue dans le Minishell de la Team Rocket!\n\n");
 	printf(ROCKET_LOGO);

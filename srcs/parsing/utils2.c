@@ -6,186 +6,98 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/08 16:12:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 16:38:27 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static void	fill_str_quote(char *str, int *start, t_var_quote *v_q, t_var *var)
+{
+	if (str[*start] == '|')
+	{
+		v_q->tmp[v_q->j] = '`';
+		var->is_pquote = true;
+	}
+	else if (str[*start] == ' ')
+	{
+		v_q->tmp[v_q->j] = '~';
+		var->is_squote = true;
+	}
+	else
+		v_q->tmp[v_q->j] = str[*start];
+	v_q->j++;
+	*start = *start + 1;
+}
 
 static char	*ft_quote_str(char *str, int *start, char c, t_var *var)
 {
-	int		i;
-	int		j;
-	char	*new;
+	t_var_quote	v_q;
 
-	i = 1;
-	j = 0;
-	while (str[*start + i] != c && str[*start + i])
+	v_q.i = 1;
+	v_q.j = 0;
+	while (str[*start + v_q.i] != c && str[*start + v_q.i])
 	{
-		i++;
+		v_q.i++;
 	}
-	i++;
-	new = malloc(sizeof(char) * (i + 3));
-	if (!new)
+	v_q.i++;
+	v_q.tmp = malloc(sizeof(char) * (v_q.i + 3));
+	if (!v_q.tmp)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	new[j++] = ';';
-	while (j < i + 1)
+	v_q.tmp[v_q.j++] = ';';
+	while (v_q.j < v_q.i + 1)
 	{
-		if (str[*start] == '|')
-		{
-			new[j] = '`';
-			var->is_pquote = true;
-		}
-		else if (str[*start] == ' ')
-		{
-			new[j] = '~';
-			var->is_squote = true;
-		}
-		else
-			new[j] = str[*start];
-		j++;
-		*start = *start + 1;
+		fill_str_quote(str, start, &v_q, var);
 	}
 	*start = *start - 1;
-	new[j] = ';';
-	new[j + 1] = '\0';
-	return (new);
+	v_q.tmp[v_q.j] = ';';
+	v_q.tmp[v_q.j + 1] = '\0';
+	return (v_q.tmp);
+}
+
+static void	fill_str(t_var *var, t_var_quote *v_q, char **new)
+{
+	v_q->t[0] = v_q->tmp[v_q->i];
+	if (v_q->tmp[v_q->i] == '\'')
+		*new = ft_strjoinsp(*new, ft_quote_str
+				(v_q->tmp, &v_q->i, '\'', var), 0);
+	else if (v_q->tmp[v_q->i] == '"')
+		*new = ft_strjoinsp(*new, ft_quote_str(v_q->tmp, &v_q->i, '"', var), 0);
+	else if (v_q->tmp[v_q->i] == '|')
+	{	
+		*new = ft_strjoinsp(*new, " | ", 0);
+		var->nb_pipe++;
+	}
+	else if (v_q->tmp[v_q->i] == '<' && v_q->tmp[v_q->i - 1] != '<')
+		*new = ft_strjoinsp(*new, " <", 0);
+	else if (v_q->tmp[v_q->i] == '>' && v_q->tmp[v_q->i - 1] != '>')
+		*new = ft_strjoinsp(*new, " >", 0);
+	else
+		*new = ft_strjoinsp(*new, v_q->t, 0);
 }
 
 char	*ft_space_str(t_var *var)
 {
-	int		i;
-	char	*new;
-	char	to_join[2];
-	char	*temp;
+	t_var_quote	v_q;
+	char		*new;
 
 	var->is_pquote = false;
 	var->is_squote = false;
-	temp = ft_strdup(var->str_in);
-	if (!temp)
+	v_q.tmp = ft_strdup(var->str_in);
+	if (!v_q.tmp)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	i = 0;
-	to_join[1] = 0;
+	v_q.i = 0;
+	v_q.t[1] = 0;
 	new = NULL;
-	while (temp && temp[i])
+	while (v_q.tmp && v_q.tmp[v_q.i])
 	{
-		to_join[0] = temp[i];
-		if (temp[i] == '\'')
-			new = ft_freestrjoin(new, ft_quote_str(temp, &i, '\'', var));
-		else if (temp[i] == '"')
-			new = ft_freestrjoin(new, ft_quote_str(temp, &i, '"', var));
-		else if (temp[i] == '|')
-		{	
-			new = ft_freestrjoin(new, " | ");
-			var->nb_pipe++;
-		}
-		else if (temp[i] == '<' && temp[i - 1] != '<')
-			new = ft_freestrjoin(new, " <");
-		else if (temp[i] == '>' && temp[i - 1] != '>')
-			new = ft_freestrjoin(new, " >");
-		else
-			new = ft_freestrjoin(new, to_join);
-		i++;
+		fill_str(var, &v_q, &new);
+		v_q.i++;
 	}
-	free(temp);
+	free(v_q.tmp);
 	return (new);
 }
 
-static char	*joningsp(char *result, char *s2, char *s1)
-{
-	size_t	x;
-	size_t	y;
-
-	x = 0;
-	y = 0;
-	while (s1[x])
-	{
-		result[x] = s1[x];
-		x++;
-	}
-	result[x] = ' ';
-	x++;
-	while (s2[y])
-	{
-		result[x] = s2[y];
-		x++;
-		y++;
-	}
-	result[x] = '\0';
-	return (result);
-}
-
-char	*ft_strjoinsp(char *s1, char *s2)
-{
-	size_t		joined_size;
-	char		*result;
-
-	joined_size = (ft_strlen (s1) + ft_strlen (s2));
-	result = malloc(sizeof(char) * joined_size + 2);
-	if (!result)
-	{
-		ft_free_process(s1, NULL);
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	}
-	if (!s2 && !s1)
-		return (NULL);
-	if (!s2 && s1)
-		return (ft_free_process(result, ft_strdup(s1)));
-	if (!s1 && s2)
-		return (ft_free_process(result, ft_strdup(s2)));
-	return (ft_free_process(s1, joningsp(result, (char *)s2, (char *)s1)));
-}
-
-static char	*joning(char *result, char *s2, char *s1)
-{
-	size_t	x;
-	size_t	y;
-
-	x = 0;
-	y = 0;
-	while (s1[x])
-	{
-		result[x] = s1[x];
-		x++;
-	}
-	while (s2[y])
-	{
-		result[x] = s2[y];
-		x++;
-		y++;
-	}
-	result[x] = '\0';
-	return (result);
-}
-
-char	*ft_freestrjoin(char *s1, char *s2)
-{
-	size_t		joined_size;
-	char		*result;
-
-	joined_size = (ft_strlen (s1) + ft_strlen (s2));
-	result = malloc(sizeof(char) * joined_size + 1);
-	if (!result)
-	{
-		ft_free_process(s1, NULL);
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	}
-	if (!s2 && !s1)
-		return (NULL);
-	if (!s2 && s1)
-		return (ft_free_process(result, ft_strdup(s1)));
-	if (!s1 && s2)
-		return (ft_free_process(result, ft_strdup(s2)));
-	return (ft_free_process(s1, joning(result, (char *)s2, (char *)s1)));
-}
-
-char	*ft_free_process(char *to_free, char *to_return)
-{
-	if (to_free)
-		free(to_free);
-	return (to_return);
-}
 /*bool	already_pipe(t_token t_new)		//plus besoin
 {
 	if (token_last(&t_new)->type == PIPE)
@@ -193,75 +105,3 @@ char	*ft_free_process(char *to_free, char *to_return)
 	else
 		return (false);
 }*/
-
-/*
-char	*ft_truncstr(char *str, int start, char *c)
-{
-	char	*s;
-	int		i;
-	int		j;
-	int		k;
-
-	i = start;
-	j = 0;
-	k = 0;
-	while (c[k])
-	{
-		if (!str || str[i] == c[k])
-			return ("");
-		k++;
-	}
-	k = 0;
-	while (str[i] && str[i] != c[j])
-	{
-		while (c[j] && str[i] != c[j])
-			j++;
-		if (c[j])
-			break ;
-		i++;
-		k++;
-		j = 0;
-	}
-	s = malloc(sizeof(char) * (k + 1));
-	j = 0;
-	while (j < k)
-	{
-		s[j] = str[start + j];
-		j++;
-	}
-	s[j] = '\0';
-	return (s);
-}
-
-char	*trunc_rest(char *str, int start, char *c)
-{
-	char	*s;
-	int		i;
-	int		j;
-	int		k;
-
-	i = start;
-	j = 0;
-	k = 0;
-	while (str[i] && str[i] != c[j])
-	{
-		while (c[j] && str[i] != c[j])
-			j++;
-		if (c[j])
-			break ;
-		i++;
-		k++;
-		j = 0;
-	}
-	j = 0;
-	s = malloc(sizeof(char) * ((ft_strlen(str) - i) + 1));
-	while (str[i + j])
-	{
-		s[j] = str[i + j];
-		j++;
-	}
-	s[j] = '\0';
-	return (s);
-}
-
-*/
