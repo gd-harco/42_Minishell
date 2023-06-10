@@ -6,25 +6,14 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/19 13:18:42 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 13:35:48 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-bool	already_cmd(t_token *t_new, t_token *tmp)
+static bool	cmd_check(t_token *t_new, t_token *tmp)
 {
-	t_token	*tmp2;
-
-	tmp2 = malloc(sizeof(t_token));
-	tmp2 = t_new;
-
-	while (tmp2 && tmp2 != tmp)
-	{
-		if (tmp2->type == PIPE)
-			t_new = tmp2->next;
-		tmp2 = tmp2->next;
-	}
 	if (t_new && (tmp->type == CMD || tmp->type == BUILTIN))
 	{
 		while (t_new->next && t_new->type != PIPE
@@ -41,6 +30,24 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 		return (false);
 }
 
+bool	already_cmd(t_token *t_new, t_token *tmp)
+{
+	t_token	*tmp2;
+
+	tmp2 = malloc(sizeof(t_token));
+	if (!tmp2)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
+	tmp2 = t_new;
+	while (tmp2 && tmp2 != tmp)
+	{
+		if (tmp2->type == PIPE)
+			t_new = tmp2->next;
+		tmp2 = tmp2->next;
+	}
+	token_clear(tmp2);
+	return (cmd_check(t_new, tmp));
+}
+
 void	token_arg(t_var *var)
 {
 	if (!var->s[var->i])
@@ -53,31 +60,20 @@ void	token_arg(t_var *var)
 	}
 }
 
-
-int	is_quote_in(char *str)
+int	ft_nb_pipe(char *str)
 {
 	int	i;
+	int	c;
 
+	if (!str)
+		return (0);
 	i = 0;
+	c = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'')
-			return (1);
-		if (str[i] == '"')
-			return (2);
+		if (str[i] == '|')
+			c++;
 		i++;
 	}
-	return (0);
+	return (c);
 }
-
-bool	var_init(t_var *var)
-{
-	var->spipe = ft_split(var->str, '|');
-	var->s = ft_split(var->spipe[var->index], ' ');
-	var->new_tkn = malloc(sizeof(t_token));
-	if (!var->spipe || !var->s)
-		return (false);
-	return (true);
-}
-
-	// if (var->spipe[var->index][0] != '\'' && var->spipe[var->index][0] != '"')

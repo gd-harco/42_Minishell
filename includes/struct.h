@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/05 22:18:03 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/09 16:41:08 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,47 @@ typedef struct s_exec
 	int			std_save[2];
 	int			pipe_fd[2];
 }				t_exec;
+
+typedef struct s_var
+{
+	char	*str_in;	//la commande prompt
+	char	*str;		//la copie de commande prompt
+	char	**s;		// chaque mots espacés
+	char	**spipe;	//phrase split par les |
+	int		nb_pipe;
+	char	**envp;
+	char	**env_cpy;
+	int		index;
+	int		i;
+	char	**path;
+	char	*s_p;
+	char	*arg;
+	char	*env;
+	t_token	*new_tkn;
+	bool	is_pquote;
+	bool	is_squote;
+	bool	quote_cmd;
+	char	*quote;
+}				t_var;
+
+typedef struct s_varenv
+{
+	int		i;
+	int		j;
+	int		k;
+	int		m;
+	int		o;
+	char	*var_env;
+}				t_varenv;
+
+typedef struct s_var_quote
+{
+	char	*tmp;
+	char	**split_tmp;
+	int		i;
+	int		j;
+	int		k;
+	char	t[2];
+}				t_var_quote;
 
 #endif
