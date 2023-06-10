@@ -46,7 +46,6 @@ void	master_exec(t_minishell	*minishell)
 	current_cmd = -1;
 	while (++current_cmd < exec_data->nb_cmd)
 		waitpid(exec_data->pid[current_cmd], NULL, 0);
-	//TODO Wait for all child process
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
 	free_exec(exec_data);
@@ -101,6 +100,8 @@ static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 		return ;
 	dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
 	handle_io(exec_data, current_cmd);
+	if (exec_data->cmd[current_cmd].builtin != NONE)
+		exec_builtin(exec_data, current_cmd);
 	execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
 	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
 	exit(EXIT_FAILURE);//TODO: Call exit function
@@ -130,7 +131,4 @@ void	free_exec(t_exec *exec_data)
 	}
 	free(exec_data->cmd);
 	free(exec_data);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
 }

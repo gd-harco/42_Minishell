@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (var->str && *(var->str))
 			add_history(var->str);
-		data->token_list = get_token(var);
+		data->token_list = get_token_list(var);
 		if (data->token_list)
 			master_exec(data);
 		free(var->str);

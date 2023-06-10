@@ -26,6 +26,17 @@ enum e_type {
 	BUILTIN = 7
 };
 
+enum e_builtin {
+	NONE = 0,
+	ECHO = 1,
+	CD = 2,
+	PWD = 3,
+	EXPORT = 4,
+	UNSET = 5,
+	ENV = 6,
+	EXIT = 7
+};
+
 typedef struct s_token
 {
 	char			*content[2];
@@ -49,6 +60,7 @@ typedef struct s_here_doc
 typedef struct s_cmd
 {
 	char			**argv;
+	enum e_builtin	builtin;
 }				t_cmd;
 
 typedef struct s_pipe_fd

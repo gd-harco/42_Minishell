@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-char	**get_cmd_argv(t_token **f_token);
-char	**cmd_with_no_args(t_token **f_token);
+static char	**get_cmd_argv(t_token **f_token);
+static char	**cmd_with_no_args(t_token **f_token);
+static void	set_builtin(t_cmd *cmd);
 
 t_cmd	*get_cmd_data(t_exec *exec_data)
 {
@@ -27,11 +28,14 @@ t_cmd	*get_cmd_data(t_exec *exec_data)
 	if (!cmd)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	while (current_cmd < exec_data->nb_cmd)
-		cmd[current_cmd++].argv = get_cmd_argv(&cmd_first_token);
+	{
+		cmd[current_cmd].argv = get_cmd_argv(&cmd_first_token);
+		set_builtin(&cmd[current_cmd++]);
+	}
 	return (cmd);
 }
 
-char	**get_cmd_argv(t_token **f_token)
+static char	**get_cmd_argv(t_token **f_token)
 {
 	char	**argv;
 	char	**tmp;
@@ -54,7 +58,7 @@ char	**get_cmd_argv(t_token **f_token)
 	return (argv);
 }
 
-char	**cmd_with_no_args(t_token **f_token)
+static char	**cmd_with_no_args(t_token **f_token)
 {
 	char	**argv;
 
@@ -64,4 +68,24 @@ char	**cmd_with_no_args(t_token **f_token)
 	argv[0] = ft_strdup((*f_token)->content[0]);
 	*f_token = (*f_token)->next;
 	return (argv);
+}
+
+static void	set_builtin(t_cmd *cmd)
+{
+	if (ft_strcmp(cmd->argv[0], "echo"))
+		cmd->builtin = ECHO;
+	else if (ft_strcmp(cmd->argv[0], "cd"))
+		cmd->builtin = CD;
+	else if (ft_strcmp(cmd->argv[0], "pwd"))
+		cmd->builtin = PWD;
+	else if (ft_strcmp(cmd->argv[0], "export"))
+		cmd->builtin = EXPORT;
+	else if (ft_strcmp(cmd->argv[0], "unset"))
+		cmd->builtin = UNSET;
+	else if (ft_strcmp(cmd->argv[0], "env"))
+		cmd->builtin = ENV;
+	else if (ft_strcmp(cmd->argv[0], "exit"))
+		cmd->builtin = EXIT;
+	else
+		cmd->builtin = NONE;
 }
