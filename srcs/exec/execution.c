@@ -46,7 +46,6 @@ void	master_exec(t_minishell	*minishell)
 	current_cmd = -1;
 	while (++current_cmd < exec_data->nb_cmd)
 		waitpid(exec_data->pid[current_cmd], NULL, 0);
-	//TODO Wait for all child process
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
 	free_exec(exec_data);
@@ -130,7 +129,4 @@ void	free_exec(t_exec *exec_data)
 	}
 	free(exec_data->cmd);
 	free(exec_data);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
 }
