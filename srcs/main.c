@@ -3,53 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/12 16:37:44 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/03 13:10:00 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*str;
+	t_minishell	*data;
+	t_var		*var;
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
-	printf("\033[0;31m");
-	printf("Bienvenue dans le Minishell de la Team Rocket!\n\n");
-	printf("##################################\n\
-####################################,\n\
-######################################\n\
-######################################,\n\
-###########               #############\n\
-###########               #############\n\
-######################################\n\
-#####################################*\n\
-####################################\n\
-#################################/\n\
-#################################/\n\
-###########           #############\n\
-###########            *############\n\
-###########              ############.\n\
-###########               #############\n\n");
-	printf("\033[0m");
-	str = get_user_input();
+	data = ft_calloc(1, sizeof(t_minishell));
+	if (!data)
+		exit(EXIT_FAILURE);
+	var = ft_calloc(1, sizeof(t_var));
+	if (!var)
+		exit(EXIT_FAILURE);//TODO: Call exit function
+	data->envp = envp;
+	var->envp = envp;
+	var->env_cpy = envp;
+	printf(ROCKET_LOGO);
+	var->str = get_user_input();
 	while (42)
 	{
-		if (ft_strncmp(str, "echo", 4) == 0)
-			echo(str + 5, false, 1);
-		else if (ft_strncmp(str, "exit", 4) == 0)
+		if (!var->str)
 		{
-			free(str);
-			printf("La Team Rocket s'envole vers d'autres cieux!!!!\nexit\n");
-			exit (0);
+			free(var->str);
+			free(data);
+			free(var);
+			ft_printf("exit\n");
+			exit(EXIT_EOF);
 		}
-		free(str);
-		str = get_user_input();
+		if (var->str && *(var->str))
+			add_history(var->str);
+		data->token_list = get_token_list(var);
+		if (data->token_list)
+			master_exec(data);
+		free(var->str);
+		var->str = get_user_input();
 	}
 	return (0);
 }

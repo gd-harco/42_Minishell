@@ -3,67 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/12 16:41:39 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/05/30 10:46:38 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-
+# define EXIT_EOF 101
 //-----------------INCLUDES-----------------//
 
 //########### PERSONNAL LIB HEADERS ##########//
+
 # include "../lib/libft/includes/libft.h"
 
 //########### PROJECT SPECIFICS HEADERS ##########//
+
 # include "builtins.h"
+# include "exec.h"
+# include "parsing.h"
 
 //########### SYSTEM LIB HEADERS ##########//
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <signal.h>
-# include <unistd.h>
-# include <sys/types.h>
-# include <stdio.h>
-# include <sys/stat.h>
+
 # include <dirent.h>
 # include <errno.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-//-----------------STRUCTURES-----------------//
-//Pour parsing, ne prendre en compte que les tokens de type STRING,
-//PIPE, CHEVRON_IN, DOUBLE_CHEVRON_IN, CHEVRON_OUT, DOUBLE_CHEVRON_OUT
-enum e_type {
-	UNDEFINED,
-	CHEVRON_IN,
-	DOUBLE_CHEVRON_IN,
-	DOUBLE_CHEVRON_OUT,
-	CHEVRON_OUT,
-	PIPE,
-	STRING,
-	FILE_IN,
-	FILE_OUT,
-	FILE_OUT_APPEND,
-	CALL_ENV_VAR,
-	CMD,
-	BUILTIN
-};
 
-typedef struct s_token
-{
-	char			**content;
-	enum e_type		type;
-	struct s_token	*next;
-}				t_token;
+//-----------------FUNCTION-----------------//
 
-//-----------------FUNCTIONS-----------------//
+//################# PROMPT.C #################//
 char	*get_user_input(void);
-char	*process(char *str, char **path);
-char	**get_path(char **envp);
-void	second_parsing(t_token *token_list);
+
+
+# define ROCKET_LOGO "\033[0;31m\nBienvenue dans le Minishell de la Team Rocket!\n\n##################################\n\
+####################################,\n\
+######################################\n\
+######################################,\n\
+###########               #############\n\
+###########               #############\n\
+######################################\n\
+#####################################*\n\
+####################################\n\
+#################################/\n\
+#################################/\n\
+###########           #############\n\
+###########            *############\n\
+###########              ############.\n\
+###########               #############\n\n\033[0m"
 
 #endif
