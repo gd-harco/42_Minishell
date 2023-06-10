@@ -81,9 +81,6 @@ t_token	*token_pipe(void)
 	if (!tmp)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	tmp->type = PIPE;
-	tmp->content = malloc(sizeof(char *) * 2);
-	if (!tmp->content)
-		exit(EXIT_FAILURE);//TODO: Call exit function
 	tmp->content[0] = ft_strdup("|");
 	tmp->content[1] = NULL;
 	tmp->next = NULL;

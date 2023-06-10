@@ -21,9 +21,6 @@ bool	var_init(t_var *var)
 	var->quote_cmd = false;
 	if (!var->new_tkn)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	var->new_tkn->content = malloc(sizeof(char *) * 2);
-	if (!var->new_tkn->content)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	if (!var->spipe || !var->s || !var->s[var->i])
 		return (false);
 	return (true);
