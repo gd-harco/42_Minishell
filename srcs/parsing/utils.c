@@ -6,11 +6,28 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/19 13:01:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 16:19:17 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+bool	var_init(t_var *var)
+{
+	var->spipe = ft_split(var->str, '|');
+	var->s = ft_split(var->spipe[var->index], ' ');
+	var->new_tkn = malloc(sizeof(t_token));
+	var->quote = NULL;
+	var->quote_cmd = false;
+	if (!var->new_tkn)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
+	var->new_tkn->content = malloc(sizeof(char *) * 2);
+	if (!var->new_tkn->content)
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
+	if (!var->spipe || !var->s || !var->s[var->i])
+		return (false);
+	return (true);
+}
 
 bool	is_builtin(char *str)
 {
@@ -23,7 +40,7 @@ bool	is_builtin(char *str)
 		return (false);
 }
 
-bool	not_in_out(char **s, int j)
+bool	has_in_out(char **s, int j)
 {
 	if ((s[j][0] == '<') || (s[j][0] == '<' && s[j][1] == '<')
 	|| (s[j][0] == '>') || (s[j][0] == '>' && s[j][1] == '>')
@@ -31,11 +48,32 @@ bool	not_in_out(char **s, int j)
 	|| (s[j - 1][0] == '>' && s[j - 1][1] == '\0')
 	|| (s[j - 1][0] == '<' && s[j - 1][1] == '<' && s[j - 1][2] == '\0')
 	|| (s[j - 1][0] == '>' && s[j - 1][1] == '>' && s[j - 1][2] == '\0'))
-		return (false);
-	return (true);
+		return (true);
+	return (false);
 }
 
-bool	is_last_infile(char **s, int i)
+char	*check_var(t_var *var, t_varenv *v_e)
+{
+	v_e->j = var->i;
+	if (is_env_in(*var, v_e->j) == true && var->quote_cmd == false)
+	{
+		var->s_p = ft_strjoinsp(NULL, ft_trunc(var->s[0], 0, "$", *var), 1);
+		env_arg(var, v_e);
+		var->s_p = ft_strjoinsp(var->s_p, var->env, 0);
+		return (var->s_p);
+	}
+	else
+		return (ft_strdup(var->s_p));
+}
+
+char	*ft_free_process(char *to_free, char *to_return)
+{
+	if (to_free)
+		free(to_free);
+	return (to_return);
+}
+
+/*bool	is_last_infile(char **s, int i)
 {
 	int	j;
 
@@ -49,50 +87,4 @@ bool	is_last_infile(char **s, int i)
 		return (true);
 	else
 		return (false);
-}
-
-static char	*joning(char *result, char *s2, char *s1)
-{
-	size_t	x;
-	size_t	y;
-
-	x = 0;
-	y = 0;
-	while (s1[x])
-	{
-		result[x] = s1[x];
-		x++;
-	}
-	result[x] = ' ';
-	x++;
-	while (s2[y])
-	{
-		result[x] = s2[y];
-		x++;
-		y++;
-	}
-	result[x] = '\0';
-	return (result);
-}
-
-char	*ft_strjoinsp(char const *s1, char const *s2)
-{
-	size_t		joined_size;
-	char		*result;
-	size_t		size_s1;
-	size_t		size_s2;
-
-	if (!s2 && !1)
-		return (NULL);
-	if (!s2 && s1)
-		return (ft_strdup(s1));
-	if (!s1 && s2)
-		return (ft_strdup(s2));
-	size_s1 = ft_strlen (s1);
-	size_s2 = ft_strlen (s2);
-	joined_size = (size_s1 + size_s2);
-	result = malloc(sizeof(char) * joined_size + 2);
-	if (!result)
-		return (NULL);
-	return (joning(result, (char *)s2, (char *)s1));
-}
+}*/

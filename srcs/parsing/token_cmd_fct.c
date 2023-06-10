@@ -6,36 +6,14 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/29 15:49:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 16:41:42 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-bool	is_env_in(t_var var, int j)
-{
-	int	i;
-
-	i = 0;
-	while (var.s[j][i])
-	{
-		if (var.s[j][i] == '$')
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-bool	is_metachar(char c)
-{
-	if (c == '.' || c == ',' || c == '/' || c == '\\' || c == '^' || c == '$'
-		|| c == '-' || c == '+' || c == '=' || c == '?' || c == '!'
-		|| c == '@' || c == '#' || c == '%' || c == '[' || c == ']'
-		|| c == '{' || c == '}' || c == ':' || c == '~')
-		return (true);
-	else
-		return (false);
-}
+static void	fill_arg_builtin(t_var *var, t_varenv *v_e);
+static void	fill_arg_cmd(t_var *var, t_varenv *v_e, char **tmp);
 
 void	token_builtin(t_var *var)
 {
@@ -45,15 +23,7 @@ void	token_builtin(t_var *var)
 	v_e.j = var->i + 1;
 	while (var->s[v_e.j])
 	{
-		if (not_in_out(var->s, v_e.j) == true
-			&& is_env_in(*var, v_e.j) == false)
-			var->arg = ft_strjoinsp(var->arg, var->s[v_e.j]);
-		else if (is_env_in(*var, v_e.j) == true)
-		{
-			var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$'));
-			env_arg(var, &v_e);
-			var->arg = ft_strjoin(var->arg, var->env);
-		}
+		fill_arg_builtin(var, &v_e);
 		v_e.j++;
 	}
 	var->new_tkn->type = BUILTIN;
@@ -64,22 +34,25 @@ void	token_builtin(t_var *var)
 void	token_cmd(t_var *var)
 {
 	t_varenv	v_e;
+	char		*tmp;
 
+	v_e.j = var->i;
 	var->arg = NULL;
-	var->path = get_path(var->envp);
-	var->s_p = process(var->spipe[var->index], var->path, var->i);
-	v_e.j = var->i + 1;
+	if (is_quote_in(var->s[v_e.j]) == 0)
+	{	
+		var->path = get_path(var->env_cpy);
+		var->s_p = process(var->spipe[var->index], var->path, var->i);
+	}
+	else
+	{
+		quote_manager(var, &v_e);
+		var->quote_cmd = true;
+		var->s_p = ft_strdup(var->quote);
+	}
+	v_e.j++;
 	while (var->s[v_e.j])
 	{
-		if (not_in_out(var->s, v_e.j) == true
-			&& is_env_in(*var, v_e.j) == false)
-			var->arg = ft_strjoinsp(var->arg, var->s[v_e.j]);
-		else if (is_env_in(*var, v_e.j) == true)
-		{
-			var->arg = ft_strjoinsp(var->arg, ft_trunc(var->s[v_e.j], 0, '$'));
-			env_arg(var, &v_e);
-			var->arg = ft_strjoin(var->arg, var->env);
-		}
+		fill_arg_cmd(var, &v_e, &tmp);
 		v_e.j++;
 	}
 	var->new_tkn->type = CMD;
@@ -87,34 +60,50 @@ void	token_cmd(t_var *var)
 	var->new_tkn->content[1] = ft_strdup(var->arg);
 }
 
-char	*ft_trunc(char *str, int start, char c)
+static void	fill_arg_builtin(t_var *var, t_varenv *v_e)
 {
-	char	*s;
-	int		i;
-	int		j;
-	int		k;
-
-	i = start;
-	k = 0;
-	if (!str || str[i] == c)
-		return ("");
-	while (str[i] && str[i] != c)
+	if (is_quote_in(var->s[v_e->j]) == 0)
 	{
-		i++;
-		k++;
+		if (has_in_out(var->s, v_e->j) == false
+			&& is_env_in(*var, v_e->j) == false)
+			var->arg = ft_strjoinsp(var->arg, var->s[v_e->j], 1);
+		else if (is_env_in(*var, v_e->j) == true)
+		{
+			var->arg = ft_strjoinsp(var->arg,
+					ft_trunc(var->s[v_e->j], 0, "$", *var), 1);
+			env_arg(var, v_e);
+			var->arg = ft_strjoinsp(var->arg, var->env, 0);
+		}
 	}
-	s = malloc(sizeof(char) * (k + 1));
-	j = 0;
-	while (j < k)
+	else if (is_quote_in(var->s[v_e->j]) != 0)
 	{
-		s[j] = str[start + j];
-		j++;
+		quote_manager(var, v_e);
+		var->arg = ft_strjoinsp(var->arg, var->quote, 1);
 	}
-	s[j] = '\0';
-	return (s);
 }
 
-// gerer $USER $? -e pour pas avoir content[0] -e $? $USER		ok join NULL
-// gerer $? pour pouvoir afficher derriere $?et$USER	ok
-
-//	coder $$ et $?		ok sauf $$ mais pas besoin
+static void	fill_arg_cmd(t_var *var, t_varenv *v_e, char **tmp)
+{
+	if (is_quote_in(var->s[v_e->j]) == 0)
+	{
+		if (has_in_out(var->s, v_e->j) == false
+			&& is_env_in(*var, v_e->j) == false)
+		{
+			*tmp = ft_strjoinsp(var->arg, var->s[v_e->j], 1);
+			var->arg = ft_strdup(*tmp);
+			free(*tmp);
+		}
+		else if (is_env_in(*var, v_e->j) == true)
+		{
+			var->arg = ft_strjoinsp(var->arg,
+					ft_trunc(var->s[v_e->j], 0, "$", *var), 1);
+			env_arg(var, v_e);
+			var->arg = ft_strjoinsp(var->arg, var->env, 0);
+		}
+	}
+	else if (is_quote_in(var->s[v_e->j]) != 0)
+	{
+		quote_manager(var, v_e);
+		var->arg = ft_strjoinsp(var->arg, var->quote, 1);
+	}
+}
