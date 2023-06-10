@@ -100,6 +100,8 @@ static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 		return ;
 	dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
 	handle_io(exec_data, current_cmd);
+	if (exec_data->cmd[current_cmd].builtin != NONE)
+		exec_builtin(exec_data, current_cmd);
 	execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
 	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
 	exit(EXIT_FAILURE);//TODO: Call exit function

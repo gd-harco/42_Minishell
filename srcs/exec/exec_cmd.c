@@ -7,6 +7,8 @@ void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd)
 {
 	dprintf(2, "exec_piped_cmd\n");
 	handle_io(exec_data, current_cmd);
+	if (exec_data->cmd[current_cmd].builtin != NONE)
+		exec_builtin(exec_data, current_cmd);
 	execve(exec_data->cmd[current_cmd].argv[0],
 		exec_data->cmd[current_cmd].argv, exec_data->envp);
 	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
@@ -43,6 +45,26 @@ void	handle_io(t_exec *exec_data, size_t current_cmd)
 		}
 		tmp = tmp->next;
 	}
+}
+
+void	exec_builtin(t_exec *exec_data, size_t current_cmd)
+{
+	if (exec_data->cmd[current_cmd].builtin == ECHO)
+		echo(exec_data->cmd[current_cmd].argv);
+//	else if (exec_data->cmd[current_cmd].builtin == CD)
+//		cd(exec_data->cmd[current_cmd].argv, exec_data->envp);
+//	else if (exec_data->cmd[current_cmd].builtin == PWD)
+//		pwd(exec_data->cmd[current_cmd].argv, exec_data->envp);
+//	else if (exec_data->cmd[current_cmd].builtin == EXPORT)
+//		export(exec_data->cmd[current_cmd].argv, exec_data->envp);
+//	else if (exec_data->cmd[current_cmd].builtin == UNSET)
+//		unset(exec_data->cmd[current_cmd].argv, exec_data->envp);
+//	else if (exec_data->cmd[current_cmd].builtin == ENV)
+//		env(exec_data->envp);
+//	else if (exec_data->cmd[current_cmd].builtin == EXIT)
+//		exit_shell(exec_data->cmd[current_cmd].argv);
+	free_exec(exec_data);
+	exit(EXIT_SUCCESS);
 }
 
 int	get_in_fd(t_token *token, t_exec *exec_data)

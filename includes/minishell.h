@@ -40,12 +40,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-
 //-----------------FUNCTION-----------------//
-
 //################# PROMPT.C #################//
 char	*get_user_input(void);
-
 
 # define ROCKET_LOGO "\033[0;31m\n\033[2JBienvenue dans le Minishell de la Team Rocket!\n\n##################################\n\
 ####################################,\n\
