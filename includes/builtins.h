@@ -13,10 +13,11 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# include "struct.h"
 //-----------------FUNCTIONS-----------------//
 
 void	echo(char **argv);
-//void	cd(char **str, char **envp);
+void	cd(char **argv, t_exec *exec_data);
 //void	pwd(char **argv, char **envp);
 //void	export(char **argv, char **envp);
 //void	unset(char **argv, char **envp);
