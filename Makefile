@@ -28,6 +28,7 @@ SRCS_LIST		=	main.c			\
 					prompt.c		\
 \
 					builtins/echo.c		\
+					builtins/cd.c		\
 					builtins/env.c		\
 					builtins/exit.c		\
 					builtins/pwd.c		\
@@ -63,7 +64,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 CC				=	cc
 
-CFLAGS			=	 -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS			=	 -Wall -Werror -Wextra -g3
 
 FRAMEWORKS		=	-Llib/libft -lft -lreadline
 
