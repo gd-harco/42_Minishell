@@ -39,5 +39,6 @@ void	close_parent_unused_fd(size_t cmd_nb, t_pipe_fd *pipe_fd, size_t nb_pipe);
 //########### EXEC_CMD.C ###########//
 void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd);
 void	handle_io(t_exec *exec_data, size_t current_cmd);
+void	exec_builtin(t_exec *exec_data, size_t current_cmd);
 
 #endif

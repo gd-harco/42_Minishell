@@ -12,26 +12,48 @@
 
 #include "minishell.h"
 
-/**
- * @brief echo builtin
- *
- * @param str the string to print
- * @param n if true, don't print a newline
- * @param fd_out the file descriptor to print to. if 0, print to STDOUT
- */
-void	echo(char **str, bool n, int fd_out)
-{
-	int	i;
+static bool	handle_n(char **argv, int *i, int *j, bool *n);
 
-	i = 0;
-	if (fd_out == 0)
-		fd_out = STDOUT_FILENO;
-	while (str[i])
+void	echo(char **argv)
+{
+	int		i;
+	int		j;
+	bool	n;
+
+	i = 1;
+	n = false;
+	while (argv[i] && argv[i][0] == '-')
 	{
-		ft_dprintf(fd_out, "%s", str[i++]);
-		if (str[i])
-			ft_dprintf(fd_out, " ");
+		if (handle_n(argv, &i, &j, &n) == false)
+			break ;
+	}
+	while (argv[i])
+	{
+		ft_dprintf(STDOUT_FILENO, "%s", argv[i]);
+		if (argv[i + 1])
+			ft_dprintf(STDOUT_FILENO, " ");
+		i++;
 	}
 	if (!n)
-		ft_dprintf(fd_out, "\n");
+		ft_dprintf(STDOUT_FILENO, "\n");
+}
+
+bool	handle_n(char **argv, int *i, int *j, bool *n)
+{
+	if (argv[*i][1] == 'n')
+	{
+		*j = 2;
+		while (argv[*i][*j] == 'n')
+			(*j)++;
+		if (argv[*i][*j] == '\0')
+		{
+			*n = true;
+			(*i)++;
+			return (true);
+		}
+		else
+			return (false);
+	}
+	else
+		return (false);
 }

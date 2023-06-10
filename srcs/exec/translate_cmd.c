@@ -30,7 +30,7 @@ t_cmd	*get_cmd_data(t_exec *exec_data)
 	while (current_cmd < exec_data->nb_cmd)
 	{
 		cmd[current_cmd].argv = get_cmd_argv(&cmd_first_token);
-		set_builtin(&cmd[current_cmd]);
+		set_builtin(&cmd[current_cmd++]);
 	}
 	return (cmd);
 }

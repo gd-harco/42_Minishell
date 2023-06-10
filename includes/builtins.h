@@ -15,10 +15,12 @@
 
 //-----------------FUNCTIONS-----------------//
 
-void	echo(char **str, bool n, int fd_out);
-void	pwd(void);
-void	unset(char **str);
-void	env(char **envp);
-void	exit_shell(int status, void **things_to_free);
+void	echo(char **argv);
+//void	cd(char **str, char **envp);
+//void	pwd(char **argv, char **envp);
+//void	export(char **argv, char **envp);
+//void	unset(char **argv, char **envp);
+//void	env(char **envp);
+//void	exit_shell(int status, void **things_to_free);
 
 #endif
