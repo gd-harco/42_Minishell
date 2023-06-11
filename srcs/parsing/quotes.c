@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:25:29 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 16:10:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 12:51:06 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ static void	single_quote(char *str_tmp, t_var *var, char **tmp)
 	}
 }
 
-static void	no_quote(t_var *var, t_varenv *v_e, t_var_quote *v_q)
+static int	no_quote(t_var *var, t_varenv *v_e, t_var_quote *v_q)
 {
+	if (has_in_out(v_q->split_tmp, v_q->i) == true)
+		return (-1);
 	if (is_env_in_str(v_q->split_tmp[v_q->i]) == true)
 	{
 		v_q->tmp = ft_strjoin(v_q->tmp, ft_trunc(
@@ -87,6 +89,7 @@ static void	no_quote(t_var *var, t_varenv *v_e, t_var_quote *v_q)
 			v_q->j++;
 		}
 	}
+	return (0);
 }
 
 void	quote_manager(t_var *var, t_varenv *v_e)
@@ -108,7 +111,39 @@ void	quote_manager(t_var *var, t_varenv *v_e)
 		else if (is_quote_in(v_q.split_tmp[v_q.i]) == 2)
 			dub_quote(v_q.split_tmp[v_q.i], var, v_e, &v_q.tmp);
 		else
-			no_quote(var, v_e, &v_q);
+		{
+			if (no_quote(var, v_e, &v_q) == -1)
+				return (free_quote(&v_q));
+		}
+		v_q.i++;
+	}
+	var->quote = ft_strdup(v_q.tmp);
+	free_quote(&v_q);
+}
+
+void	quote_manager_inout(t_var *var, t_varenv *v_e)
+{
+	t_var_quote	v_q;
+
+	v_q.t[1] = '\0';
+	var->quote = NULL;
+	v_q.split_tmp = ft_split(ft_trunc_start(var->s[v_e->j], "<>", *var), ';');
+	if (!v_q.split_tmp)
+		return ;
+	v_q.tmp = NULL;
+	var->quote = NULL;
+	v_q.i = 0;
+	while (v_q.split_tmp[v_q.i])
+	{
+		if (is_quote_in(v_q.split_tmp[v_q.i]) == 1)
+			single_quote(v_q.split_tmp[v_q.i], var, &v_q.tmp);
+		else if (is_quote_in(v_q.split_tmp[v_q.i]) == 2)
+			dub_quote(v_q.split_tmp[v_q.i], var, v_e, &v_q.tmp);
+		else
+		{
+			if (no_quote(var, v_e, &v_q) == -1)
+				return (free_quote(&v_q));
+		}
 		v_q.i++;
 	}
 	var->quote = ft_strdup(v_q.tmp);

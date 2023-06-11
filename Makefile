@@ -47,6 +47,7 @@ SRCS_LIST		=	main2.c			\
 					parsing/token_cmd_fct.c		\
 					parsing/token_env_var.c		\
 					parsing/token_fct.c			\
+					parsing/token_infile.c		\
 					parsing/token_is_in.c		\
 					parsing/token_utils.c		\
 					parsing/token.c				\
