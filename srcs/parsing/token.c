@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 14:42:15 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 14:47:31 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,12 @@ static t_token	*token_init(t_var *var)
 }
 
 /*
+
+TODO : gerer ls -a > $USER doit faire comme ls -a > "$USER" 
+				et ecrire tdutel non pas $USER en name_file
+gerer  NORME, LEAKS
+
+
 /!\
 TODO	OK
 // gerer "$ , $USER" et $,$USER pour afficher la , est non $tdutel
