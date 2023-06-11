@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 12:23:40 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 13:53:49 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ static t_token	*token_init(t_var *var)
 			return (NULL);
 	}
 	else if (var->s && var->s[var->i] && var->s[var->i][0] == '>')
-		token_outfile(var);
+	{
+		if (token_outfile(var) == -1)
+			return (NULL);
+	}
 	else if (var->s && var->s[var->i])
 	{
 		if (is_builtin(var->s[var->i]) == true)

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 12:24:44 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 13:50:49 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	env_arg(t_var *var, t_varenv *v_e);
 */
 //#################### TOKEN_FCT.C ####################//
 int		token_infile(t_var *var);
-void	token_outfile(t_var *var);
+int		token_outfile(t_var *var);
 t_token	*token_pipe(void);
 //-------------------- TOKEN_FCT.C --------------------//
 /*
