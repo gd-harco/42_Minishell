@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:12:47 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 16:10:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 14:37:44 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static int	fill_quote_env(char *str_tmp, t_var *var, t_varenv *v_e)
 		v_e->k++;
 	}
 	else if (v_e->var_env && (v_e->var_env[0] == '\0'))
-		return (quote_env_symbol(var, str_tmp, v_e));
+		quote_env_symbol(var, str_tmp, v_e);
 	v_e->m = 0;
 	while (var->env_cpy[v_e->m] && v_e->var_env && ft_strnstr
 		(var->env_cpy[v_e->m], v_e->var_env, ft_strlen(v_e->var_env)) == NULL)
@@ -131,12 +131,12 @@ static int	quote_env_symbol(t_var *var, char *str_tmp, t_varenv *v_e)
 		else
 			return (0);
 	}
-	else if (str_tmp[v_e->i + 1 + v_e->k] == '$'
-		&& str_tmp[v_e->i + 1 + v_e->k + 1] == '\0')
-	{
-		var->env = ft_strjoinsp(var->env, "$", 0);
-		v_e->o++;
-	}
+	// else if (str_tmp[v_e->i + 1 + v_e->k] == '$'
+	// 	&& str_tmp[v_e->i + 1 + v_e->k + 1] == '\0')
+	// {
+	// 	var->env = ft_strjoinsp(var->env, "$", 0);
+	// 	v_e->o++;
+	// }
 	else
 		var->env = ft_strjoinsp(var->env, "$", 0);
 	if (str_tmp[v_e->i + 1 + v_e->k + 1] != '\0')
