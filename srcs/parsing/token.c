@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 13:53:49 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 14:24:36 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,10 @@ static t_token	*token_init(t_var *var)
 TODO
 // gerer "$ , $USER" et $,$USER pour afficher la , est non $tdutel
 // gerer les quote dans infile outfile : ls > "<E" doit creer un file <E
+
+//TODO
+quand metachar juste apres $ n'ecris pas apres le metachar :
+							ls << in"s$.,a USER"	ecrit just ins$
 
 /!\
 */

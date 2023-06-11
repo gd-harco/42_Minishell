@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 14:03:16 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 14:21:42 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static void	fill_arg_builtin(t_var *var, t_varenv *v_e)
 		if (has_in_out(var->s, v_e->j) == false
 			&& is_env_in(*var, v_e->j) == false)
 			var->arg = ft_strjoinsp(var->arg, var->s[v_e->j], 1);
-		else if (is_env_in(*var, v_e->j) == true)
+		else if (is_env_in(*var, v_e->j) == true
+			&& has_in_out(var->s, v_e->j) == false)
 		{
 			var->arg = ft_strjoinsp(var->arg,
 					ft_trunc(var->s[v_e->j], 0, "$", *var), 1);
@@ -94,7 +95,8 @@ static void	fill_arg_cmd(t_var *var, t_varenv *v_e, char **tmp)
 			var->arg = ft_strdup(*tmp);
 			free(*tmp);
 		}
-		else if (is_env_in(*var, v_e->j) == true)
+		else if (is_env_in(*var, v_e->j) == true
+			&& has_in_out(var->s, v_e->j) == false)
 		{
 			var->arg = ft_strjoinsp(var->arg,
 					ft_trunc(var->s[v_e->j], 0, "$", *var), 1);
@@ -109,7 +111,3 @@ static void	fill_arg_cmd(t_var *var, t_varenv *v_e, char **tmp)
 		var->arg = ft_strjoinsp(var->arg, var->quote, 1);
 	}
 }
-
-//TODO
-// quand metachar juste apres $ n'ecris pas apres le metachar : ls << in"s$.,a USER"
-// 																ecrit just ins$
