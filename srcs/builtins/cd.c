@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "minishell.h"
 
-# include "struct.h"
-//-----------------FUNCTIONS-----------------//
+void cd(char **argv, t_exec *exec_data)
+{
+	char *path;
 
-void	echo(char **argv);
-void	cd(char **argv, t_exec *exec_data);
-//void	pwd(char **argv, char **envp);
-//void	export(char **argv, char **envp);
-//void	unset(char **argv, char **envp);
-//void	env(char **envp);
-//void	exit_shell(int status, void **things_to_free);
-
-#endif
+if (argv[1] == NULL)
+	{
+		(void)exec_data;
+		//TODO get HOME from env
+	}
+	else
+		path = argv[1];
+	chdir(path);
+}
