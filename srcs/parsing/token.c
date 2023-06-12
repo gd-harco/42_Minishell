@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 16:47:29 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 14:47:31 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,14 @@ static t_token	*token_init(t_var *var)
 		return (NULL);
 	if (var->s && var->s[var->i] && var->s[var->i][0] == '<')
 	{
-		token_infile(var);
+		if (token_infile(var) == -1)
+			return (NULL);
 	}
 	else if (var->s && var->s[var->i] && var->s[var->i][0] == '>')
-		token_outfile(var);
+	{
+		if (token_outfile(var) == -1)
+			return (NULL);
+	}
 	else if (var->s && var->s[var->i])
 	{
 		if (is_builtin(var->s[var->i]) == true)
@@ -86,11 +90,22 @@ static t_token	*token_init(t_var *var)
 }
 
 /*
+
+TODO : gerer ls -a > $USER doit faire comme ls -a > "$USER" 
+				et ecrire tdutel non pas $USER en name_file
+gerer  NORME, LEAKS
+
+
 /!\
-TODO
+TODO	OK
 // gerer "$ , $USER" et $,$USER pour afficher la , est non $tdutel
 // gerer les quote dans infile outfile : ls > "<E" doit creer un file <E
 
+//TODO	OK
+quand metachar juste apres $ n'ecris pas apres le metachar :
+							ls << in"s$.,a USER"	ecrit just ins$
+
+POUR CELA, reprendre la fonction env_symbol()	OK
 /!\
 */
 

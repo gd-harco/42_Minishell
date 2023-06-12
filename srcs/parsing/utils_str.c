@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:58:50 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 16:23:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 11:32:52 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,30 @@ char	*ft_trunc(char *str, int start, char *c, t_var var)
 	return (v_q.tmp);
 }
 
+
+char	*ft_trunc_start(char *str, char *c, t_var var)
+{
+	t_var_quote	v_q;
+
+	v_q.i = 0;
+	v_q.j = 0;
+
+	while (str[v_q.i])
+	{
+		while (c[v_q.j])
+		{
+			if (str[v_q.i] == c[v_q.j])
+				break ;
+			v_q.j++;
+		}
+		if (str[v_q.i] != c[v_q.j])
+			break ;
+		v_q.i++;
+		v_q.j = 0;
+	}
+	// v_q.tmp = ft_substrvar(str, v_q.i, ft_strlen(str - v_q.i), var);
+	return (ft_substrvar(str, v_q.i, ft_strlen(str) - v_q.i, var));
+}
 // char	*ft_trunc_char(char *str, int start, char c, t_var var)
 // {
 // 	char	*s;
