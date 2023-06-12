@@ -17,6 +17,9 @@ void	pwd(void)
 	char	*str;
 
 	str = getcwd(NULL, 0);
-	ft_dprintf(STDOUT_FILENO, "%s\n", str);
+	if (str == NULL)
+		ft_dprintf(STDERR_FILENO, "pwd: %s\n", strerror(errno));
+	else
+		ft_dprintf(STDOUT_FILENO, "%s\n", str);
 	free(str);
 }

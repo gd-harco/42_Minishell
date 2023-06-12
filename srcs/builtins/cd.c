@@ -23,5 +23,6 @@ void	cd(char **argv, t_exec *exec_data)
 	}
 	else
 		path = argv[1];
-	chdir(path);
+	if (chdir(path) == -1)
+		ft_dprintf(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
 }
