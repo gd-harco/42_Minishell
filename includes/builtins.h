@@ -18,7 +18,7 @@
 
 void	echo(char **argv);
 void	cd(char **argv, t_exec *exec_data);
-//void	pwd(char **argv, char **envp);
+void	pwd(void);
 //void	export(char **argv, char **envp);
 //void	unset(char **argv, char **envp);
 //void	env(char **envp);

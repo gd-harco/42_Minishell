@@ -57,8 +57,8 @@ void	exec_builtin(t_exec *exec_data, size_t current_cmd)
 		echo(exec_data->cmd[current_cmd].argv);
 	else if (exec_data->cmd[current_cmd].builtin == CD)
 		cd(exec_data->cmd[current_cmd].argv, exec_data);
-//	else if (exec_data->cmd[current_cmd].builtin == PWD)
-//		pwd(exec_data->cmd[current_cmd].argv, exec_data->envp);
+	else if (exec_data->cmd[current_cmd].builtin == PWD)
+		pwd();
 //	else if (exec_data->cmd[current_cmd].builtin == EXPORT)
 //		export(exec_data->cmd[current_cmd].argv, exec_data->envp);
 //	else if (exec_data->cmd[current_cmd].builtin == UNSET)

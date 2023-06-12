@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-void cd(char **argv, t_exec *exec_data)
+void	cd(char **argv, t_exec *exec_data)
 {
-	char *path;
+	char	*path;
 
-if (argv[1] == NULL)
+	if (argv[1] == NULL)
 	{
 		(void)exec_data;
 		//TODO get HOME from env
