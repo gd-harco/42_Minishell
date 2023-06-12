@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:44:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 13:52:56 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 11:43:47 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 static void	heredoc_infile(t_var *var)
 {
 	if (var->s[var->i][2] != '\0')
-		var->new_tkn->content[0] = ft_strdup(ft_substr
-				(var->s[var->i], 2, ft_strlen(var->s[var->i])));
+		var->new_tkn->content[0] = check_var_str(ft_substr
+				(var->s[var->i], 2, ft_strlen(var->s[var->i])), var);
 	else
 	{
 		var->i++;
-		var->new_tkn->content[0] = ft_strdup(var->s[var->i]);
+		var->new_tkn->content[0] = check_var_str(var->s[var->i], var);
 	}
 	var->new_tkn->type = HERE_DOC;
 }
@@ -35,13 +35,13 @@ static void	fill_infile(t_var *var)
 	else if (var->s[var->i][1] != '\0')
 	{
 		var->new_tkn->type = FILE_IN;
-		var->new_tkn->content[0] = ft_strdup(ft_substr
-				(var->s[var->i], 1, ft_strlen(var->s[var->i])));
+		var->new_tkn->content[0] = check_var_str(ft_substr
+				(var->s[var->i], 1, ft_strlen(var->s[var->i])), var);
 	}
 	else
 	{
 		var->new_tkn->type = FILE_IN;
-		var->new_tkn->content[0] = ft_strdup(var->s[++var->i]);
+		var->new_tkn->content[0] = check_var_str(var->s[++var->i], var);
 	}
 }
 

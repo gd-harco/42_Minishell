@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 10:35:37 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 11:38:39 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,28 @@ char	*check_var(t_var *var, t_varenv *v_e)
 		return (ft_strdup(var->s_p));
 }
 
+
 char	*ft_free_process(char *to_free, char *to_return)
 {
 	if (to_free)
 		free(to_free);
 	return (to_return);
+}
+
+char	*check_var_str(char *str, t_var *var)
+{
+	t_varenv	v_e;
+
+	v_e.j = var->i;
+	if (is_env_in_str(str) == true && var->quote_cmd == false)
+	{
+		var->s_p = ft_strjoinsp(NULL, ft_trunc(str, 0, "$", *var), 1);
+		env_arg(var, &v_e);
+		var->s_p = ft_strjoinsp(var->s_p, var->env, 0);
+		return (var->s_p);
+	}
+	else
+		return (ft_strdup(var->s_p));
 }
 
 /*bool	is_last_infile(char **s, int i)

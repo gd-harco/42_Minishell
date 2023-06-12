@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 13:50:49 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 11:39:20 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ char	*ft_free_process(char *to_free, char *to_return);
 char	*ft_space_str(t_var *var);
 char	*ft_free_process(char *to_free, char *to_return);
 //-------------------- UTILS2.C --------------------//
+
+char	*check_var_str(char *str, t_var *var);
 
 // bool	already_pipe(t_token t_new);
 
