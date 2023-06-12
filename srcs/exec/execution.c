@@ -16,7 +16,6 @@ static t_exec		*get_exec_data(t_minishell *minishell);
 static size_t		get_nb_cmd(t_token *token_list);
 static void			exec_last_cmd(t_exec *exec_data, size_t current_cmd);
 
-//TODO if only one cmd is given and is a BUILTIN, must execute it in the parent process
 void	master_exec(t_minishell	*minishell)
 {
 	t_exec	*exec_data;
@@ -28,13 +27,15 @@ void	master_exec(t_minishell	*minishell)
 	else
 	{
 		current_cmd = 0;
-		while (current_cmd < exec_data->nb_cmd - 1) {
+		while (current_cmd < exec_data->nb_cmd - 1)
+		{
 			dprintf(STDERR_FILENO, "current_cmd: %zu\n", current_cmd);
 			pipe(exec_data->pipe_fd);
 			exec_data->pid[current_cmd] = fork();
 			if (exec_data->pid[current_cmd] == -1)
 				exit(EXIT_FAILURE); //TODO: Call exit function
-			if (exec_data->pid[current_cmd] == 0) {
+			if (exec_data->pid[current_cmd] == 0)
+			{
 				dup2(exec_data->pipe_fd[1], STDOUT_FILENO);
 				close(exec_data->pipe_fd[0]);
 				close(exec_data->pipe_fd[1]);
@@ -100,7 +101,7 @@ static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 	exec_data->pid[current_cmd] = fork();
 	if (exec_data->pid[current_cmd] == -1)
 		exit(EXIT_FAILURE); //TODO: Call exit function
-	if(exec_data->pid[current_cmd] != 0)
+	if (exec_data->pid[current_cmd] != 0)
 		return ;
 	dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
 	handle_io(exec_data, current_cmd);
@@ -110,7 +111,8 @@ static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 		free_exec(exec_data);
 		exit(EXIT_SUCCESS);//TODO: Call exit function
 	}
-	execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
+	execve(exec_data->cmd[current_cmd].argv[0],
+		exec_data->cmd[current_cmd].argv, exec_data->envp);
 	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
 	exit(EXIT_FAILURE);//TODO: Call exit function
 }
