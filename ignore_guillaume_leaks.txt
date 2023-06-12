@@ -1,0 +1,12 @@
+{
+	leak readline
+	Memcheck:Leak
+	...
+	fun:readline
+}
+{
+	leak master_exec
+	Memcheck:Leak
+	...
+	fun:master_exec
+}

@@ -5,14 +5,14 @@ leak readline
 	fun:readline
 }
 {
-	leak add_history
+	leak get_token_list
 	Memcheck:Leak
 	...
-	fun:add_history
+	fun:get_token_list
 }
 {
-	leak get_token
+	leak ft_space_str
 	Memcheck:Leak
 	...
-	fun:get_token
+	fun:ft_space_str
 }
