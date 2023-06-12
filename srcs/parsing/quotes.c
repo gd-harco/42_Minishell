@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:25:29 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 12:51:06 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 12:11:32 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	dub_quote(char *str_tmp, t_var *var, t_varenv *v_e, char **tmp)
 			*tmp = ft_strjoinsp(*tmp, v_q.t, 0);
 			v_q.i++;
 		}
+		*tmp = ft_strjoinsp(*tmp, "\0", 0);
 	}
 }
 

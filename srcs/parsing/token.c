@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/12 11:20:05 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 11:48:44 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ static t_token	*token_init(t_var *var)
 
 valgrind --suppressions=valgrind_ignore_leaks.txt --log-file=out_valgrind.log ./minishell
 
-TODO : gerer ls -a > $USER doit faire comme ls -a > "$USER" 
+OK : gerer ls -a > $USER doit faire comme ls -a > "$USER" 
 				et ecrire tdutel non pas $USER en name_file
-gerer  NORME, LEAKS
+TODO : gerer  NORME, LEAKS
 
 
 /!\
