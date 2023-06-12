@@ -26,6 +26,7 @@ HEADERS_LIST	=	builtins.h\
 
 SRCS_LIST		=	main.c			\
 					prompt.c		\
+					parsing/utils_main.c	\
 \
 					builtins/echo.c		\
 					builtins/cd.c		\

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/12 11:39:20 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 15:48:53 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 //-------------------- FUNCTION --------------------//
 /*
 */
+void	free_var(t_var *var);
+void	free_data(t_minishell *data);
+t_list	*lst_env(char **envp);
 //#################### PATH.C ####################//
 char	**get_path(char **envp);
 char	*process(char *str, char **path, int ind);
@@ -86,7 +89,6 @@ void	token_clear(t_token *tkn);
 //#################### TOKEN.C ####################//
 t_token	*get_token_list(t_var *var);
 // void	struct_clear(t_var *var);
-void	free_var(t_var *var);
 //-------------------- TOKEN.C --------------------//
 /*
 */
@@ -102,7 +104,7 @@ bool	var_init(t_var *var);
 bool	is_builtin(char *str);
 bool	has_in_out(char **s, int j);
 char	*check_var(t_var *var, t_varenv *v_e);				
-char	*ft_free_process(char *to_free, char *to_return);
+char	*check_var_str(char *str, t_var *var);
 //-------------------- UTILS.C --------------------//
 /*
 */
@@ -111,7 +113,6 @@ char	*ft_space_str(t_var *var);
 char	*ft_free_process(char *to_free, char *to_return);
 //-------------------- UTILS2.C --------------------//
 
-char	*check_var_str(char *str, t_var *var);
 
 // bool	already_pipe(t_token t_new);
 

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:33:44 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 15:37:07 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 13:35:01 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,17 @@ void	free_var(t_var *var)
 		ft_free_array((void *)var->s);
 	if (var->spipe)
 		ft_free_array((void *)var->spipe);
-	// if (var->envp)
-	// 	ft_free_array((void *)var->envp);
-	// if (var->path)
-	// 	ft_free_array((void *)var->path);
+	if (var->envp)
+		ft_free_array((void *)var->envp);
+	if (var->path)
+		ft_free_array((void *)var->path);
 	if (var->s_p)
 		free(var->s_p);
 	if (var->arg)
 		free(var->arg);
-	// if (var->env)
-	// 	free(var->env);
-	// if (var->new_tkn)
-	// 	token_clear(&var->new_tkn, free);
+	if (var->env)
+		free(var->env);
+	if (var->new_tkn)
+		token_clear(&var->new_tkn);
 }
 // cat Makefile | rev | wc -l >> out

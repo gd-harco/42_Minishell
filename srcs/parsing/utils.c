@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/12 11:38:39 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 14:44:12 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,6 @@ char	*check_var(t_var *var, t_varenv *v_e)
 	}
 	else
 		return (ft_strdup(var->s_p));
-}
-
-
-char	*ft_free_process(char *to_free, char *to_return)
-{
-	if (to_free)
-		free(to_free);
-	return (to_return);
 }
 
 char	*check_var_str(char *str, t_var *var)

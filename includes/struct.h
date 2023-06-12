@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/09 16:41:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 16:13:43 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_token
 
 typedef struct s_minishell
 {
-	char	**envp;
+	t_list	*envp;
 	t_token	*token_list;
 }				t_minishell;
 
@@ -85,12 +85,12 @@ typedef struct s_exec
 
 typedef struct s_var
 {
-	char	*str_in;	//la commande prompt
-	char	*str;		//la copie de commande prompt
-	char	**s;		// chaque mots espacés
-	char	**spipe;	//phrase split par les |
+	char	*str_in;
+	char	*str;
+	char	**s;
+	char	**spipe;
 	int		nb_pipe;
-	char	**envp;
+	t_list	*envp;
 	char	**env_cpy;
 	int		index;
 	int		i;
@@ -104,6 +104,12 @@ typedef struct s_var
 	bool	quote_cmd;
 	char	*quote;
 }				t_var;
+
+typedef struct s_lstchar
+{
+	char			*content;
+	struct s_token	*next;
+}				t_charlst;
 
 typedef struct s_varenv
 {

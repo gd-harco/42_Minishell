@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 16:38:27 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/12 14:44:17 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ char	*ft_space_str(t_var *var)
 	var->is_squote = false;
 	v_q.tmp = ft_strdup(var->str_in);
 	if (!v_q.tmp)
+	{
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
+	}
 	v_q.i = 0;
 	v_q.t[1] = 0;
 	new = NULL;
@@ -96,6 +98,13 @@ char	*ft_space_str(t_var *var)
 	}
 	free(v_q.tmp);
 	return (new);
+}
+
+char	*ft_free_process(char *to_free, char *to_return)
+{
+	if (to_free)
+		free(to_free);
+	return (to_return);
 }
 
 /*bool	already_pipe(t_token t_new)		//plus besoin
