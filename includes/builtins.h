@@ -22,6 +22,6 @@ void	pwd(void);
 //void	export(char **argv, char **envp);
 //void	unset(char **argv, char **envp);
 //void	env(char **envp);
-//void	exit_shell(int status, void **things_to_free);
+void	exit_shell(t_exec *exec_data);
 
 #endif

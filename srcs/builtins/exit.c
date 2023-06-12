@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-//TODO: determine what will be needed to free
-void	exit_shell(int status, void **things_to_free)
+
+void	exit_shell(t_exec	*exec_data)
 {
-	(void)things_to_free;
+	(void)exec_data;
 	rl_clear_history();
 	ft_dprintf(STDOUT_FILENO,
 		"La Team Rocket s'envole vers d'autres cieux!\n");
 	ft_dprintf(STDERR_FILENO, "exit\n");
-	exit(status);
+	exit(EXIT_SUCCESS);
 }
