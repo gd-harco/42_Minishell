@@ -29,24 +29,26 @@ int	main(int argc, char **argv, char **envp)
 	var->envp = envp;
 	var->env_cpy = envp;
 	printf(ROCKET_LOGO);
-	var->str = get_user_input();
+	var->str_in = get_user_input();
+	var->str = ft_space_str(var);
 	while (42)
 	{
-		if (!var->str)
+		if (!var->str_in)
 		{
-			free(var->str);
+			free(var->str_in);
 			free(data);
 			free(var);
 			ft_printf("exit\n");
 			exit(EXIT_EOF);
 		}
-		if (var->str && *(var->str))
-			add_history(var->str);
+		if (var->str_in && *(var->str_in))
+			add_history(var->str_in);
 		data->token_list = get_token_list(var);
 		if (data->token_list)
 			master_exec(data);
-		free(var->str);
-		var->str = get_user_input();
+		free(var->str_in);
+		var->str_in = get_user_input();
+		var->str = ft_space_str(var);
 	}
 	return (0);
 }
