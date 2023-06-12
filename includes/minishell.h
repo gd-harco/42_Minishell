@@ -12,7 +12,7 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
+# define EXIT_EOF 101
 //-----------------INCLUDES-----------------//
 
 //########### PERSONNAL LIB HEADERS ##########//
@@ -40,14 +40,11 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-
 //-----------------FUNCTION-----------------//
-
 //################# PROMPT.C #################//
 char	*get_user_input(void);
 
-
-# define ROCKET_LOGO "\033[0;31m\nBienvenue dans le Minishell de la Team Rocket!\n\n##################################\n\
+# define ROCKET_LOGO "\033[0;31m\n\033[2JBienvenue dans le Minishell de la Team Rocket!\n\n##################################\n\
 ####################################,\n\
 ######################################\n\
 ######################################,\n\

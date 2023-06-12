@@ -11,13 +11,3 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	unset(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		free(str[i++]);
-	free(str);
-}

@@ -3,135 +3,132 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/16 14:56:35 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/30 10:11:05 by gd-harco         ###   ########lyon.fr   */
+/*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/06/06 14:26:34 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_loop(t_exec *exec);
-static void	open_io_file(t_cmd *cmd);
-static void	exec_unique_cmd(t_cmd *cmd, char **envp, t_exec *exec);
-static void	exec_cmd(t_cmd *cmd, char **envp, t_exec *exec);
+static t_exec		*get_exec_data(t_minishell *minishell);
+static size_t		get_nb_cmd(t_token *token_list);
+static void			exec_last_cmd(t_exec *exec_data, size_t current_cmd);
 
-void	master_exec(t_minishell *minishell_data)
+void	master_exec(t_minishell	*minishell)
 {
-	t_exec	*exec;
-	size_t	cur_cmd_nb;
+	t_exec	*exec_data;
+	size_t	current_cmd;
 
-	exec = malloc(sizeof(t_exec));
-	if (exec == NULL)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	exec->envp = minishell_data->envp;
-	exec->token_list = minishell_data->token_list;
-	exec->nb_cmd = get_nb_cmd(exec->token_list);
-	if (exec->nb_cmd == 0)
-		return ; //TODO: call function pointer exit
-	exec->nb_here_doc = get_nb_here_doc(exec->token_list);
-	if (exec->nb_here_doc != 0)
-		process_here_doc(exec);
-	else
-		exec->here_doc = NULL;
-	exec->cmd = ft_calloc(exec->nb_cmd, sizeof(t_cmd));
-	if (exec->cmd == NULL)
-		exit(EXIT_FAILURE);//TODO : call function pointer exit
-	cur_cmd_nb = 0;
-	while (cur_cmd_nb < exec->nb_cmd)
-		translate_token_in_cmd(exec, cur_cmd_nb++);
-	exec_loop(exec);
-}
-
-void	exec_loop(t_exec *exec)
-{
-	size_t	cur_cmd_nb;
-	int		old_stdin;
-	int		old_stdout;
-
-	cur_cmd_nb = 0;
-	old_stdin = dup(STDIN_FILENO);
-	old_stdout = dup(STDOUT_FILENO);
-	if (exec->nb_cmd == 1)
-		exec_unique_cmd(&exec->cmd[0], exec->envp, exec);
-	else
+	exec_data = get_exec_data(minishell);
+	current_cmd = 0;
+	while (current_cmd < exec_data->nb_cmd - 1)
 	{
-		while (cur_cmd_nb < exec->nb_cmd - 1)
+		dprintf(STDERR_FILENO, "current_cmd: %zu\n", current_cmd);
+		pipe(exec_data->pipe_fd);
+		exec_data->pid[current_cmd] = fork();
+		if (exec_data->pid[current_cmd] == -1)
+			exit(EXIT_FAILURE); //TODO: Call exit function
+		if (exec_data->pid[current_cmd] == 0)
 		{
-			exec_cmd(&exec->cmd[cur_cmd_nb], exec->envp, exec);
-			cur_cmd_nb++;
+			dup2(exec_data->pipe_fd[1], STDOUT_FILENO);
+			close(exec_data->pipe_fd[0]);
+			close(exec_data->pipe_fd[1]);
+			exec_piped_cmd(exec_data, current_cmd);
 		}
-		exec_unique_cmd(&exec->cmd[cur_cmd_nb], exec->envp, exec);
+		dup2(exec_data->pipe_fd[0], STDIN_FILENO);
+		close(exec_data->pipe_fd[0]);
+		close(exec_data->pipe_fd[1]);
+		current_cmd++;
 	}
-	dup2(old_stdin, STDIN_FILENO);
-	dup2(old_stdout, STDOUT_FILENO);
+	exec_last_cmd(exec_data, current_cmd);
+	current_cmd = -1;
+	while (++current_cmd < exec_data->nb_cmd)
+		waitpid(exec_data->pid[current_cmd], NULL, 0);
+	dup2(exec_data->std_save[0], STDIN_FILENO);
+	dup2(exec_data->std_save[1], STDOUT_FILENO);
+	free_exec(exec_data);
 }
 
-void	open_io_file(t_cmd	*cmd)
+static t_exec	*get_exec_data(t_minishell *minishell)
 {
-	int	cur_outfile;
+	t_exec	*exec_data;
+	size_t	i;
 
-	if (cmd->in_type == INFILE)
-		cmd->file_fd[0] = open(cmd->in_file, O_RDONLY);
-	else if (cmd->in_type == HERE_DOC_I)
-		ft_dprintf(STDOUT_FILENO, "todo here_doc"); //TODO: here_doc
-	else
-		cmd->file_fd[0] = dup(STDIN_FILENO);
-	cur_outfile = 0;
-	if (cmd->out_type == OUTFILE || cmd->out_type == OUTFILE_APPEND)
-	{
-		while (cmd->out_file[cur_outfile] != NULL)
-		{
-			if (cmd->out_type == OUTFILE)
-				cmd->file_fd[1]
-					= open(cmd->out_file[cur_outfile], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			else if (cmd->out_type == OUTFILE_APPEND)
-				cmd->file_fd[1]
-					= open(cmd->out_file[cur_outfile], O_WRONLY | O_CREAT | O_APPEND, 0644);
-			cur_outfile++;
-		}
-	}
-	else
-		cmd->file_fd[1] = STDOUT_FILENO;
-	if (cmd->file_fd[0] == -1 || cmd->file_fd[1] == -1)
-		exit(EXIT_FAILURE);
+	exec_data = ft_calloc(1, sizeof(t_exec));
+	if (!exec_data)
+		exit(EXIT_FAILURE);//TODO: Call exit function
+	exec_data->token_list = minishell->token_list;
+	exec_data->envp = minishell->envp;
+	exec_data->std_save[0] = dup(STDIN_FILENO);
+	exec_data->std_save[1] = dup(STDOUT_FILENO);
+	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
+	exec_data->nb_pipe = exec_data->nb_cmd - 1;
+	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list, exec_data);
+	exec_data->cmd = get_cmd_data(exec_data);
+	exec_data->pid = malloc(sizeof(pid_t) * exec_data->nb_cmd);
+	if (!exec_data->pid)
+		exit(EXIT_FAILURE);//TODO: Call exit function
+	i = -1;
+	while (++i < exec_data->nb_cmd)
+		exec_data->pid[i] = -1;
+	return (exec_data);
 }
 
-void	exec_unique_cmd(t_cmd *cmd, char **envp, t_exec *exec)
+static size_t	get_nb_cmd(t_token *token_list)
 {
-	open_io_file(cmd);
-	dup2(cmd->file_fd[0], STDIN_FILENO);
-	dup2(cmd->file_fd[1], STDOUT_FILENO);
-	cmd->pid = fork();
-	(void)exec;
-	if (cmd->pid == 0)
+	size_t	nb_cmd;
+
+	nb_cmd = 1;
+	while (token_list)
 	{
-		execve(cmd->path, cmd->cmd, envp);
+		if (token_list->type == PIPE)
+			nb_cmd++;
+		token_list = token_list->next;
 	}
-	else
-	{
-		wait(&cmd->pid);
-	}
+	return (nb_cmd);
 }
 
-void	exec_cmd(t_cmd *cmd, char **envp, t_exec *exec)
+static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 {
-	open_io_file(cmd);
-	pipe(exec->pipe_fd);
-	cmd->pid = fork();
-	if (cmd->pid == 0)
+	dprintf(STDERR_FILENO, "current_cmd: %zu\n", current_cmd);
+	exec_data->pid[current_cmd] = fork();
+	if (exec_data->pid[current_cmd] == -1)
+		exit(EXIT_FAILURE); //TODO: Call exit function
+	if(exec_data->pid[current_cmd] != 0)
+		return ;
+	dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
+	handle_io(exec_data, current_cmd);
+	if (exec_data->cmd[current_cmd].builtin != NONE)
+		exec_builtin(exec_data, current_cmd);
+	execve(exec_data->cmd[current_cmd].argv[0], exec_data->cmd[current_cmd].argv, exec_data->envp);
+	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
+	exit(EXIT_FAILURE);//TODO: Call exit function
+}
+
+void	free_exec(t_exec *exec_data)
+{
+	size_t	i;
+	size_t	str_to_free;
+	size_t	last_hd_free;
+
+	i = 0;
+	close(exec_data->std_save[0]);
+	close(exec_data->std_save[1]);
+	last_hd_free = 0;
+	while (last_hd_free < exec_data->nb_here_doc)
+		close(exec_data->here_doc_fd[last_hd_free++]);
+	free(exec_data->here_doc_fd);
+	free(exec_data->pid);
+	i = exec_data->nb_cmd;
+	while (i--)
 	{
-		close(exec->pipe_fd[0]);
-		dup2(exec->pipe_fd[1], STDOUT_FILENO);
-		close(exec->pipe_fd[1]);
-		execve(cmd->path, cmd->cmd, envp);
+		str_to_free = ft_array_length((void **)exec_data->cmd[i].argv);
+		while (str_to_free--)
+			free(exec_data->cmd[i].argv[str_to_free]);
+		free(exec_data->cmd[i].argv);
 	}
-	else
-	{
-		wait(&cmd->pid);
-		close(exec->pipe_fd[1]);
-		dup2(exec->pipe_fd[0], STDIN_FILENO);
-		close(exec->pipe_fd[0]);
-	}
+	free(exec_data->cmd);
+	free(exec_data);
 }

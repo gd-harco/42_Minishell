@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/30 10:46:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/09 16:41:08 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,20 @@ enum e_type {
 	BUILTIN = 7
 };
 
+enum e_builtin {
+	NONE = 0,
+	ECHO = 1,
+	CD = 2,
+	PWD = 3,
+	EXPORT = 4,
+	UNSET = 5,
+	ENV = 6,
+	EXIT = 7
+};
+
 typedef struct s_token
 {
-	char			**content;
+	char			*content[2];
 	enum e_type		type;
 	struct s_token	*next;
 }				t_token;
@@ -44,52 +55,43 @@ typedef struct s_here_doc
 	int		pipe_fd[2];
 	char	*delimiter;
 	char	*tmp_char;
-	t_token	*link;
 }				t_here_doc;
 
-enum e_i_type {
-	STDIN = 0,
-	INFILE = 1,
-	HERE_DOC_I = 2
-};
-
-enum e_o_type {
-	STDOUT = 0,
-	OUTFILE = 1,
-	OUTFILE_APPEND = 2
-};
-
-//in "file_fd", 0 is for input, 1 is for output.
 typedef struct s_cmd
 {
-	size_t			command_id;
-	enum e_i_type	in_type;
-	enum e_o_type	out_type;
-	char			*path;
-	char			**cmd;
-	char			*in_file;
-	char			**out_file;
-	pid_t			pid;
-	int				file_fd[2];
+	char			**argv;
+	enum e_builtin	builtin;
 }				t_cmd;
+
+typedef struct s_pipe_fd
+{
+	int		pipe_fd[2];
+}				t_pipe_fd;
 
 typedef struct s_exec
 {
 	char		**envp;
 	t_token		*token_list;
 	size_t		nb_cmd;
+	size_t		nb_pipe;
 	size_t		nb_here_doc;
-	t_here_doc	*here_doc;
+	int			*here_doc_fd;
+	size_t		nb_current_hd;
 	t_cmd		*cmd;
+	pid_t		*pid;
+	int			std_save[2];
 	int			pipe_fd[2];
 }				t_exec;
 
 typedef struct s_var
 {
-	char	*str;
-	char	**s;
-	char	**spipe;
+	char	*str_in;	//la commande prompt
+	char	*str;		//la copie de commande prompt
+	char	**s;		// chaque mots espacés
+	char	**spipe;	//phrase split par les |
+	int		nb_pipe;
 	char	**envp;
+	char	**env_cpy;
 	int		index;
 	int		i;
 	char	**path;
@@ -97,6 +99,10 @@ typedef struct s_var
 	char	*arg;
 	char	*env;
 	t_token	*new_tkn;
+	bool	is_pquote;
+	bool	is_squote;
+	bool	quote_cmd;
+	char	*quote;
 }				t_var;
 
 typedef struct s_varenv
@@ -105,7 +111,18 @@ typedef struct s_varenv
 	int		j;
 	int		k;
 	int		m;
+	int		o;
 	char	*var_env;
 }				t_varenv;
+
+typedef struct s_var_quote
+{
+	char	*tmp;
+	char	**split_tmp;
+	int		i;
+	int		j;
+	int		k;
+	char	t[2];
+}				t_var_quote;
 
 #endif

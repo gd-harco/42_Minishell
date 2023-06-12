@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/26 11:11:08 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/09 16:10:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,18 @@ char	**get_path(char **envp)
 	return (split_path);
 }
 
-char	**path_arg_cat(char **src, char *root_arg)
+static char	**path_arg_cat(char **src, char *root_arg)
 {
 	int		i;
 	char	**pathsrc;
 
 	pathsrc = malloc(sizeof(char *) * (ft_array_length((void **)src) + 1));
 	if (!pathsrc)
-		return (NULL);
+		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	i = 0;
 	while (src[i])
 	{
-		pathsrc[i] = ft_strjoin(src[i], root_arg);
+		pathsrc[i] = ft_strjoinsp(src[i], root_arg, 0);
 		i++;
 	}
 	pathsrc[i] = NULL;
@@ -62,9 +62,8 @@ char	*process(char *str, char **path, int ind)
 	{
 		return (split_argv[ind]);
 	}
-	free(split_argv[0]);
-	split_argv[0] = path_cmb[i];
 	free(root_arg);
-	free(path_cmb);
-	return (split_argv[0]);
+	ft_free_split(split_argv);
+	// ft_free_array((void *)path_cmb);
+	return (path_cmb[i]);
 }

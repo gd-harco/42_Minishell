@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 14:57:11 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/25 14:18:25 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/03 12:49:20 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,31 @@
 # define EXEC_H
 
 # include "struct.h"
+# define HD_PROMPT "heredoc> "
+# define IO_FAILURE 42
 
 //-----------------FUNCTION-----------------//
 
 //########### EXECUTION.C ###########//
 void	master_exec(t_minishell *minishell_data);
-
-//########### GET_ITEM_NB.C ###########//
-int		get_nb_cmd(t_token *token);
-int		get_nb_here_doc(t_token *token);
+void	free_exec(t_exec *exec_data);
 
 //########### HERE_DOC.C ###########//
-void	process_here_doc(t_exec *data);
-
-//########### COMMAND.C ###########//
-void	fill_cmd(t_exec *data);
+int		*get_here_doc_fd(t_token *token_list, t_exec *exec_data);
 
 //########### TRANSLATE.C ###########//
-void	translate_token_in_cmd(t_exec *exec, size_t cmd_nb);
-char	**exec_create_cmd(t_token	*cur_token);
-void	get_io_file_path(t_cmd *cmd, t_token *first_token);
+t_cmd	*get_cmd_data(t_exec *exec_data);
+
+//########### IO_HANDLING.C ###########//
+void	get_cmd_io(t_token *f_token, t_cmd cmd, t_exec *exec_data);
+
+//########### CLOSE_FD.C ###########//
+void	close_child_unused_fd(size_t cmd_nb, t_pipe_fd *pipe_fd, size_t nb_pipe);
+void	close_parent_unused_fd(size_t cmd_nb, t_pipe_fd *pipe_fd, size_t nb_pipe);
+
+//########### EXEC_CMD.C ###########//
+void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd);
+void	handle_io(t_exec *exec_data, size_t current_cmd);
+void	exec_builtin(t_exec *exec_data, size_t current_cmd);
 
 #endif
