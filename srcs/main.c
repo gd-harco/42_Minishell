@@ -26,7 +26,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!var)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	data->envp = envp;
-	var->envp = envp;
 	var->env_cpy = envp;
 	printf(ROCKET_LOGO);
 	var->str_in = get_user_input();

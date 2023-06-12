@@ -90,7 +90,6 @@ typedef struct s_var
 	char	**s;		// chaque mots espacés
 	char	**spipe;	//phrase split par les |
 	int		nb_pipe;
-	char	**envp;
 	char	**env_cpy;
 	int		index;
 	int		i;

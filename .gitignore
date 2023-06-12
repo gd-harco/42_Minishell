@@ -54,7 +54,6 @@ Mkfile.old
 dkms.conf
 
 # Local files
-out*
 minishell
 infile
 Out
@@ -66,4 +65,7 @@ valgrin2
 valgrin3
 valgrind
 valgrind2
-
+valgrind.log
+out
+a.out
+.nfs*
