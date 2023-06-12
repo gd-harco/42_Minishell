@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 16:23:56 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/11 13:50:49 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*ft_substrvar(char const *s, unsigned int start, size_t len, t_var var);
 */
 //#################### QUOTES.C ####################//
 void	quote_manager(t_var *var, t_varenv *v_e);
+void	quote_manager_inout(t_var *var, t_varenv *v_e);
 //-------------------- QUOTES.C --------------------//
 /*
 */
@@ -61,8 +62,8 @@ void	env_arg(t_var *var, t_varenv *v_e);
 /*
 */
 //#################### TOKEN_FCT.C ####################//
-void	token_infile(t_var *var);
-void	token_outfile(t_var *var);
+int		token_infile(t_var *var);
+int		token_outfile(t_var *var);
 t_token	*token_pipe(void);
 //-------------------- TOKEN_FCT.C --------------------//
 /*
@@ -89,9 +90,11 @@ void	free_var(t_var *var);
 //-------------------- TOKEN.C --------------------//
 /*
 */
-//#################### UTILS_JOIN.C ####################//
+//#################### UTILS_STR.C ####################//
 char	*ft_strjoinsp(char *s1, char *s2, int n);
-//-------------------- UTILS_JOIN.C --------------------//
+char	*ft_trunc(char *str, int start, char *c, t_var var);
+char	*ft_trunc_start(char *str, char *c, t_var var);
+//-------------------- UTILS_STR.C --------------------//
 /*
 */
 //#################### UTILS.C ####################//		
@@ -108,7 +111,6 @@ char	*ft_space_str(t_var *var);
 char	*ft_free_process(char *to_free, char *to_return);
 //-------------------- UTILS2.C --------------------//
 
-char	*ft_trunc(char *str, int start, char *c, t_var var);
 // bool	already_pipe(t_token t_new);
 
 #endif
