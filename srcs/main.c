@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	data;
 	t_var		var;
 
-//TODO bien verifier qe la commande envoye est bien un path et pas juste un binaire
+//TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
 	data.envp = envp;

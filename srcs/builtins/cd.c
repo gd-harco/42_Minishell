@@ -12,17 +12,40 @@
 
 #include "minishell.h"
 
+static char	*get_env(char *str, char **envp);
+
 void	cd(char **argv, t_exec *exec_data)
 {
 	char	*path;
 
 	if (argv[1] == NULL)
 	{
-		(void)exec_data;
-		//TODO get HOME from env
+		path = get_env("HOME", exec_data->envp);
+		if (path == NULL)
+		{
+			ft_dprintf(STDERR_FILENO, "cd: HOME not set\n");
+			return ;
+		}
+		if (chdir(&path[5]) == -1)
+			ft_dprintf(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
+		return ;
 	}
 	else
 		path = argv[1];
 	if (chdir(path) == -1)
 		ft_dprintf(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
+}
+
+static char	*get_env(char *str, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], str, ft_strlen(str)) == 0)
+			return (envp[i]);
+		i++;
+	}
+	return (NULL);
 }
