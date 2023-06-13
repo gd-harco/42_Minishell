@@ -32,7 +32,6 @@ SRCS_LIST		=	main.c			\
 					builtins/env.c		\
 					builtins/exit.c		\
 					builtins/pwd.c		\
-					builtins/unset.c	\
 \
 					exec/execution.c		\
 					exec/exec_cmd.c			\

@@ -1,0 +1,15 @@
+bin
+ignore_guillaume_leaks.txt
+ignore_rl_leaks.txt
+ignore_tim_leaks.txt
+includes
+lib
+Makefile
+minishell
+out
+out2
+out5
+README.md
+srcs
+subject.pdf
+valgrind.log
