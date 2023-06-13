@@ -67,6 +67,8 @@ CC				=	cc
 
 CFLAGS			=	 -Wall -Werror -Wextra -g3
 
+
+
 FRAMEWORKS		=	-Llib/libft -lft -lreadline
 
 
@@ -78,12 +80,13 @@ MKDIR			=	mkdir -p
 
 # ********* RULES ******** #
 
-init			:
-					make all
 
 all				:	${OBJS} ${HEADERS}
 					make -C lib/libft
 					make ${NAME}
+
+fsanitize		:
+					make all CFLAGS+=-fsanitize=address
 
 # ---- Variables Rules ---- #
 
