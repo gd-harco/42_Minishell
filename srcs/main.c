@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **envp)
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
-	data.envp = envp;
+	data.envp = (char **)ft_array_dup((void **)envp, false);
 	var.env_cpy = envp;
 	printf(ROCKET_LOGO);
 	var.str_in = get_user_input();
