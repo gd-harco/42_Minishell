@@ -21,7 +21,6 @@ int	main(int argc, char **argv, char **envp)
 //TODO bien verifier qe la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
-	malloc(10);
 	data.envp = envp;
 	var.env_cpy = envp;
 	printf(ROCKET_LOGO);
