@@ -53,18 +53,19 @@ void	handle_io(t_exec *exec_data, size_t current_cmd)
 
 void	exec_builtin(t_exec *exec_data, size_t current_cmd)
 {
+	handle_io(exec_data, current_cmd);
 	if (exec_data->cmd[current_cmd].builtin == ECHO)
 		echo(exec_data->cmd[current_cmd].argv);
 	else if (exec_data->cmd[current_cmd].builtin == CD)
 		cd(exec_data->cmd[current_cmd].argv, exec_data);
-//	else if (exec_data->cmd[current_cmd].builtin == PWD)
-//		pwd(exec_data->cmd[current_cmd].argv, exec_data->envp);
+	else if (exec_data->cmd[current_cmd].builtin == PWD)
+		pwd();
 //	else if (exec_data->cmd[current_cmd].builtin == EXPORT)
 //		export(exec_data->cmd[current_cmd].argv, exec_data->envp);
 //	else if (exec_data->cmd[current_cmd].builtin == UNSET)
 //		unset(exec_data->cmd[current_cmd].argv, exec_data->envp);
-//	else if (exec_data->cmd[current_cmd].builtin == ENV)
-//		env(exec_data->envp);
+	else if (exec_data->cmd[current_cmd].builtin == ENV)
+		env(exec_data->envp);
 //	else if (exec_data->cmd[current_cmd].builtin == EXIT)
 //		exit_shell(exec_data->cmd[current_cmd].argv);
 }

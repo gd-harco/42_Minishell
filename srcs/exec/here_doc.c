@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+//TODO: expand env var in here_doc
 static t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc);
 static void			write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc);
 static size_t		count_here_doc(t_token *token_list);

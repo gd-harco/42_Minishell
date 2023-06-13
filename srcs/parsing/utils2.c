@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 16:38:27 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/13 22:16:57 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	fill_str(t_var *var, t_var_quote *v_q, char **new)
 	else if (v_q->tmp[v_q->i] == '"')
 		*new = ft_strjoinsp(*new, ft_quote_str(v_q->tmp, &v_q->i, '"', var), 0);
 	else if (v_q->tmp[v_q->i] == '|')
-	{	
+	{
 		*new = ft_strjoinsp(*new, " | ", 0);
 		var->nb_pipe++;
 	}
@@ -85,7 +85,7 @@ char	*ft_space_str(t_var *var)
 	var->is_squote = false;
 	v_q.tmp = ft_strdup(var->str_in);
 	if (!v_q.tmp)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
+		return (NULL);
 	v_q.i = 0;
 	v_q.t[1] = 0;
 	new = NULL;
