@@ -52,5 +52,20 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-out
+
+# Local files
 minishell
+infile
+Out
+test
+intdutel
+tdutel
+valgrin
+valgrin2
+valgrin3
+valgrind
+valgrind2
+valgrind.log
+out
+a.out
+.nfs*
