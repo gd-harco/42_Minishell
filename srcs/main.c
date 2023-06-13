@@ -12,11 +12,13 @@
 
 #include "minishell.h"
 
+//TODO man stat = recuperer la valeur de retour
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
 	t_var		var;
 
+//TODO bien verifier qe la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
 	malloc(10);
