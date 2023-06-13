@@ -64,8 +64,8 @@ void	exec_builtin(t_exec *exec_data, size_t current_cmd)
 //		export(exec_data->cmd[current_cmd].argv, exec_data->envp);
 //	else if (exec_data->cmd[current_cmd].builtin == UNSET)
 //		unset(exec_data->cmd[current_cmd].argv, exec_data->envp);
-//	else if (exec_data->cmd[current_cmd].builtin == ENV)
-//		env(exec_data->envp);
+	else if (exec_data->cmd[current_cmd].builtin == ENV)
+		env(exec_data->envp);
 //	else if (exec_data->cmd[current_cmd].builtin == EXIT)
 //		exit_shell(exec_data->cmd[current_cmd].argv);
 }

@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 16:38:51 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 12:30:50 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/13 22:01:24 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	cd(char **argv, t_exec *exec_data);
 void	pwd(void);
 //void	export(char **argv, char **envp);
 //void	unset(char **argv, char **envp);
-//void	env(char **envp);
+void	env(char **envp);
 void	exit_shell(t_exec *exec_data);
 
 #endif

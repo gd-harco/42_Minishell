@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/03 13:10:00 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/13 22:30:07 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ int	main(int argc, char **argv, char **envp)
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
+	ft_dprintf(1, "envp len = %d\n", ft_array_length((void **)envp));
 	data.envp = (char **)ft_array_dup((void **)envp, false);
-	var.env_cpy = envp;
+	var.env_cpy = data.envp;
 	printf(ROCKET_LOGO);
 	var.str_in = get_user_input();
 	var.str = ft_space_str(&var);
@@ -32,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			free(var.str_in);
 			free(var.str);
+			free(var.env_cpy);
 			rl_clear_history();
 			ft_printf("exit\n");
 			exit(EXIT_EOF);
