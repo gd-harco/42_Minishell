@@ -29,7 +29,6 @@ void	master_exec(t_minishell	*minishell)
 		current_cmd = 0;
 		while (current_cmd < exec_data->nb_cmd - 1)
 		{
-			dprintf(STDERR_FILENO, "current_cmd: %zu\n", current_cmd);
 			pipe(exec_data->pipe_fd);
 			exec_data->pid[current_cmd] = fork();
 			if (exec_data->pid[current_cmd] == -1)
@@ -98,13 +97,11 @@ static size_t	get_nb_cmd(t_token *token_list)
 
 static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 {
-	dprintf(STDERR_FILENO, "current_cmd: %zu\n", current_cmd);
 	exec_data->pid[current_cmd] = fork();
 	if (exec_data->pid[current_cmd] == -1)
 		exit(EXIT_FAILURE); //TODO: Call exit function
 	if (exec_data->pid[current_cmd] != 0)
 		return ;
-	dprintf(STDERR_FILENO, "cmd: %s\n", exec_data->cmd[current_cmd].argv[0]);
 	handle_io(exec_data, current_cmd);
 	if (exec_data->cmd[current_cmd].builtin != NONE)
 	{
@@ -114,7 +111,7 @@ static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 	}
 	execve(exec_data->cmd[current_cmd].argv[0],
 		exec_data->cmd[current_cmd].argv, exec_data->envp);
-	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
+	ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", exec_data->cmd[current_cmd].argv[0], strerror(errno));
 	exit(EXIT_FAILURE);//TODO: Call exit function
 }
 
