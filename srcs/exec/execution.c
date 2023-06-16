@@ -53,6 +53,7 @@ void	master_exec(t_minishell	*minishell)
 	}
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
+	minishell->envp = exec_data->envp;
 	free_exec(exec_data);
 }
 
@@ -123,7 +124,6 @@ void	free_exec(t_exec *exec_data)
 	size_t	str_to_free;
 	size_t	last_hd_free;
 
-	i = 0;
 	close(exec_data->std_save[0]);
 	close(exec_data->std_save[1]);
 	last_hd_free = 0;

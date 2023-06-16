@@ -27,10 +27,11 @@ HEADERS_LIST	=	builtins.h\
 SRCS_LIST		=	main.c			\
 					prompt.c		\
 \
-					builtins/echo.c		\
 					builtins/cd.c		\
+					builtins/echo.c		\
 					builtins/env.c		\
 					builtins/exit.c		\
+					builtins/export.c	\
 					builtins/pwd.c		\
 \
 					exec/execution.c		\
