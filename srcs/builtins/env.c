@@ -19,7 +19,7 @@ void	env(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		ft_dprintf(STDERR_FILENO, "%s\n", envp[i]);
+		ft_dprintf(STDOUT_FILENO, "%s\n", envp[i]);
 		i++;
 	}
 }
