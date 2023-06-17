@@ -82,6 +82,7 @@ MKDIR			=	mkdir -p
 
 
 all				:	${OBJS} ${HEADERS}
+					git submodule update --init --recursive
 					make -C lib/libft
 					make ${NAME}
 
