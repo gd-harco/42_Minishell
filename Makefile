@@ -86,6 +86,9 @@ all				:	${OBJS} ${HEADERS}
 					make ${NAME}
 
 fsanitize		:
+					make fclean -C lib/libft
+					make fclean
+					make debug -C lib/libft
 					make all CFLAGS+=-fsanitize=address
 
 # ---- Variables Rules ---- #
