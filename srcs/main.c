@@ -21,8 +21,7 @@ int	main(int argc, char **argv, char **envp)
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
-	ft_dprintf(1, "envp len = %d\n", ft_array_length((void **)envp));
-	data.envp = (char **)ft_array_dup((void **)envp, false);
+	data.envp = (char **)ft_array_dup((void **)envp, false, true);
 	var.env_cpy = data.envp;
 	printf(ROCKET_LOGO);
 	var.str_in = get_user_input();
@@ -31,10 +30,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!var.str_in)
 		{
+			rl_clear_history();
 			free(var.str_in);
 			free(var.str);
-			free(var.env_cpy);
-			rl_clear_history();
+			ft_free_array((void **)data.envp);
 			ft_printf("exit\n");
 			exit(EXIT_EOF);
 		}
@@ -47,5 +46,4 @@ int	main(int argc, char **argv, char **envp)
 		var.str_in = get_user_input();
 		var.str = ft_space_str(&var);
 	}
-	return (0);
 }

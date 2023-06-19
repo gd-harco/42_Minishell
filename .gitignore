@@ -69,3 +69,5 @@ valgrind.log
 out
 a.out
 .nfs*
+/Default.xml
+/vlagrind.log

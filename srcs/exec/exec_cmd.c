@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/16 12:21:08 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/06/16 12:21:08 by gd-harco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	get_in_fd(t_token *token, t_exec *exec_data);
@@ -5,7 +17,6 @@ static int	get_out_fd(t_token *token);
 
 void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd)
 {
-	dprintf(2, "exec_piped_cmd\n");
 	handle_io(exec_data, current_cmd);
 	if (exec_data->cmd[current_cmd].builtin != NONE)
 	{
@@ -15,7 +26,7 @@ void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd)
 	}
 	execve(exec_data->cmd[current_cmd].argv[0],
 		exec_data->cmd[current_cmd].argv, exec_data->envp);
-	dprintf(STDERR_FILENO, "execve failed in cmd %zu\n", current_cmd);
+	ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", exec_data->cmd[current_cmd].argv[0], strerror(errno));
 	exit(EXIT_FAILURE);//TODO: Call exit function
 }
 
@@ -60,8 +71,8 @@ void	exec_builtin(t_exec *exec_data, size_t current_cmd)
 		cd(exec_data->cmd[current_cmd].argv, exec_data);
 	else if (exec_data->cmd[current_cmd].builtin == PWD)
 		pwd();
-//	else if (exec_data->cmd[current_cmd].builtin == EXPORT)
-//		export(exec_data->cmd[current_cmd].argv, exec_data->envp);
+	else if (exec_data->cmd[current_cmd].builtin == EXPORT)
+		export(exec_data);
 //	else if (exec_data->cmd[current_cmd].builtin == UNSET)
 //		unset(exec_data->cmd[current_cmd].argv, exec_data->envp);
 	else if (exec_data->cmd[current_cmd].builtin == ENV)

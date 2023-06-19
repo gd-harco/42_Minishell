@@ -15,7 +15,7 @@
 # define EXIT_EOF 101
 //-----------------INCLUDES-----------------//
 
-//########### PERSONNAL LIB HEADERS ##########//
+//########### PERSONAL LIB HEADERS ##########//
 
 # include "../lib/libft/includes/libft.h"
 
