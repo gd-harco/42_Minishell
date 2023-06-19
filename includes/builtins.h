@@ -24,4 +24,7 @@ void	export(t_exec *exec_data);
 void	env(char **envp);
 void	exit_shell(t_exec *exec_data);
 
+bool	check_for_equal(const char *str);
+
+
 #endif

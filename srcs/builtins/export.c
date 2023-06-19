@@ -14,7 +14,6 @@
 
 char	**add_env(char *str, char **envp);
 bool	already_in_env(char *str, char **envp);
-bool	check_for_equal(const char *str);
 bool	only_key_already_in_env(char *str, char **envp);
 
 
