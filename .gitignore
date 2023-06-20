@@ -53,6 +53,8 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+bonjour je suis une erreure
+
 # Local files
 minishell
 infile

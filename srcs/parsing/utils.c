@@ -28,10 +28,10 @@ bool	var_init(t_var *var)
 
 bool	is_builtin(char *str)
 {
-	if (ft_strcmp(str, "cd") == true || ft_strcmp(str, "pwd") == true
-		|| ft_strcmp(str, "echo") == true || ft_strcmp(str, "export") == true
-		|| ft_strcmp(str, "unset") == true || ft_strcmp(str, "env") == true
-		|| ft_strcmp(str, "exit") == true)
+	if (ft_strcmp(str, "cd") == 0 || ft_strcmp(str, "pwd") == 0
+		|| ft_strcmp(str, "echo") == 0 || ft_strcmp(str, "export") == 0
+		|| ft_strcmp(str, "unset") == 0 || ft_strcmp(str, "env") == 0
+		|| ft_strcmp(str, "exit") == 0)
 		return (true);
 	else
 		return (false);

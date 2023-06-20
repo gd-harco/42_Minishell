@@ -72,19 +72,19 @@ static char	**cmd_with_no_args(t_token **f_token)
 
 static void	set_builtin(t_cmd *cmd)
 {
-	if (ft_strcmp(cmd->argv[0], "echo"))
+	if (ft_strcmp(cmd->argv[0], "echo") == 0)
 		cmd->builtin = ECHO;
-	else if (ft_strcmp(cmd->argv[0], "cd"))
+	else if (ft_strcmp(cmd->argv[0], "cd") == 0)
 		cmd->builtin = CD;
-	else if (ft_strcmp(cmd->argv[0], "pwd"))
+	else if (ft_strcmp(cmd->argv[0], "pwd") == 0)
 		cmd->builtin = PWD;
-	else if (ft_strcmp(cmd->argv[0], "export"))
+	else if (ft_strcmp(cmd->argv[0], "export") == 0)
 		cmd->builtin = EXPORT;
-	else if (ft_strcmp(cmd->argv[0], "unset"))
+	else if (ft_strcmp(cmd->argv[0], "unset") == 0)
 		cmd->builtin = UNSET;
-	else if (ft_strcmp(cmd->argv[0], "env"))
+	else if (ft_strcmp(cmd->argv[0], "env") == 0)
 		cmd->builtin = ENV;
-	else if (ft_strcmp(cmd->argv[0], "exit"))
+	else if (ft_strcmp(cmd->argv[0], "exit") == 0)
 		cmd->builtin = EXIT;
 	else
 		cmd->builtin = NONE;
