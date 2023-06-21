@@ -20,7 +20,7 @@ void	echo(char **argv);
 void	cd(char **argv, t_exec *exec_data);
 void	pwd(void);
 void	export(t_exec *exec_data);
-//void	unset(char **argv, char **envp);
+void	unset(char **argv, t_exec *exec_data);
 void	env(char **envp);
 void	exit_shell(t_exec *exec_data);
 bool	already_in_env(char *str, t_exec *exec_data);
