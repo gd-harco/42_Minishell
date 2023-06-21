@@ -77,8 +77,8 @@ void	exec_builtin(t_exec *exec_data, size_t current_cmd)
 		unset(exec_data->cmd[current_cmd].argv, exec_data);
 	else if (exec_data->cmd[current_cmd].builtin == ENV)
 		env(exec_data->envp);
-//	else if (exec_data->cmd[current_cmd].builtin == EXIT)
-//		exit_shell(exec_data->cmd[current_cmd].argv);
+	else if (exec_data->cmd[current_cmd].builtin == EXIT)
+		exit_shell(exec_data);
 }
 
 int	get_in_fd(t_token *token, t_exec *exec_data)

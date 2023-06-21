@@ -42,9 +42,10 @@ int	main(int argc, char **argv, char **envp)
 		if (var.str_in && *(var.str_in))
 			add_history(var.str_in);
 		data.token_list = get_token_list(&var);
+		free(var.str_in);
+		free(var.str);
 		if (data.token_list)
 			master_exec(&data);
-		free(var.str_in);
 		var.str_in = get_user_input();
 		var.str = ft_space_str(&var);
 	}
