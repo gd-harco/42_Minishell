@@ -25,7 +25,8 @@ char	*get_user_input(void)
 		prompt[2] = "Afin de préserver le monde de la dévastation! > ";
 		prompt[3] = "Afin de rallier tous les peuples à notre nation! > ";
 		prompt[4] = "Afin d'écraser l'amour et la vérité! > ";
-		prompt[5] = "Afin d'étendre notre pouvoir jusqu'à la voie lactée! > ";
+		prompt[5] = "Afin d'étendre notre pouvoir"
+			"jusqu'à la voie lactée! > ";
 		prompt[6] = "Jessie! > ";
 		prompt[7] = "James! > ";
 		prompt[8] = "La Team Rocket plus rapide que la lumière! > ";
@@ -35,6 +36,5 @@ char	*get_user_input(void)
 	if (i == 11)
 		i = 0;
 	user_input = readline(prompt[i++]);
-	add_history(user_input);
 	return (user_input);
 }

@@ -17,6 +17,8 @@ void	exit_shell(t_exec	*exec_data)
 {
 	(void)exec_data;
 	rl_clear_history();
+	ft_free_array((void **)exec_data->envp);
+	free_exec(exec_data);
 	ft_dprintf(STDOUT_FILENO,
 		"La Team Rocket s'envole vers d'autres cieux!\n");
 	ft_dprintf(STDERR_FILENO, "exit\n");
