@@ -56,8 +56,6 @@ static char	*get_env(char *str, char **envp)
 	return (NULL);
 }
 
-
-//TODO FIX THE SHIT, NOT WORKING
 static void	update_env(t_exec *exec_data)
 {
 	char	*tmp;
@@ -66,7 +64,6 @@ static void	update_env(t_exec *exec_data)
 
 	tmp = get_env("PWD", exec_data->envp);
 	n_old_pwd = ft_strjoin("OLDPWD=", tmp + 4);
-	free(tmp);
 	n_pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
 	already_in_env(n_old_pwd, exec_data);
 	already_in_env(n_pwd, exec_data);
