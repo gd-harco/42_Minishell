@@ -2,11 +2,11 @@
 #include "minishell.h"
 
 bool	unvalid_identifier(char *key);
+void	unset_cur_argv(char *cur_argv, t_exec *exec_data);
 
 void	unset(char **argv, t_exec *exec_data)
 {
 	size_t	i;
-	size_t	line_index;
 
 	i = 0;
 	while (argv[++i])
@@ -18,19 +18,25 @@ void	unset(char **argv, t_exec *exec_data)
 			continue ;
 		}
 		else
+			unset_cur_argv(argv[i], exec_data);
+	}
+}
+
+void	unset_cur_argv(char *cur_argv, t_exec *exec_data)
+{
+	size_t	line_index;
+
+	line_index = 0;
+	while (exec_data->envp[line_index])
+	{
+		if (ft_strncmp(exec_data->envp[line_index],
+				cur_argv, ft_strlen(cur_argv)) == 0)
 		{
-			line_index = 0;
-			while (exec_data->envp[line_index])
-			{
-				if (ft_strncmp(exec_data->envp[line_index], argv[i], ft_strlen(argv[i])) == 0)
-				{
-					ft_remove_array_line(
-						(void **)exec_data->envp, line_index, true);
-					break ;
-				}
-				line_index++;
-			}
+			ft_remove_array_line(
+				(void **)exec_data->envp, line_index, true);
+			break ;
 		}
+		line_index++;
 	}
 }
 
