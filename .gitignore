@@ -73,3 +73,5 @@ a.out
 .nfs*
 /Default.xml
 /vlagrind.log
+
+*.log
