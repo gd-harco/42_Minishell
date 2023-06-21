@@ -12,7 +12,10 @@
 
 #include "minishell.h"
 
+static void	update_env(t_exec *exec_data);
 static char	*get_env(char *str, char **envp);
+//TODO : handle cd - (go back to previous directory)
+//TODO : When cd success, update PWD and OLDPWD in env
 
 void	cd(char **argv, t_exec *exec_data)
 {
@@ -27,13 +30,16 @@ void	cd(char **argv, t_exec *exec_data)
 			return ;
 		}
 		if (chdir(&path[5]) == -1)
-			ft_dprintf(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
-		return ;
+			return (ft_dprintf(
+				STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno)), (void)0);
+		return (update_env(exec_data), (void)0);
 	}
 	else
 		path = argv[1];
 	if (chdir(path) == -1)
-		ft_dprintf(STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno));
+		return (ft_dprintf(
+				STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno)), (void)0);
+	return (update_env(exec_data), (void)0);
 }
 
 static char	*get_env(char *str, char **envp)
@@ -48,4 +54,20 @@ static char	*get_env(char *str, char **envp)
 		i++;
 	}
 	return (NULL);
+}
+
+
+//TODO FIX THE SHIT, NOT WORKING
+static void	update_env(t_exec *exec_data)
+{
+	char	*tmp;
+	char	*n_old_pwd;
+	char	*n_pwd;
+
+	tmp = get_env("PWD", exec_data->envp);
+	n_old_pwd = ft_strjoin("OLDPWD=", tmp + 4);
+	free(tmp);
+	n_pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	already_in_env(n_old_pwd, exec_data);
+	already_in_env(n_pwd, exec_data);
 }

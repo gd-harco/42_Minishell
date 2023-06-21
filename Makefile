@@ -95,6 +95,12 @@ fsanitize		:
 					make debug -C lib/libft
 					make all CFLAGS+=-fsanitize=address
 
+no_flags		:
+					make fclean -C lib/libft
+					make fclean
+					make -C lib/libft FLAGS="-g3"
+					make all CFLAGS="-g3"
+
 # ---- Variables Rules ---- #
 
 ${NAME}			:	${OBJS} ${HEADERS} ${LIBFT}
