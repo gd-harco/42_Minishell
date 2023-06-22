@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 void	exit_shell(t_exec	*exec_data)
 {
 	(void)exec_data;

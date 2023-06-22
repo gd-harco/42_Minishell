@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-static char	**add_env(char *str, t_exec *exec_data);
 static bool	only_key_already_in_env(char *str, t_exec *exec_data);
 void		naked_export(char **envp);
 
@@ -29,7 +28,6 @@ void	export(t_exec *exec_data)
 			continue ;
 		else
 			exec_data->envp = add_env(exec_data->cmd->argv[i], exec_data);
-
 	}
 }
 
@@ -47,7 +45,7 @@ bool	check_for_equal(const char *str)
 	return (false);
 }
 
-static char	**add_env(char *str, t_exec *exec_data)
+char	**add_env(char *str, t_exec *exec_data)
 {
 	size_t	old_len;
 	char	**new_envp;
