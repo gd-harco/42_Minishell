@@ -64,6 +64,7 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data = ft_calloc(1, sizeof(t_exec));
 	if (!exec_data)
 		exit(EXIT_FAILURE);//TODO: Call exit function
+	exec_data->secret_array = minishell->secret_array;
 	exec_data->token_list = minishell->token_list;
 	exec_data->envp = minishell->envp;
 	exec_data->std_save[0] = dup(STDIN_FILENO);

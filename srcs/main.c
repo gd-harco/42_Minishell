@@ -13,16 +13,22 @@
 #include "minishell.h"
 
 char	**init_shell_env(char **envp);
+void	init_secret_array(t_minishell *data, bool secret);
 
 //TODO man stat = recuperer la valeur de retour
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
 	t_var		var;
+	bool		secret;
 
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
-	(void)argc;
+	if (argc == 1)
+		secret = true;
+	else
+		secret = false;
 	(void)argv;
+	init_secret_array(&data, secret);
 	data.envp = init_shell_env(envp);
 	var.env_cpy = data.envp;
 	printf(ROCKET_LOGO);
@@ -73,4 +79,17 @@ char	**init_shell_env(char **envp)
 		new_envp[2] = shlvl;
 	}
 	return (new_envp);
+}
+
+void	init_secret_array(t_minishell *data, bool secret)
+{
+	if (secret == false)
+		data->secret_array = NULL;
+	else
+	{
+		data->secret_array = ft_calloc(3, sizeof(char *));
+		data->secret_array[0] = ft_strdup("/usr/bin/eog");
+		data->secret_array[1] = ft_strjoin(
+				getcwd(NULL, 0), "/assets/secret.gif");
+	}
 }
