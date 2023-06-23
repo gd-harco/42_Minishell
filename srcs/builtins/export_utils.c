@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/22 14:54:12 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/06/22 14:54:13 by gd-harco         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -21,7 +32,8 @@ void	naked_export(char **envp)
 		else
 		{
 			*tmp = '\0';
-			ft_dprintf(STDOUT_FILENO, "declare -x %s=\"%s\"\n", sorted_envp[i], tmp + 1);
+			ft_dprintf(STDOUT_FILENO,
+				"declare -x %s=\"%s\"\n", sorted_envp[i], tmp + 1);
 			*tmp = '=';
 		}
 	}

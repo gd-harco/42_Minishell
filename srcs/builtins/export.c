@@ -12,25 +12,52 @@
 
 #include "minishell.h"
 
-static char	**add_env(char *str, t_exec *exec_data);
 static bool	only_key_already_in_env(char *str, t_exec *exec_data);
+static bool	key_is_valid(char *str);
 void		naked_export(char **envp);
 
 void	export(t_exec *exec_data)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!exec_data->cmd->argv[1])
 		naked_export(exec_data->envp);
 	while (exec_data->cmd->argv[++i])
 	{
+		if (!key_is_valid(exec_data->cmd->argv[i]))
+		{
+			ft_dprintf(STDERR_FILENO,
+				"minishell: export: `%s':"
+				"not a valid identifier\n", exec_data->cmd->argv[i]);
+			continue ;
+		}
 		if (already_in_env(exec_data->cmd->argv[i], exec_data))
 			continue ;
 		else
 			exec_data->envp = add_env(exec_data->cmd->argv[i], exec_data);
-
 	}
+}
+
+bool	key_is_valid(char *str)
+{
+	int	i;
+	char	*key;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	key = ft_substr(str, 0, i);
+	i = 0;
+	if (ft_isdigit(key[i]))
+		return (free(key), false);
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (free(key), false);
+		i++;
+	}
+	return (free(key), true);
 }
 
 bool	check_for_equal(const char *str)
@@ -47,7 +74,7 @@ bool	check_for_equal(const char *str)
 	return (false);
 }
 
-static char	**add_env(char *str, t_exec *exec_data)
+char	**add_env(char *str, t_exec *exec_data)
 {
 	size_t	old_len;
 	char	**new_envp;
