@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/13 22:30:07 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/25 17:22:33 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	main(int argc, char **argv, char **envp)
 		data.token_list = get_token_list(&var);
 		free(var.str_in);
 		free(var.str);
+		free_var(&var);
+		exit (0);
 		if (data.token_list)
 			master_exec(&data);
 		var.str_in = get_user_input();
@@ -92,4 +94,24 @@ void	init_secret_array(t_minishell *data, bool secret)
 		data->secret_array[1] = ft_strjoin(
 				getcwd(NULL, 0), "/assets/secret.gif");
 	}
+}
+
+void	free_var(t_var *var)
+{
+	if (var->s)
+		ft_free_array((void *)var->s);
+	if (var->spipe)
+		ft_free_array((void *)var->spipe);
+	// if (var->env_cpy)
+	// 	ft_free_array((void *)var->env_cpy);
+	// if (var->path)
+	// 	ft_free_array((void *)var->path);
+	// if (var->s_p)
+	// 	free(var->s_p);
+	// if (var->arg)
+	// 	free(var->arg);
+	if (var->env)
+		free(var->env);
+	if (var->new_tkn)
+		token_clear(var->new_tkn);
 }

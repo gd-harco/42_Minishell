@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/13 22:16:57 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/25 16:58:45 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,23 @@ static char	*ft_quote_str(char *str, int *start, char c, t_var *var)
 
 static void	fill_str(t_var *var, t_var_quote *v_q, char **new)
 {
+	char	*tmp;
+
 	v_q->t[0] = v_q->tmp[v_q->i];
 	if (v_q->tmp[v_q->i] == '\'')
-		*new = ft_strjoinsp(*new, ft_quote_str
-				(v_q->tmp, &v_q->i, '\'', var), 0);
+	{
+		tmp = ft_quote_str(v_q->tmp, &v_q->i, '\'', var);
+		*new = ft_strjoinsp(*new, tmp, 0);
+		if (tmp)
+			free(tmp);
+	}
 	else if (v_q->tmp[v_q->i] == '"')
-		*new = ft_strjoinsp(*new, ft_quote_str(v_q->tmp, &v_q->i, '"', var), 0);
+	{
+		tmp = ft_quote_str(v_q->tmp, &v_q->i, '"', var);
+		*new = ft_strjoinsp(*new, tmp, 0);
+		if (tmp)
+			free(tmp);
+	}
 	else if (v_q->tmp[v_q->i] == '|')
 	{
 		*new = ft_strjoinsp(*new, " | ", 0);

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 16:10:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/25 17:15:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*process(char *str, char **path, int ind)
 	}
 	free(root_arg);
 	ft_free_split(split_argv);
-	// ft_free_array((void *)path_cmb);
-	return (path_cmb[i]);
+	root_arg = ft_strdup(path_cmb[i]);
+	ft_free_array((void *)path_cmb);
+	return (root_arg);
+	// return (path_cmb[i]);
 }
