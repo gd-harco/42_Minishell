@@ -12,16 +12,61 @@
 
 #include "minishell.h"
 
-void cd(char **argv, t_exec *exec_data)
-{
-	char *path;
+static void	update_env(t_exec *exec_data, char *old_pwd);
+static char	*get_env(char *str, char **envp);
+//TODO : handle cd - (go back to previous directory)
+//TODO : When cd success, update PWD and OLDPWD in env
 
-if (argv[1] == NULL)
+void	cd(char **argv, t_exec *exec_data)
+{
+	char	*path;
+	char	*pwd_before;
+
+	pwd_before = ft_strdup(getcwd(NULL, 0));
+	if (argv[1] == NULL)
 	{
-		(void)exec_data;
-		//TODO get HOME from env
+		path = get_env("HOME", exec_data->envp);
+		if (path == NULL)
+		{
+			ft_dprintf(STDERR_FILENO, "cd: HOME not set\n");
+			return ;
+		}
+		if (chdir(&path[5]) == -1)
+			return (ft_dprintf(STDERR_FILENO, "cd: %s: %s\n",
+					path, strerror(errno)), (void)0);
+		return (update_env(exec_data, pwd_before), (void)0);
 	}
 	else
 		path = argv[1];
-	chdir(path);
+	if (chdir(path) == -1)
+		return (ft_dprintf(
+				STDERR_FILENO, "cd: %s: %s\n", path, strerror(errno)), (void)0);
+	return (update_env(exec_data, pwd_before), (void)0);
+}
+
+static char	*get_env(char *str, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], str, ft_strlen(str)) == 0)
+			return (envp[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+static void	update_env(t_exec *exec_data, char *old_pwd)
+{
+	char	*n_old_pwd;
+	char	*n_pwd;
+
+	n_old_pwd = ft_strjoin("OLDPWD=", old_pwd);
+	n_pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+	if (!already_in_env(n_old_pwd, exec_data))
+		exec_data->envp = add_env(n_old_pwd, exec_data);
+	if (!already_in_env(n_pwd, exec_data))
+		exec_data->envp = add_env(n_pwd, exec_data);
 }

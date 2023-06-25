@@ -47,6 +47,7 @@ typedef struct s_token
 typedef struct s_minishell
 {
 	char	**envp;
+	char	**secret_array;
 	t_token	*token_list;
 }				t_minishell;
 
@@ -71,6 +72,7 @@ typedef struct s_pipe_fd
 typedef struct s_exec
 {
 	char		**envp;
+	char		**secret_array;
 	t_token		*token_list;
 	size_t		nb_cmd;
 	size_t		nb_pipe;
@@ -90,7 +92,6 @@ typedef struct s_var
 	char	**s;		// chaque mots espacés
 	char	**spipe;	//phrase split par les |
 	int		nb_pipe;
-	char	**envp;
 	char	**env_cpy;
 	int		index;
 	int		i;

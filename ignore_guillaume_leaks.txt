@@ -1,5 +1,5 @@
 {
-leak readline
+	leak readline
 	Memcheck:Leak
 	...
 	fun:readline
@@ -11,8 +11,8 @@ leak readline
 	fun:add_history
 }
 {
-	leak get_token
+	leak master_exec
 	Memcheck:Leak
 	...
-	fun:get_token
+	fun:master_exec
 }

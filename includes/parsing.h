@@ -97,18 +97,18 @@ char	*ft_trunc_start(char *str, char *c, t_var var);
 //-------------------- UTILS_STR.C --------------------//
 /*
 */
-//#################### UTILS.C ####################//		
+//#################### UTILS.C ####################//
 bool	var_init(t_var *var);
 bool	is_builtin(char *str);
 bool	has_in_out(char **s, int j);
-char	*check_var(t_var *var, t_varenv *v_e);				
+char	*check_var(t_var *var, t_varenv *v_e);
 char	*ft_free_process(char *to_free, char *to_return);
 //-------------------- UTILS.C --------------------//
 /*
 */
 //#################### UTILS2.C ####################//
 char	*ft_space_str(t_var *var);
-char	*ft_free_process(char *to_free, char *to_return);
+
 //-------------------- UTILS2.C --------------------//
 
 // bool	already_pipe(t_token t_new);

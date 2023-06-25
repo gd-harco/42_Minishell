@@ -53,8 +53,9 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+bonjour je suis une erreure
+
 # Local files
-out*
 minishell
 infile
 Out
@@ -66,4 +67,11 @@ valgrin2
 valgrin3
 valgrind
 valgrind2
+valgrind.log
+out
+a.out
+.nfs*
+/Default.xml
+/vlagrind.log
 
+*.log

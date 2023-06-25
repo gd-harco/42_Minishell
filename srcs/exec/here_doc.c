@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+//TODO: expand env var in here_doc
 static t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc);
 static void			write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc);
 static size_t		count_here_doc(t_token *token_list);
@@ -96,7 +97,7 @@ static void	write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc)
 	while (i < nb_here_doc)
 	{
 		here_doc[i].tmp_char = readline(HD_PROMPT);
-		while (!ft_strcmp(here_doc[i].tmp_char, here_doc[i].delimiter))
+		while (ft_strcmp(here_doc[i].tmp_char, here_doc[i].delimiter) != 0)
 		{
 			write(here_doc[i].pipe_fd[1], here_doc[i].tmp_char,
 				ft_strlen(here_doc[i].tmp_char));
