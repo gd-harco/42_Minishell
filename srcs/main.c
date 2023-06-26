@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/26 15:15:13 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/26 16:10:57 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	main(int argc, char **argv, char **envp)
 		if (var.str_in && *(var.str_in))
 			add_history(var.str_in);
 		data.token_list = get_token_list(&var);
-		printf("\n\n%s\n\n", data.token_list->content[0]);
 		if (data.token_list)
 			master_exec(&data);
 		free_var(&var);
