@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/25 17:22:33 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/26 15:15:13 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ int	main(int argc, char **argv, char **envp)
 		if (var.str_in && *(var.str_in))
 			add_history(var.str_in);
 		data.token_list = get_token_list(&var);
-		free(var.str_in);
-		free(var.str);
-		free_var(&var);
-		exit (0);
+		printf("\n\n%s\n\n", data.token_list->content[0]);
 		if (data.token_list)
 			master_exec(&data);
+		free_var(&var);
+		exit (0);
 		var.str_in = get_user_input();
 		var.str = ft_space_str(&var);
 	}
@@ -98,20 +97,33 @@ void	init_secret_array(t_minishell *data, bool secret)
 
 void	free_var(t_var *var)
 {
+	if (var->str_in)
+		free(var->str_in);
+	if (var->str)
+		free(var->str);
 	if (var->s)
-		ft_free_array((void *)var->s);
+		ft_free_split((void *)var->s);
 	if (var->spipe)
-		ft_free_array((void *)var->spipe);
-	// if (var->env_cpy)
-	// 	ft_free_array((void *)var->env_cpy);
-	// if (var->path)
-	// 	ft_free_array((void *)var->path);
-	// if (var->s_p)
-	// 	free(var->s_p);
-	// if (var->arg)
-	// 	free(var->arg);
-	if (var->env)
-		free(var->env);
+		ft_free_split((void *)var->spipe);
 	if (var->new_tkn)
 		token_clear(var->new_tkn);
 }
+
+	// if (var->env)
+	// 	free(var->env);
+
+// void	free_var(t_var *var)
+// {
+// 	if (var->s)
+// 		ft_free_array((void *)var->s);
+// 	if (var->spipe)
+// 		ft_free_array((void *)var->spipe);
+// 	if (var->s_p)
+// 		free(var->s_p);
+// 	if (var->arg)
+// 		free(var->arg);
+// 	// if (var->env)
+// 	// 	free(var->env);
+// 	// if (var->new_tkn)
+// 	// 	token_clear(&var->new_tkn, free);
+// }

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:47:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/25 18:06:45 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/26 14:01:31 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	env_arg(t_var *var, t_varenv *v_e)
 	{
 		l++;
 	}
-	free(var->env);
+	// free(var->env);		enlevé car : invalid read of size 1
 }
 
 /*
@@ -61,9 +61,14 @@ static int	add_env_arg(t_var *var, t_varenv *v_e, int l)
 	tmp = ft_trunc(var->s[v_e->j], v_e->i + 1 + v_e->k, "$", *var);
 	if (var->s[v_e->j] && var->s[v_e->j][v_e->i + 1 + v_e->k + ft_strlen
 		(tmp)] == '$')
-		return (free(tmp), 0);
+	{
+		return (0);
+	}
 	else
-		return (free(tmp), 1);
+	{
+		free(tmp);
+		return (1);
+	}
 }
 
 /*
@@ -102,12 +107,8 @@ static int	fill_env_var(t_var *var, t_varenv *v_e)
 {
 	char	*sub_tmp;
 	char	*trc_tmp;
-	char	*tmp;
 
-	sub_tmp = ft_substrvar(var->s[v_e->j], v_e->i + 1, v_e->k, *var);
-	v_e->var_env = ft_strdup(sub_tmp);
-	free(sub_tmp);
-	// v_e->var_env = ft_substrvar(var->s[v_e->j], v_e->i + 1, v_e->k, *var);
+	v_e->var_env = ft_substrvar(var->s[v_e->j], v_e->i + 1, v_e->k, *var);
 	if (var->s[v_e->j] && var->s[v_e->j][v_e->i + 1 + v_e->k] == '?')
 	{	
 		env_symbol(var, var->s[v_e->j], v_e);
@@ -124,28 +125,18 @@ static int	fill_env_var(t_var *var, t_varenv *v_e)
 	{
 		sub_tmp = ft_substrvar(var->env_cpy[v_e->m], v_e
 				->k + 1, ft_strlen(var->env_cpy[v_e->m]) - v_e->k, *var);
-		tmp = ft_strjoinsp(var->env, sub_tmp, 0);
-		var->env = ft_strdup(tmp);
+		var->env = ft_strjoinsp(var->env, sub_tmp, 0);
 		free(sub_tmp);
-		free(tmp);
 	}
-	else
-	{
-		tmp = ft_strjoinsp(var->env, NULL, 0);
-		var->env = ft_strdup(tmp);
-		free(tmp);
-	}
-		var->env = ft_strjoinsp(var->env, NULL, 0);
+	var->env = ft_strjoinsp(var->env, NULL, 0);
 	if (var->s[v_e->j] && var->s[v_e->j][v_e->i + 1 + v_e->k] != '$')
 	{
 		trc_tmp = ft_trunc(var->s[v_e->j], v_e->i + 1 + v_e->k, "$", *var);
 		sub_tmp = ft_substrvar(var->s[v_e->j], v_e->i + 1 + v_e->k,
 				ft_strlen(trc_tmp), *var);
-		tmp = ft_strjoinsp(var->env, sub_tmp, 0);
-		var->env = ft_strdup(tmp);
+		var->env = ft_strjoinsp(var->env, sub_tmp, 0);
 		free(trc_tmp);
 		free(sub_tmp);
-		free(tmp);
 	}
 	free(v_e->var_env);
 	return (2);
@@ -158,25 +149,18 @@ static int	fill_env_var(t_var *var, t_varenv *v_e)
 
 static int	env_symbol(t_var *var, char *str, t_varenv *v_e)
 {
-	char	*tmp;
-
-	tmp = NULL;
 	if (str[v_e->i + 1 + v_e->k] == '?')
 	{
 		if (var->s[v_e->j][v_e->i + v_e->k] == '$')
 		{
-			tmp = ft_strjoinsp(var->env, "var_global", 0);
-			var->env = ft_strdup(tmp);
-			free(tmp);
+			var->env = ft_strjoinsp(var->env, "var_global", 0);
 		}
 		else
 			return (0);
 	}
 	else
 	{
-		tmp = ft_strjoinsp(var->env, "$", 0);
-		var->env = ft_strdup(tmp);
-		free(tmp);
+		var->env = ft_strjoinsp(var->env, "$", 0);
 	}
 	if (str[v_e->i + 1 + v_e->k + 1] != '\0')
 		return (0);

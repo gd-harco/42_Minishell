@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/25 17:15:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/26 14:16:55 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,19 @@ char	*process(char *str, char **path, int ind)
 	split_argv = ft_split(str, ' ');
 	root_arg = ft_strjoin("/", split_argv[ind]);
 	path_cmb = path_arg_cat(path, root_arg);
+	free(root_arg);
 	i = 0;
 	while (path_cmb[i] && access(path_cmb[i], X_OK) == -1)
 		i++;
 	if (!path_cmb[i])
 	{
-		return (split_argv[ind]);
+		root_arg = ft_strdup(split_argv[ind]);
+		ft_free_split(split_argv);
+		ft_free_array((void *)path_cmb);
+		return (root_arg);
 	}
-	free(root_arg);
-	ft_free_split(split_argv);
 	root_arg = ft_strdup(path_cmb[i]);
+	ft_free_split(split_argv);
 	ft_free_array((void *)path_cmb);
 	return (root_arg);
 	// return (path_cmb[i]);

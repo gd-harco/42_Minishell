@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/25 17:20:05 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/26 15:16:18 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
 		var->i++;
 		if (tmp != NULL && already_cmd(t_new, tmp) != true)
 			token_add_back(&t_new, tmp);
-		// token_clear(&tmp, free);
+		// token_clear(tmp);
 	}
 	if (var->nb_pipe-- > 0) //&& var->spipe[var->index + 1] != NULL)
 	{
 		tmp = token_pipe();
 		token_add_back(&t_new, tmp);
 	}
-	// free_var(var);
 	var_init(var);
 	var->index++;
 	var->i = 0;

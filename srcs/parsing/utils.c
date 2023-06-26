@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 10:35:37 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/26 15:24:39 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ bool	var_init(t_var *var)
 	var->spipe = ft_split(var->str, '|');
 	var->s = ft_split(var->spipe[var->index], ' ');
 	var->new_tkn = malloc(sizeof(t_token));
+	// var->new_tkn = NULL;
 	var->quote = NULL;
 	var->quote_cmd = false;
 	if (!var->new_tkn)
@@ -71,7 +72,7 @@ char	*check_var(t_var *var, t_varenv *v_e)
 		return (var->s_p);
 	}
 	else
-		return (ft_strdup(var->s_p));
+		return (var->s_p);
 }
 
 char	*ft_free_process(char *to_free, char *to_return)
