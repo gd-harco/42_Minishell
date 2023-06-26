@@ -27,17 +27,15 @@ HEADERS_LIST	=	builtins.h\
 SRCS_LIST		=	main.c			\
 					prompt.c		\
 \
-					builtins/echo.c		\
-					builtins/cd.c		\
-					builtins/env.c		\
-					builtins/exit.c		\
-					builtins/pwd.c		\
+					builtins/cd.c		builtins/echo.c			\
+					builtins/env.c		builtins/exit.c			\
+					builtins/export.c	builtins/export_utils.c	\
+					builtins/pwd.c		builtins/unset.c		\
 \
 					exec/execution.c		\
 					exec/exec_cmd.c			\
 					exec/here_doc.c			\
 					exec/translate_cmd.c	\
-					exec/io_handling.c		\
 \
 					parsing/path.c				\
 					parsing/quotes_env.c		\
@@ -79,13 +77,25 @@ MKDIR			=	mkdir -p
 
 # ********* RULES ******** #
 
+init			:
+					git submodule update --init --recursive
+					make all
 
 all				:	${OBJS} ${HEADERS}
 					make -C lib/libft
 					make ${NAME}
 
 fsanitize		:
+					make fclean -C lib/libft
+					make fclean
+					make debug -C lib/libft
 					make all CFLAGS+=-fsanitize=address
+
+no_flags		:
+					make fclean -C lib/libft
+					make fclean
+					make -C lib/libft FLAGS="-g3"
+					make all CFLAGS="-g3"
 
 # ---- Variables Rules ---- #
 

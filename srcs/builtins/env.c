@@ -14,12 +14,13 @@
 
 void	env(char **envp)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (envp[i])
 	{
-		ft_dprintf(STDERR_FILENO, "%s\n", envp[i]);
+		if (check_for_equal(envp[i]))
+			ft_dprintf(STDOUT_FILENO, "%s\n", envp[i]);
 		i++;
 	}
 }
