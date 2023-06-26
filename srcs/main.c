@@ -6,7 +6,7 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/13 22:30:07 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/06/26 15:31:05 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,14 @@ char	**init_shell_env(char **envp)
 	}
 	else
 	{
-		new_envp = ft_calloc(4, sizeof (char *));
+		new_envp = ft_calloc(5, sizeof (char *));
 		pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
 		new_envp[0] = pwd;
 		old_pwd = ft_strdup("OLDPWD");
 		new_envp[1] = old_pwd;
 		shlvl = ft_strdup("SHLVL=1");
 		new_envp[2] = shlvl;
+		new_envp[3] = ft_strdup("PATH=");
 	}
 	return (new_envp);
 }
