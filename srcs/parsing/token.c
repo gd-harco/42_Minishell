@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/27 15:23:20 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/27 16:54:48 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ t_token	*get_token_list(t_var *var)
 	while ((var->index == 0 || var->spipe[var->index - 1])
 		&& var->spipe[var->index])
 	{
-		ft_free_split(var->s);
-		ft_free_split(var->spipe);
-		// free(var->new_tkn->content[0]);
-		// free(var->new_tkn->content[0]);
+		ft_free_split_secure(var->s);
+		ft_free_split_secure(var->spipe);
 		get_token(t_new, tmp, var);
 	}
 	// token_clear(tmp);
@@ -51,8 +49,10 @@ static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
 	var_init(var);
 	while ((var->s && var->s[var->i]))
 	{
-		ft_free_split(var->s);
-		ft_free_split(var->spipe);
+		// ft_free_split(var->s);
+		// ft_free_split(var->spipe);
+		ft_free_split_secure(var->s);
+		ft_free_split_secure(var->spipe);
 		token_clear(var->new_tkn);
 		tmp = token_init(var);
 		var->i++;
@@ -67,6 +67,8 @@ static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
 	}
 	ft_free_split(var->s);
 	ft_free_split(var->spipe);
+	// ft_free_split_secure(var->s);
+	// ft_free_split_secure(var->spipe);
 	token_clear(var->new_tkn);
 	var_init(var);
 	var->index++;
@@ -77,8 +79,10 @@ static t_token	*token_init(t_var *var)
 {
 	if (var_init(var) == false)
 	{
-		free(var->s);
-		free(var->spipe);
+		// ft_free_split(var->s);
+		// ft_free_split(var->spipe);
+		ft_free_split_secure(var->s);
+		ft_free_split_secure(var->spipe);
 		token_clear(var->new_tkn);
 		return (NULL);
 	}

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/27 13:46:50 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/27 16:42:12 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	token_cmd(t_var *var)
 	var->new_tkn->type = CMD;
 	var->new_tkn->content[0] = ft_strdup(check_var(var, &v_e));
 	var->new_tkn->content[1] = ft_strdup(var->arg);
-	free(var->s_p);
+	ft_free_secure(&var->s_p);
 	// free(var->arg);
 }
 

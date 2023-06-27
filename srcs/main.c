@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/27 15:24:09 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/27 16:42:43 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,33 +99,11 @@ void	init_secret_array(t_minishell *data, bool secret)
 
 void	free_var(t_var *var)
 {
-	if (var->str_in)
-		free(var->str_in);
-	if (var->str)
-		free(var->str);
-	if (var->s)
-		ft_free_split((void *)var->s);
-	if (var->spipe)
-		ft_free_split((void *)var->spipe);
-	if (var->new_tkn)
-		token_clear(var->new_tkn);
+	ft_free_secure(&var->str_in);
+	ft_free_secure(&var->str);
+	ft_free_split_secure((void *)var->s);
+	ft_free_split_secure((void *)var->spipe);
+	token_clear(var->new_tkn);
 }
 
-	// if (var->env)
-	// 	free(var->env);
-
-// void	free_var(t_var *var)
-// {
-// 	if (var->s)
-// 		ft_free_array((void *)var->s);
-// 	if (var->spipe)
-// 		ft_free_array((void *)var->spipe);
-// 	if (var->s_p)
-// 		free(var->s_p);
-// 	if (var->arg)
-// 		free(var->arg);
-// 	// if (var->env)
-// 	// 	free(var->env);
-// 	// if (var->new_tkn)
-// 	// 	token_clear(&var->new_tkn, free);
-// }
+// cat -e Makefile |pwd >out33
