@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/26 16:11:47 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/27 13:45:00 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,41 @@ void	token_add_back(t_token **token, t_token *new)
 		*token = new;
 }
 
+// void	token_clear(t_token *tkn)
+// {
+// 	t_token	*buffer;
+
+// 	if (!tkn)
+// 		return ;
+// 	while (tkn)
+// 	{
+// 		buffer = tkn->next;
+// 		ft_free_array((void **)tkn->content);
+// 		// free(tkn->content);
+// 		// free(tkn->content[1]);
+// 		tkn = buffer;
+// 	}
+// }
+
 void	token_clear(t_token *tkn)
 {
-	t_token	*buffer;
+	int	i;
 
-	if (!tkn)
+	i = 0;
+	if (tkn == NULL)
 		return ;
-	while (tkn)
+	while (i < 2)
 	{
-		buffer = tkn->next;
-		ft_free_array((void **)tkn->content);
-		// free(tkn->content);
-		// free(tkn->content[1]);
-		tkn = buffer;
+		if (tkn->content[i] != NULL)
+		{
+			free(tkn->content[i]);
+			tkn->content[i] = NULL;
+		}
+		i++;
 	}
+	token_clear(tkn->next); // Appel récursif pour les tokens suivants
+	free(tkn);
+	tkn = NULL;
 }
 
 // void	token_clear(t_token **tkn)

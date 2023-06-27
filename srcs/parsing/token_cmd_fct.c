@@ -6,14 +6,14 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/26 14:20:06 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/27 13:46:50 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void	fill_arg_builtin(t_var *var, t_varenv *v_e);
-static void	fill_arg_cmd(t_var *var, t_varenv *v_e, char **tmp);
+static void	fill_arg_cmd(t_var *var, t_varenv *v_e);
 
 void	token_builtin(t_var *var)
 {
@@ -35,7 +35,6 @@ void	token_builtin(t_var *var)
 void	token_cmd(t_var *var)
 {
 	t_varenv	v_e;
-	char		*tmp;
 
 	v_e.j = var->i;
 	var->arg = NULL;
@@ -53,14 +52,13 @@ void	token_cmd(t_var *var)
 	v_e.j++;
 	while (var->s[v_e.j])
 	{
-		fill_arg_cmd(var, &v_e, &tmp);
+		fill_arg_cmd(var, &v_e);
 		v_e.j++;
 	}
 	var->new_tkn->type = CMD;
 	var->new_tkn->content[0] = ft_strdup(check_var(var, &v_e));
 	var->new_tkn->content[1] = ft_strdup(var->arg);
-	// ft_free_array((void **)var->path);
-	// free(var->s_p);
+	free(var->s_p);
 	// free(var->arg);
 }
 
@@ -88,16 +86,18 @@ static void	fill_arg_builtin(t_var *var, t_varenv *v_e)
 	}
 }
 
-static void	fill_arg_cmd(t_var *var, t_varenv *v_e, char **tmp)
+static void	fill_arg_cmd(t_var *var, t_varenv *v_e)
 {
+	char	*tmp;
+
 	if (is_quote_in(var->s[v_e->j]) == 0)
 	{
 		if (has_in_out(var->s, v_e->j) == false
 			&& is_env_in(*var, v_e->j) == false)
 		{
-			*tmp = ft_strjoinsp(var->arg, var->s[v_e->j], 1);
-			var->arg = ft_strdup(*tmp);
-			free(*tmp);
+			tmp = ft_strjoinsp(var->arg, var->s[v_e->j], 1);
+			var->arg = ft_strdup(tmp);
+			free(tmp);
 		}
 		else if (is_env_in(*var, v_e->j) == true
 			&& has_in_out(var->s, v_e->j) == false)

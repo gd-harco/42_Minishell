@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:58:50 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/25 17:48:09 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/27 12:32:58 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char	*ft_strjoinsp(char *s1, char *s2, int n)
 		return (ft_free_process(result, ft_strdup(s2)));
 	if (n == 1)
 		return (ft_free_process(s1, joningsp(result, (char *)s2, (char *)s1)));
+	// else if (n == -1)
+	// 	return (joningsp(result, (char *)s2, (char *)s1));
 	return (ft_free_process(s1, joning(result, (char *)s2, (char *)s1)));
 }
 

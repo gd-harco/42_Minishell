@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/26 16:10:57 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/27 12:59:24 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	**init_shell_env(char **envp);
 void	init_secret_array(t_minishell *data, bool secret);
 
 //TODO man stat = recuperer la valeur de retour
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
