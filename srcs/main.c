@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/27 12:59:24 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/27 15:24:09 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	main(int argc, char **argv, char **envp)
 		if (data.token_list)
 			master_exec(&data);
 		free_var(&var);
-		exit (0);
+		token_clear(data.token_list);
+		// exit (0);
 		var.str_in = get_user_input();
 		var.str = ft_space_str(&var);
 	}
