@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/27 16:42:12 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/28 12:39:12 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	token_builtin(t_var *var)
 	var->new_tkn->type = BUILTIN;
 	var->new_tkn->content[0] = ft_strdup(var->s[var->i]);
 	var->new_tkn->content[1] = ft_strdup(var->arg);
-	free(var->arg);
+	ft_free_secure(&var->arg);
 }
 
 void	token_cmd(t_var *var)
@@ -59,11 +59,13 @@ void	token_cmd(t_var *var)
 	var->new_tkn->content[0] = ft_strdup(check_var(var, &v_e));
 	var->new_tkn->content[1] = ft_strdup(var->arg);
 	ft_free_secure(&var->s_p);
-	// free(var->arg);
+	ft_free_secure(&var->arg);
 }
 
 static void	fill_arg_builtin(t_var *var, t_varenv *v_e)
 {
+	char	*tmp;
+
 	if (is_quote_in(var->s[v_e->j]) == 0)
 	{
 		if (has_in_out(var->s, v_e->j) == false
@@ -72,10 +74,12 @@ static void	fill_arg_builtin(t_var *var, t_varenv *v_e)
 		else if (is_env_in(*var, v_e->j) == true
 			&& has_in_out(var->s, v_e->j) == false)
 		{
-			var->arg = ft_strjoinsp(var->arg,
-					ft_trunc(var->s[v_e->j], 0, "$", *var), 1);
+			tmp = ft_trunc(var->s[v_e->j], 0, "$", *var);
+			var->arg = ft_strjoinsp(var->arg, tmp, 1);
+			ft_free_secure(&tmp);
 			env_arg(var, v_e);
 			var->arg = ft_strjoinsp(var->arg, var->env, 0);
+			ft_free_secure(&var->env);
 		}
 	}
 	else if (is_quote_in(var->s[v_e->j]) != 0
@@ -95,17 +99,17 @@ static void	fill_arg_cmd(t_var *var, t_varenv *v_e)
 		if (has_in_out(var->s, v_e->j) == false
 			&& is_env_in(*var, v_e->j) == false)
 		{
-			tmp = ft_strjoinsp(var->arg, var->s[v_e->j], 1);
-			var->arg = ft_strdup(tmp);
-			free(tmp);
+			var->arg = ft_strjoinsp(var->arg, var->s[v_e->j], 1);
 		}
 		else if (is_env_in(*var, v_e->j) == true
 			&& has_in_out(var->s, v_e->j) == false)
 		{
-			var->arg = ft_strjoinsp(var->arg,
-					ft_trunc(var->s[v_e->j], 0, "$", *var), 1);
+			tmp = ft_trunc(var->s[v_e->j], 0, "$", *var);
+			var->arg = ft_strjoinsp(var->arg, tmp, 1);
+			ft_free_secure(&tmp);
 			env_arg(var, v_e);
 			var->arg = ft_strjoinsp(var->arg, var->env, 0);
+			ft_free_secure(&var->env);
 		}
 	}
 	else if (is_quote_in(var->s[v_e->j]) != 0

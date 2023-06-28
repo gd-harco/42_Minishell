@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/27 16:42:43 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/28 13:04:10 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!var.str_in)
 		{
 			rl_clear_history();
-			free(var.str_in);
-			free(var.str);
+			ft_free_secure(&var.str_in);
+			ft_free_secure(&var.str);
 			ft_free_array((void **)data.envp);
 			ft_printf("exit\n");
 			exit(EXIT_EOF);
@@ -101,8 +101,8 @@ void	free_var(t_var *var)
 {
 	ft_free_secure(&var->str_in);
 	ft_free_secure(&var->str);
-	ft_free_split_secure((void *)var->s);
-	ft_free_split_secure((void *)var->spipe);
+	ft_free_split_secure(var->s);
+	ft_free_split_secure(var->spipe);
 	token_clear(var->new_tkn);
 }
 

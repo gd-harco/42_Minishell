@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:58:50 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/27 12:32:58 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/28 12:34:18 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,18 @@ char	*ft_strjoinsp(char *s1, char *s2, int n)
 	char		*result;
 
 	joined_size = (ft_strlen (s1) + ft_strlen (s2));
+	if (!s2 && !s1)
+		return (NULL);
+	if (!s2 && s1)
+		return ((ft_strdup(s1)));
+	if (!s1 && s2)
+		return ((ft_strdup(s2)));
 	result = malloc(sizeof(char) * joined_size + 1 + n);
 	if (!result)
 	{
 		ft_free_process(s1, NULL);
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	}
-	if (!s2 && !s1)
-		return (NULL);
-	if (!s2 && s1)
-		return (ft_free_process(result, ft_strdup(s1)));
-	if (!s1 && s2)
-		return (ft_free_process(result, ft_strdup(s2)));
 	if (n == 1)
 		return (ft_free_process(s1, joningsp(result, (char *)s2, (char *)s1)));
 	// else if (n == -1)
@@ -127,7 +127,7 @@ char	*ft_trunc(char *str, int start, char *c, t_var var)
 	while (c[v_q.k])
 	{
 		if (!str || str[v_q.i] == c[v_q.k])
-			return ("");
+			return (ft_calloc(1, 1));
 		v_q.k++;
 	}
 	v_q.k = 0;
