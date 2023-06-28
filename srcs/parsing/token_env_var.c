@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:47:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/28 12:40:01 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/28 14:32:32 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static int	add_env_arg(t_var *var, t_varenv *v_e, int l)
 	if (var->s[v_e->j] && var->s[v_e->j][v_e->i + 1 + v_e->k + ft_strlen
 		(tmp)] == '$')
 	{
+		ft_free_secure(&tmp);
 		return (0);
 	}
 	else

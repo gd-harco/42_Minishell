@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/28 12:31:42 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/28 15:05:16 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,18 @@ bool	has_in_out(char **s, int j)
 
 char	*check_var(t_var *var, t_varenv *v_e)
 {
+	char	*tmp;
+
 	v_e->j = var->i;
 	if (is_env_in(*var, v_e->j) == true && var->quote_cmd == false)
 	{
 		ft_free_secure(&var->s_p);
-		var->s_p = ft_strjoinsp(NULL, ft_trunc(var->s[0], 0, "$", *var), 1);
+		tmp = ft_trunc(var->s[0], 0, "$", *var);
+		var->s_p = ft_strjoinsp(NULL, tmp, 1);
+		ft_free_secure(&tmp);
 		env_arg(var, v_e);
 		var->s_p = ft_strjoinsp(var->s_p, var->env, 0);
+		ft_free_secure(&var->env);
 		return (var->s_p);	//todo : surement free trunc pour as le perdre
 	}
 	else
