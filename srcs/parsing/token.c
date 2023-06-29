@@ -6,13 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/29 11:33:59 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/29 15:29:25 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void		get_token(t_token *t_new, t_token *tmp, t_var *var);
+static void		get_token(t_token *t_new, t_var *var);
 static t_token	*token_init(t_var *var);
 
 static void	init_start(t_var *var)
@@ -25,12 +25,12 @@ static void	init_start(t_var *var)
 t_token	*get_token_list(t_var *var)
 {
 	t_token	*t_new;
-	t_token	*tmp;
+	// t_token	*tmp;
 
 	if (!var->str)
 		return (NULL);
 	init_start(var);
-	tmp = NULL;
+	// tmp = NULL;
 	t_new = token_init(var);
 	var->i++;
 	if (var->s)
@@ -40,14 +40,17 @@ t_token	*get_token_list(t_var *var)
 		{
 			ft_free_split_secure(&var->s);
 			ft_free_split_secure(&var->spipe);
-			get_token(t_new, tmp, var);
+			// token_clear(&var->new_tkn);
+			get_token(t_new, var);
 		}
 	}
 	return (t_new);
 }
 
-static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
+static void	get_token(t_token *t_new, t_var *var)
 {
+	t_token	*tmp;
+
 	var_init(var);
 	while ((var->s && var->s[var->i]))
 	{
@@ -64,12 +67,13 @@ static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
 	{
 		tmp = token_pipe();
 		token_add_back(&t_new, tmp);
+		token_clear(&tmp);
 	}
 	ft_free_split_secure(&var->s);
 	ft_free_split_secure(&var->spipe);
 	// ft_free_split_secure(var->s);
 	// ft_free_split_secure(var->spipe);
-	token_clear(&var->new_tkn);
+	token_clear(&var->new_tkn);	/*probleme : quand free, free aussi t_new /!\*/
 	var_init(var);
 	var->index++;
 	var->i = 0;

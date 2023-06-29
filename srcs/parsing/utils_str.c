@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:58:50 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/28 12:34:18 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/29 14:19:31 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*ft_strjoinsp(char *s1, char *s2, int n)
 		return ((ft_strdup(s1)));
 	if (!s1 && s2)
 		return ((ft_strdup(s2)));
+	// result = ft_calloc(joined_size + 1 +n, sizeof(char));
 	result = malloc(sizeof(char) * joined_size + 1 + n);
 	if (!result)
 	{
