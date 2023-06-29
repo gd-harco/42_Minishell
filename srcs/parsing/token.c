@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/28 15:32:32 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:33:59 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,15 @@ t_token	*get_token_list(t_var *var)
 	tmp = NULL;
 	t_new = token_init(var);
 	var->i++;
-	while ((var->index == 0 || var->spipe[var->index - 1])
-		&& var->spipe[var->index])
+	if (var->s)
 	{
-		ft_free_split_secure(var->s);
-		ft_free_split_secure(var->spipe);
-		get_token(t_new, tmp, var);
+		while ((var->index == 0 || var->spipe[var->index - 1])
+			&& var->spipe[var->index])
+		{
+			ft_free_split_secure(&var->s);
+			ft_free_split_secure(&var->spipe);
+			get_token(t_new, tmp, var);
+		}
 	}
 	return (t_new);
 }
@@ -48,25 +51,25 @@ static void	get_token(t_token *t_new, t_token *tmp, t_var *var)
 	var_init(var);
 	while ((var->s && var->s[var->i]))
 	{
-		ft_free_split_secure(var->s);
-		ft_free_split_secure(var->spipe);
-		token_clear(var->new_tkn);
+		ft_free_split_secure(&var->s);
+		ft_free_split_secure(&var->spipe);
+		token_clear(&var->new_tkn);
 		tmp = token_init(var);
 		var->i++;
 		if (tmp != NULL && already_cmd(t_new, tmp) != true)
 			token_add_back(&t_new, tmp);
-		token_clear(tmp);
+		token_clear(&tmp);
 	}
 	if (var->nb_pipe-- > 0) //&& var->spipe[var->index + 1] != NULL)
 	{
 		tmp = token_pipe();
 		token_add_back(&t_new, tmp);
 	}
-	ft_free_split(var->s);
-	ft_free_split(var->spipe);
+	ft_free_split_secure(&var->s);
+	ft_free_split_secure(&var->spipe);
 	// ft_free_split_secure(var->s);
 	// ft_free_split_secure(var->spipe);
-	token_clear(var->new_tkn);
+	token_clear(&var->new_tkn);
 	var_init(var);
 	var->index++;
 	var->i = 0;
@@ -76,9 +79,9 @@ static t_token	*token_init(t_var *var)
 {
 	if (var_init(var) == false)
 	{
-		ft_free_split_secure(var->s);
-		ft_free_split_secure(var->spipe);
-		token_clear(var->new_tkn);
+		ft_free_split_secure(&var->s);
+		ft_free_split_secure(&var->spipe);
+		token_clear(&var->new_tkn);
 		return (NULL);
 	}
 	if (var->s && var->s[var->i] && var->s[var->i][0] == '<')

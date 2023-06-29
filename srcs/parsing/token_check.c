@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/28 15:01:40 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:28:13 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 			t_new = tmp2->next;
 		tmp2 = tmp2->next;
 	}
-	token_clear(tmp2);
+	token_clear(&tmp2);
 	return (cmd_check(t_new, tmp));
 }
 

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/28 15:01:30 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:48:03 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	main(int argc, char **argv, char **envp)
 		if (var.str_in && *(var.str_in))
 			add_history(var.str_in);
 		data.token_list = get_token_list(&var);
+		free_var(&var);
 		if (data.token_list)
 			master_exec(&data);
-		free_var(&var);
-		token_clear(data.token_list);
+		token_clear(&data.token_list);
 		// exit (0);
 		var.str_in = get_user_input();
 		var.str = ft_space_str(&var);
@@ -101,9 +101,9 @@ void	free_var(t_var *var)
 {
 	ft_free_secure(&var->str_in);
 	ft_free_secure(&var->str);
-	ft_free_split_secure(var->s);
-	ft_free_split_secure(var->spipe);
-	token_clear(var->new_tkn);
+	ft_free_split_secure(&var->s);
+	ft_free_split_secure(&var->spipe);
+	token_clear(&var->new_tkn);
 }
 
 // cat -e Makefile |pwd >out33
