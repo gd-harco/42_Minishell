@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/29 14:49:17 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:20:09 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,55 @@ void	token_add_back(t_token **token, t_token *new)
 		*token = new;
 }
 
+t_token	*tknnew(t_var *var)
+{
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	new->next = NULL;
+	new = token_init(var);
+	return (new);
+}
+
+void token_memcpy(t_token *dest, const t_token *src)
+{
+	int	i;
+
+	if (dest == NULL || src == NULL)
+		return ;
+
+	i = 0;
+	while (i < 2)
+	{
+		if (src->content[i] != NULL)
+			dest->content[i] = ft_strdup(src->content[i]);
+		else
+			dest->content[i] = NULL;
+		i++;
+	}
+	dest->type = src->type;
+	if (src->next != NULL)
+	{
+		dest->next = malloc(sizeof(t_token));
+		if (dest->next != NULL)
+			token_memcpy(dest->next, src->next);
+		// else
+		// {
+		// 	while (i < 2)
+		// 	{
+		// 		free(dest->content[i]);
+		// 		dest->content[i] = NULL;
+		// 		i++;
+		// 	}
+		// }
+	}
+	else
+	{
+		dest->next = NULL;
+	}
+}
 // void	token_clear(t_token *tkn)
 // {
 // 	t_token	*buffer;

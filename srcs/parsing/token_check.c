@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/29 11:28:13 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:25:03 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,19 @@ static bool	cmd_check(t_token *t_new, t_token *tmp)
 bool	already_cmd(t_token *t_new, t_token *tmp)
 {
 	t_token	*tmp2;
+	t_token	*buffer;
 
 	tmp2 = malloc(sizeof(t_token));
 	if (!tmp2)
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	tmp2 = t_new;
+	token_memcpy(tmp2, t_new);
 	while (tmp2 && tmp2 != tmp)
 	{
 		if (tmp2->type == PIPE)
 			t_new = tmp2->next;
-		tmp2 = tmp2->next;
+		buffer = tmp2->next;
+		token_clear(&tmp2);
+		tmp2 = buffer;
 	}
 	token_clear(&tmp2);
 	return (cmd_check(t_new, tmp));

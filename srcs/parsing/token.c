@@ -6,14 +6,14 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/29 15:29:25 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:21:08 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void		get_token(t_token *t_new, t_var *var);
-static t_token	*token_init(t_var *var);
+// static t_token	*token_init(t_var *var);
 
 static void	init_start(t_var *var)
 {
@@ -25,13 +25,28 @@ static void	init_start(t_var *var)
 t_token	*get_token_list(t_var *var)
 {
 	t_token	*t_new;
-	// t_token	*tmp;
+	t_token	*tmp;
 
 	if (!var->str)
 		return (NULL);
 	init_start(var);
-	// tmp = NULL;
-	t_new = token_init(var);
+	tmp = token_init(var);
+	if (tmp == NULL)
+	{
+		return NULL;
+	}
+	t_new = malloc(sizeof(t_token));
+	if (t_new == NULL)
+	{
+		// Gestion de l'erreur d'allocation mémoire, si nécessaire
+		// ...
+		token_clear(&tmp);
+		return (NULL);
+	}
+	token_memcpy(t_new, tmp);
+	token_clear(&tmp);
+	// t_new = tknnew(var);
+	// token_clear(&var->new_tkn);
 	var->i++;
 	if (var->s)
 	{
@@ -40,7 +55,6 @@ t_token	*get_token_list(t_var *var)
 		{
 			ft_free_split_secure(&var->s);
 			ft_free_split_secure(&var->spipe);
-			// token_clear(&var->new_tkn);
 			get_token(t_new, var);
 		}
 	}
@@ -50,36 +64,46 @@ t_token	*get_token_list(t_var *var)
 static void	get_token(t_token *t_new, t_var *var)
 {
 	t_token	*tmp;
+	t_token	*tnew;
 
 	var_init(var);
+	tnew = malloc(sizeof(t_token));
+	if (!tnew)
+		exit(EXIT_FAILURE); //TODO: call exit function ;
 	while ((var->s && var->s[var->i]))
 	{
 		ft_free_split_secure(&var->s);
 		ft_free_split_secure(&var->spipe);
 		token_clear(&var->new_tkn);
 		tmp = token_init(var);
-		var->i++;
-		if (tmp != NULL && already_cmd(t_new, tmp) != true)
-			token_add_back(&t_new, tmp);
+		if (!tmp)
+		{
+			free(tnew);
+			exit(EXIT_FAILURE); //TODO: call exit function
+		}
+		token_memcpy(tnew, tmp);
 		token_clear(&tmp);
+		var->i++;
+		if (tnew != NULL && already_cmd(t_new, tnew) != true)
+			token_add_back(&t_new, tnew);
 	}
 	if (var->nb_pipe-- > 0) //&& var->spipe[var->index + 1] != NULL)
 	{
 		tmp = token_pipe();
-		token_add_back(&t_new, tmp);
+		token_memcpy(tnew, tmp);
 		token_clear(&tmp);
+		token_add_back(&t_new, tnew);
 	}
 	ft_free_split_secure(&var->s);
 	ft_free_split_secure(&var->spipe);
-	// ft_free_split_secure(var->s);
-	// ft_free_split_secure(var->spipe);
-	token_clear(&var->new_tkn);	/*probleme : quand free, free aussi t_new /!\*/
+	// token_clear(&var->new_tkn);	/*probleme : quand free, free aussi t_new /!\*/
 	var_init(var);
 	var->index++;
 	var->i = 0;
+	// token_clear(&tnew);
 }
 
-static t_token	*token_init(t_var *var)
+t_token	*token_init(t_var *var)
 {
 	if (var_init(var) == false)
 	{

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/25 16:58:45 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:33:54 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	fill_str(t_var *var, t_var_quote *v_q, char **new)
 		*new = ft_strjoinsp(*new, " | ", 0);
 		var->nb_pipe++;
 	}
-	else if (v_q->tmp[v_q->i] == '<' && v_q->tmp[v_q->i - 1] != '<')
+	else if (v_q->tmp[v_q->i] == '<' && v_q->i > 0 && v_q->tmp[v_q->i - 1] != '<')
 		*new = ft_strjoinsp(*new, " <", 0);
 	else if (v_q->tmp[v_q->i] == '>' && v_q->tmp[v_q->i - 1] != '>')
 		*new = ft_strjoinsp(*new, " >", 0);

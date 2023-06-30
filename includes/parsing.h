@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/29 11:27:13 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/30 12:51:48 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ bool	is_metachar(char c);
 //#################### TOKEN_UTILS.C ####################//
 t_token	*token_last(t_token *token);
 void	token_add_back(t_token **token, t_token *new);
+// t_token	*tknnew(t_var *var);
+void 	token_memcpy(t_token *dest, const t_token *src);
 void	token_clear(t_token **tkn);
 //-------------------- TOKEN_UTILS.C --------------------//
 /*
@@ -115,6 +117,8 @@ char	*ft_space_str(t_var *var);
 void	ft_free_secure(char **elem);
 void	ft_free_split_secure(char ***splitted_element);
 
+
+t_token	*token_init(t_var *var);
 //-------------------- UTILS2.C --------------------//
 // void	free_var(t_var *var);
 // bool	already_pipe(t_token t_new);
