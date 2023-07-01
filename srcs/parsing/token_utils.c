@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 13:13:05 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/01 16:21:05 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,6 @@ void	token_memcpy(t_token *dest, const t_token *src)
 		dest->next = NULL;
 	}
 }
-// void	token_clear(t_token *tkn)
-// {
-// 	t_token	*buffer;
-
-// 	if (!tkn)
-// 		return ;
-// 	while (tkn)
-// 	{
-// 		buffer = tkn->next;
-// 		ft_free_array((void **)tkn->content);
-// 		// free(tkn->content);
-// 		// free(tkn->content[1]);
-// 		tkn = buffer;
-// 	}
-// }
 
 void	token_clear(t_token **tkn)
 {

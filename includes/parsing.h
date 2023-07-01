@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 12:52:52 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/01 17:12:55 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
 char	**get_path(char **envp);
 char	*process(char *str, char **path, int ind);
 //-------------------- PATH.C --------------------//
+/*
+*/
+//#################### PARSE_SYNTAX.C ####################//
+bool	check_syntax_error(t_var *var, int i);
+
+//-------------------- PARSE_SYNTAX.C --------------------//
 /*
 */
 //#################### QUOTES_ENV.C ####################//
@@ -79,8 +85,7 @@ bool	is_metachar(char c);
 //#################### TOKEN_UTILS.C ####################//
 t_token	*token_last(t_token *token);
 void	token_add_back(t_token **token, t_token *new);
-// t_token	*tknnew(t_var *var);
-void 	token_memcpy(t_token *dest, const t_token *src);
+void	token_memcpy(t_token *dest, const t_token *src);
 void	token_clear(t_token **tkn);
 //-------------------- TOKEN_UTILS.C --------------------//
 /*
@@ -122,4 +127,13 @@ t_token	*token_init(t_var *var);
 // void	free_var(t_var *var);
 // bool	already_pipe(t_token t_new);
 
+# define NL_SYNTAX_ERR "minishell: syntax error near unexpected token `newline'"
+# define PIPE_SYNTAX_ERR "minishell: syntax error near unexpected token `|'"
+# define PIPE2_SYNTAX_ERR "minishell: syntax error near unexpected token `||'"
+# define IN_SYNTAX_ERR "minishell: syntax error near unexpected token `<'"
+# define IN2_SYNTAX_ERR "minishell: syntax error near unexpected token `<<'"
+# define OUT_SYNTAX_ERR "minishell: syntax error near unexpected token `>'"
+# define OUT2_SYNTAX_ERR "minishell: syntax error near unexpected token `>>'"
+# define IN3_SYNTAX_ERR "minishell: syntax error near unexpected token `<<<'"
+# define IO_SYNTAX_ERR "minishell: syntax error near unexpected token `<>'"
 #endif
