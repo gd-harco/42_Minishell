@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/30 14:00:03 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/01 12:31:59 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	free_var(t_var *var)
 	ft_free_secure(&var->str);
 	ft_free_split_secure(&var->s);
 	ft_free_split_secure(&var->spipe);
-	token_clear(&var->new_tkn);
+	// token_clear(&var->new_tkn);
 }
 
 // cat -e Makefile |pwd >out33

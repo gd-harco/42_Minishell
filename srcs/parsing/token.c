@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/30 15:21:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/01 12:51:25 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token	*get_token_list(t_var *var)
 	tmp = token_init(var);
 	if (tmp == NULL)
 	{
-		return NULL;
+		return (NULL);
 	}
 	t_new = malloc(sizeof(t_token));
 	if (t_new == NULL)
@@ -67,20 +67,19 @@ static void	get_token(t_token *t_new, t_var *var)
 	t_token	*tnew;
 
 	var_init(var);
-	tnew = malloc(sizeof(t_token));
-	if (!tnew)
-		exit(EXIT_FAILURE); //TODO: call exit function ;
 	while ((var->s && var->s[var->i]))
 	{
 		ft_free_split_secure(&var->s);
 		ft_free_split_secure(&var->spipe);
-		token_clear(&var->new_tkn);
 		tmp = token_init(var);
 		if (!tmp)
 		{
-			free(tnew);
+			token_clear(&t_new);
 			exit(EXIT_FAILURE); //TODO: call exit function
 		}
+		tnew = malloc(sizeof(t_token));
+		if (!tnew)
+			exit(EXIT_FAILURE); //TODO: call exit function ;
 		token_memcpy(tnew, tmp);
 		token_clear(&tmp);
 		var->i++;
@@ -98,14 +97,15 @@ static void	get_token(t_token *t_new, t_var *var)
 	ft_free_split_secure(&var->spipe);
 	// token_clear(&var->new_tkn);	/*probleme : quand free, free aussi t_new /!\*/
 	var_init(var);
+	// token_clear(&var->new_tkn);
 	var->index++;
 	var->i = 0;
-	// token_clear(&tnew);
 }
 
 t_token	*token_init(t_var *var)
 {
-	if (var_init(var) == false)
+	var->new_tkn = malloc(sizeof(t_token));
+	if (!var->new_tkn || var_init(var) == false)
 	{
 		ft_free_split_secure(&var->s);
 		ft_free_split_secure(&var->spipe);

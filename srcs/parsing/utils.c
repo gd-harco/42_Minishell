@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/29 15:01:37 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/01 12:23:07 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ bool	var_init(t_var *var)
 {
 	var->spipe = ft_split(var->str, '|');
 	var->s = ft_split(var->spipe[var->index], ' ');
-	var->new_tkn = malloc(sizeof(t_token));
-	if (!var->new_tkn)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	var->new_tkn->content[0] = NULL;
-	var->new_tkn->content[1] = NULL;
-	var->new_tkn->next = NULL;
+	// var->new_tkn = malloc(sizeof(t_token));
+	// if (!var->new_tkn)
+	// 	exit(EXIT_FAILURE); //TODO: call function pointer exit
+	// var->new_tkn->content[0] = NULL;
+	// var->new_tkn->content[1] = NULL;
+	// var->new_tkn->next = NULL;
 	var->quote = NULL;
 	var->quote_cmd = false;
 	if (!var->spipe || !var->s || !var->s[var->i])
