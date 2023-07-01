@@ -37,6 +37,7 @@ SRCS_LIST		=	main.c			\
 					exec/here_doc.c			\
 					exec/translate_cmd.c	\
 \
+					parsing/free_utils.c		\
 					parsing/path.c				\
 					parsing/quotes_env.c		\
 					parsing/quotes_utils.c		\

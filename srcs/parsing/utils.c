@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 12:13:16 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 10:35:37 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/01 12:23:07 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@ bool	var_init(t_var *var)
 {
 	var->spipe = ft_split(var->str, '|');
 	var->s = ft_split(var->spipe[var->index], ' ');
-	var->new_tkn = malloc(sizeof(t_token));
+	// var->new_tkn = malloc(sizeof(t_token));
+	// if (!var->new_tkn)
+	// 	exit(EXIT_FAILURE); //TODO: call function pointer exit
+	// var->new_tkn->content[0] = NULL;
+	// var->new_tkn->content[1] = NULL;
+	// var->new_tkn->next = NULL;
 	var->quote = NULL;
 	var->quote_cmd = false;
-	if (!var->new_tkn)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	if (!var->spipe || !var->s || !var->s[var->i])
 		return (false);
 	return (true);
@@ -62,16 +65,28 @@ bool	has_in_out(char **s, int j)
 
 char	*check_var(t_var *var, t_varenv *v_e)
 {
+	char	*tmp;
+	// char	*result;
+
 	v_e->j = var->i;
 	if (is_env_in(*var, v_e->j) == true && var->quote_cmd == false)
 	{
-		var->s_p = ft_strjoinsp(NULL, ft_trunc(var->s[0], 0, "$", *var), 1);
+		ft_free_secure(&var->s_p);
+		tmp = ft_trunc(var->s[0], 0, "$", *var);
+		// var->s_p = ft_strjoinsp(NULL, tmp, 1);		//ft_trunc direct ?
+		// ft_free_secure(&tmp);
 		env_arg(var, v_e);
-		var->s_p = ft_strjoinsp(var->s_p, var->env, 0);
-		return (var->s_p);
+		tmp = ft_strjoinsp(tmp, var->env, 0);
+		// var->s_p = ft_strjoinsp(var->s_p, var->env, 0);
+		ft_free_secure(&var->env);
+		return (tmp);	//todo : surement free trunc pour as le perdre
 	}
 	else
-		return (ft_strdup(var->s_p));
+	{
+		tmp = ft_strdup(var->s_p);
+		ft_free_secure(&var->s_p);
+		return (tmp);
+	}
 }
 
 char	*ft_free_process(char *to_free, char *to_return)
@@ -80,6 +95,7 @@ char	*ft_free_process(char *to_free, char *to_return)
 		free(to_free);
 	return (to_return);
 }
+
 
 /*bool	is_last_infile(char **s, int i)
 {

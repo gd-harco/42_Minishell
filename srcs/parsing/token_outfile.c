@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/11 13:55:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/30 15:51:32 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 static void	fill_outfile(t_var *var)
 {
+	char	*tmp;
+
 	if (var->s[var->i][1] && var->s[var->i][1] == '>' )
 	{
 		if (var->s[var->i][2] != '\0')
-			var->new_tkn->content[0] = ft_strdup(ft_substr(
-						var->s[var->i], 2, ft_strlen(var->s[var->i])));
+		{
+			tmp = ft_substr(var->s[var->i], 2, ft_strlen(var->s[var->i]));
+			var->new_tkn->content[0] = ft_strdup(tmp);
+			free(tmp);
+		}
 		else
 		{
 			var->i++;
@@ -28,8 +33,9 @@ static void	fill_outfile(t_var *var)
 	}
 	else if (var->s[var->i][1] != '\0')
 	{
-		var->new_tkn->content[0] = ft_strdup(ft_substr
-				(var->s[var->i], 1, ft_strlen(var->s[var->i])));
+		tmp = ft_substr(var->s[var->i], 1, ft_strlen(var->s[var->i]));
+		var->new_tkn->content[0] = ft_strdup(tmp);
+		free(tmp);
 		var->new_tkn->type = FILE_OUT;
 	}
 	else
@@ -91,8 +97,8 @@ int	token_outfile(t_var *var)
 	|| (var->s[var->i][1] == '>' && var->s[var->i][2] == '\0'
 	&& !var->s[var->i + 1]))
 		return (-1);
-	if (is_quote_in(var->s[var->i]) == 0 && ((var->s[var->i][1] == '\0'
-			&& is_quote_in(var->s[var->i + 1]) == 0)
+	if (is_quote_in(var->s[var->i]) == 0 //&& ((var->s[var->i][1] == '\0'
+			&& ((is_quote_in(var->s[var->i + 1]) == 0)
 		|| (var->s[var->i][1] == '>' && var->s[var->i][2] == '\0'
 				&& is_quote_in(var->s[var->i + 1]) == 0)))
 	{

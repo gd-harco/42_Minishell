@@ -16,3 +16,15 @@
 	...
 	fun:master_exec
 }
+{
+	leak init_secret_array
+	Memcheck:Leak
+	...
+	fun:init_secret_array
+}
+{
+	leak init_shell_env
+	Memcheck:Leak
+	...
+	fun:init_shell_env
+}
