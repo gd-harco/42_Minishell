@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/13 22:30:07 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/07/01 12:31:59 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	**init_shell_env(char **envp);
 void	init_secret_array(t_minishell *data, bool secret);
 
 //TODO man stat = recuperer la valeur de retour
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
@@ -39,8 +41,8 @@ int	main(int argc, char **argv, char **envp)
 		if (!var.str_in)
 		{
 			rl_clear_history();
-			free(var.str_in);
-			free(var.str);
+			ft_free_secure(&var.str_in);
+			ft_free_secure(&var.str);
 			ft_free_array((void **)data.envp);
 			ft_printf("exit\n");
 			exit(EXIT_EOF);
@@ -48,10 +50,11 @@ int	main(int argc, char **argv, char **envp)
 		if (var.str_in && *(var.str_in))
 			add_history(var.str_in);
 		data.token_list = get_token_list(&var);
-		free(var.str_in);
-		free(var.str);
+		free_var(&var);
 		if (data.token_list)
 			master_exec(&data);
+		token_clear(&data.token_list);
+		// exit (0);
 		var.str_in = get_user_input();
 		var.str = ft_space_str(&var);
 	}
@@ -70,13 +73,14 @@ char	**init_shell_env(char **envp)
 	}
 	else
 	{
-		new_envp = ft_calloc(4, sizeof (char *));
+		new_envp = ft_calloc(5, sizeof (char *));
 		pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
 		new_envp[0] = pwd;
 		old_pwd = ft_strdup("OLDPWD");
 		new_envp[1] = old_pwd;
 		shlvl = ft_strdup("SHLVL=1");
 		new_envp[2] = shlvl;
+		new_envp[3] = ft_strdup("PATH=");
 	}
 	return (new_envp);
 }
@@ -93,3 +97,14 @@ void	init_secret_array(t_minishell *data, bool secret)
 				getcwd(NULL, 0), "/assets/secret.gif");
 	}
 }
+
+void	free_var(t_var *var)
+{
+	ft_free_secure(&var->str_in);
+	ft_free_secure(&var->str);
+	ft_free_split_secure(&var->s);
+	ft_free_split_secure(&var->spipe);
+	// token_clear(&var->new_tkn);
+}
+
+// cat -e Makefile |pwd >out33

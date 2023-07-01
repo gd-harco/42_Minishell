@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:39:54 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/12 10:16:44 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/06/29 11:23:49 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	free_quote(t_var_quote *v_q)
 {
 	if (v_q->tmp)
-		free(v_q->tmp);
+		ft_free_secure(&v_q->tmp);
 	if (v_q->split_tmp)
-		ft_free_split(v_q->split_tmp);
+		ft_free_split_secure(&v_q->split_tmp);
 }
 
 char	*ft_reload_dup(char *str, t_var *var)
