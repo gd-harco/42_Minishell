@@ -73,13 +73,14 @@ char	**init_shell_env(char **envp)
 	}
 	else
 	{
-		new_envp = ft_calloc(4, sizeof (char *));
+		new_envp = ft_calloc(5, sizeof (char *));
 		pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
 		new_envp[0] = pwd;
 		old_pwd = ft_strdup("OLDPWD");
 		new_envp[1] = old_pwd;
 		shlvl = ft_strdup("SHLVL=1");
 		new_envp[2] = shlvl;
+		new_envp[3] = ft_strdup("PATH=");
 	}
 	return (new_envp);
 }
