@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 13:02:02 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/01 13:09:48 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	get_token(t_token *t_new, t_var *var)
 		if (!tmp)
 		{
 			token_clear(&t_new);
+			free_var(var);
 			exit(EXIT_FAILURE); //TODO: call exit function
 		}
 		tnew = malloc(sizeof(t_token));
@@ -116,6 +117,7 @@ t_token	*token_init(t_var *var)
 	{
 		if (token_infile(var) == -1)
 		{
+			free(var->new_tkn);
 			return (NULL);
 		}
 	}
@@ -123,6 +125,7 @@ t_token	*token_init(t_var *var)
 	{
 		if (token_outfile(var) == -1)
 		{
+			free(var->new_tkn);
 			return (NULL);
 		}
 	}

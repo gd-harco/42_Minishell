@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 12:40:25 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/01 13:13:05 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_token	*tknnew(t_var *var)
 	return (new);
 }
 
-void token_memcpy(t_token *dest, const t_token *src)
+void	token_memcpy(t_token *dest, const t_token *src)
 {
 	int	i;
 
