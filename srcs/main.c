@@ -24,12 +24,17 @@ int	main(int argc, char **argv, char **envp)
 	t_var		var;
 	bool		secret;
 
+//TODO get rid of the secret bool, replace it with a define EASTER_EGG in minishell.h
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	if (argc == 1)
 		secret = true;
 	else
 		secret = false;
 	(void)argv;
+	data.sig = malloc(sizeof(t_sig));
+	init_sigaction(data.sig);
+	sigaction(SIGINT, data.sig->c_prompt, NULL);
+	sigaction(SIGQUIT, data.sig->d_int, NULL);
 	init_secret_array(&data, secret);
 	data.envp = init_shell_env(envp);
 	var.env_cpy = data.envp;

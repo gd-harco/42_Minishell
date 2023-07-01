@@ -18,43 +18,30 @@ LIBFT			=	lib/libft/libft.a
 
 # ---- Files ---- #
 
-HEADERS_LIST	=	builtins.h\
-					exec.h		\
-					minishell.h	\
-					sig.h		\
-					struct.h	\
-					parsing.h
+HEADERS_LIST	=	builtins.h		exec.h		\
+					minishell.h		sig.h		\
+					struct.h		parsing.h
 
-SRCS_LIST		=	main.c			\
-					prompt.c		\
+SRCS_LIST		=	main.c		prompt.c		\
 \
 					builtins/cd.c		builtins/echo.c			\
 					builtins/env.c		builtins/exit.c			\
 					builtins/export.c	builtins/export_utils.c	\
 					builtins/pwd.c		builtins/unset.c		\
 \
-					exec/execution.c		\
-					exec/exec_cmd.c			\
-					exec/here_doc.c			\
-					exec/translate_cmd.c	\
+					exec/execution.c	exec/exec_cmd.c			\
+					exec/here_doc.c		exec/translate_cmd.c	\
 \
-					parsing/free_utils.c		\
-					parsing/path.c				\
-					parsing/quotes_env.c		\
-					parsing/quotes_utils.c		\
-					parsing/quotes.c			\
-					parsing/token_check.c		\
-					parsing/token_cmd_fct.c		\
-					parsing/token_env_var.c		\
-					parsing/token_infile.c		\
-					parsing/token_is_in.c		\
-					parsing/token_outfile.c			\
-					parsing/token_utils.c		\
-					parsing/token.c				\
-					parsing/utils_str.c			\
-					parsing/utils.c				\
-					parsing/utils2.c
-
+					parsing/free_utils.c		parsing/path.c				\
+					parsing/quotes_env.c		parsing/quotes_utils.c		\
+					parsing/quotes.c			parsing/token_check.c		\
+					parsing/token_cmd_fct.c		parsing/token_env_var.c		\
+					parsing/token_infile.c		parsing/token_is_in.c		\
+					parsing/token_outfile.c		parsing/token_utils.c		\
+					parsing/token.c				parsing/utils_str.c			\
+					parsing/utils.c				parsing/utils2.c			\
+\
+					signal/init_sigaction.c		signal/sig_handlers.c		\
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
@@ -116,6 +103,7 @@ ${DIR_OBJS}		:
 					${MKDIR} ${DIR_OBJS}builtins
 					${MKDIR} ${DIR_OBJS}parsing
 					${MKDIR} ${DIR_OBJS}exec
+					${MKDIR} ${DIR_OBJS}signal
 
 # ---- Usual Rules ---- #
 

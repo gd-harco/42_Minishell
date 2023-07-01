@@ -22,6 +22,8 @@ void	master_exec(t_minishell	*minishell)
 	size_t	current_cmd;
 
 	exec_data = get_exec_data(minishell);
+	exec_data->sig = minishell->sig;
+	sigaction(SIGINT, exec_data->sig->c_exec, exec_data->sig->c_prompt);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
 	else
@@ -32,7 +34,7 @@ void	master_exec(t_minishell	*minishell)
 			pipe(exec_data->pipe_fd);
 			exec_data->pid[current_cmd] = fork();
 			if (exec_data->pid[current_cmd] == -1)
-				exit(EXIT_FAILURE); //TODO: Call exit function
+				exit(EXIT_FAILURE); //TODO: Call exit functions
 			if (exec_data->pid[current_cmd] == 0)
 			{
 				dup2(exec_data->pipe_fd[1], STDOUT_FILENO);

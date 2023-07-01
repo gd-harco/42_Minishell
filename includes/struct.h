@@ -44,13 +44,6 @@ typedef struct s_token
 	struct s_token	*next;
 }				t_token;
 
-typedef struct s_sig
-{
-	struct sigaction	*c_prompt;
-	struct sigaction	*c_exec;
-	struct sigaction	*d_int;
-}	t_sig;
-
 typedef struct s_minishell
 {
 	char				**envp;
