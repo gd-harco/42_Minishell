@@ -24,6 +24,7 @@
 # include "builtins.h"
 # include "exec.h"
 # include "parsing.h"
+# include "sig.h"
 
 //########### SYSTEM LIB HEADERS ##########//
 
