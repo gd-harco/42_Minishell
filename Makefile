@@ -38,6 +38,7 @@ SRCS_LIST		=	main.c			\
 					exec/translate_cmd.c	\
 \
 					parsing/free_utils.c		\
+					parsing/parse_syntax.c		\
 					parsing/path.c				\
 					parsing/quotes_env.c		\
 					parsing/quotes_utils.c		\
