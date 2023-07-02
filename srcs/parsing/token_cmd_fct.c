@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/29 14:57:12 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/02 15:29:05 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	token_cmd(t_var *var)
 		quote_manager(var, &v_e);
 		var->quote_cmd = true;
 		var->s_p = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 	v_e.j++;
 	while (var->s[v_e.j])
@@ -87,6 +88,7 @@ static void	fill_arg_builtin(t_var *var, t_varenv *v_e)
 	{
 		quote_manager(var, v_e);
 		var->arg = ft_strjoinsp(var->arg, var->quote, 1);
+		ft_free_secure(&var->quote);
 	}
 }
 
@@ -117,5 +119,6 @@ static void	fill_arg_cmd(t_var *var, t_varenv *v_e)
 	{
 		quote_manager(var, v_e);
 		var->arg = ft_strjoinsp(var->arg, var->quote, 1);
+		ft_free_secure(&var->quote);
 	}
 }
