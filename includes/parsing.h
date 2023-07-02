@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 14:59:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/02 16:47:07 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	quote_manager_inout(t_var *var, t_varenv *v_e);
 /*
 */
 //#################### TOKEN_CHECK.C ####################//
-bool	already_cmd(t_token *t_new, t_token *tmp);
+bool	already_cmd(const t_token *t_new, const t_token *tmp);
 void	token_arg(t_var *var);
 int		ft_nb_pipe(char *str);
 //-------------------- TOKEN_CHECK.C --------------------//
