@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 16:21:05 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/02 12:35:44 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,26 @@ void	token_clear(t_token **tkn)
 		i++;
 	}
 	token_clear(&((*tkn)->next)); // Appel récursif pour les tokens suivants
+	free(*tkn);
+	*tkn = NULL;
+}
+
+void	token_clear_one(t_token **tkn)
+{
+	int	i;
+
+	i = 0;
+	if (*tkn == NULL)
+		return ;
+	while (i < 2)
+	{
+		if ((*tkn)->content[i] != NULL)
+		{
+			ft_free_secure(&(*tkn)->content[i]);
+			// (*tkn)->content[i] = NULL;
+		}
+		i++;
+	}
 	free(*tkn);
 	*tkn = NULL;
 }
