@@ -40,6 +40,7 @@ SRCS_LIST		=	main.c		prompt.c		\
 					parsing/token_outfile.c		parsing/token_utils.c		\
 					parsing/token.c				parsing/utils_str.c			\
 					parsing/utils.c				parsing/utils2.c			\
+					parsing/parse_syntax.c	\
 \
 					signal/init_sigaction.c		signal/sig_handlers.c		\
 

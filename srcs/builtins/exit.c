@@ -16,7 +16,7 @@ void	exit_shell(t_exec	*exec_data)
 {
 	pid_t	pid;
 
-	rl_clear_history();
+	clear_history();
 	if (exec_data->secret_array)
 	{
 		pid = fork();

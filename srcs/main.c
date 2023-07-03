@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (!var.str_in)
 		{
-			rl_clear_history();
+			clear_history();
 			ft_free_secure(&var.str_in);
 			ft_free_secure(&var.str);
 			ft_free_array((void **)data.envp);

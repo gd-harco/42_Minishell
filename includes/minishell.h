@@ -41,6 +41,9 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+//TODO remove this when on linux
+# include <string.h>
+
 //-----------------FUNCTION-----------------//
 //################# PROMPT.C #################//
 char	*get_user_input(void);

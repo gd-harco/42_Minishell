@@ -6,9 +6,10 @@
 
 typedef struct s_sig
 {
-	struct sigaction	*c_prompt;
-	struct sigaction	*c_exec;
-	struct sigaction	*d_int;
+	struct sigaction	*int_prompt;
+	struct sigaction	*int_exec;
+	struct sigaction	*quit_prompt;
+	struct sigaction	*quit_exec;
 }	t_sig;
 
 void	init_sigaction(t_sig *sig);
