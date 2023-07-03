@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 13:13:15 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/03 15:00:32 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,9 @@ char	*ft_space_str(t_var *var)
 	t_var_quote	v_q;
 	char		*new;
 
+	var->is_pquote = false;
 	if (check_syntax_error(var, 0) == true)
 		return (NULL);
-	var->is_pquote = false;
 	var->is_squote = false;
 	v_q.tmp = ft_strdup(var->str_in);
 	if (!v_q.tmp)
