@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 16:18:35 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 13:04:36 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/03 13:13:10 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static bool	check_parse(t_var var);
 static bool	check_parse_bis(t_var var, int i);;
 static bool	in_out_in(t_var var, int i);
+static bool	last_char(char *str);
 
 bool	check_syntax_error(t_var *var, int i)
 {
@@ -104,19 +105,21 @@ static bool	check_parse(t_var var)
 		i++;
 	if (!var.s[i] || !var.s[i + 1])
 		return (ft_free_split(var.s), false);
-	if (var.s[i + 1][0] == '>' && var.s[i + 1][1] != '>')
+	if (last_char(var.s[i]) == true)
 	{
-		ft_putendl_fd(OUT_SYNTAX_ERR, STDERR_FILENO);
-		return (ft_free_split(var.s), true);
+		if (var.s[i + 1][0] == '>' && var.s[i + 1][1] != '>')
+		{
+			ft_putendl_fd(OUT_SYNTAX_ERR, STDERR_FILENO);
+			return (ft_free_split(var.s), true);
+		}
+		else if (var.s[i + 1][0] == '>' && var.s[i + 1][1] == '>')
+		{
+			ft_putendl_fd(OUT2_SYNTAX_ERR, STDERR_FILENO);
+			return (ft_free_split(var.s), true);
+		}
+		if (check_parse_bis(var, i) == true)
+			return (true);
 	}
-	else if (var.s[i + 1][0] == '>' && var.s[i + 1][1] == '>')
-	{
-		ft_putendl_fd(OUT2_SYNTAX_ERR, STDERR_FILENO);
-		return (ft_free_split(var.s), true);
-	}
-	if (check_parse_bis(var, i) == true)
-		return (true);
-	// }
 	ft_free_split(var.s);
 	return (false);
 }
@@ -158,5 +161,17 @@ static bool	in_out_in(t_var var, int i)
 			return (true);
 		j++;
 	}
+	return (false);
+}
+
+static bool	last_char(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i + 1])
+		i++;
+	if (str[i] == '<' || str[i] == '>')
+		return (true);
 	return (false);
 }

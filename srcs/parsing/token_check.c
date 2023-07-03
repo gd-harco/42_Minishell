@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 17:27:56 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/03 12:24:31 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,23 @@ static bool	cmd_check(const t_token *t_new, const t_token *tmp)
 
 bool	already_cmd(const t_token *t_new, const t_token *tmp)
 {
-	t_token	*buffer;
-	t_token	*tmp2;
+	// t_token	*buffer;
+	// t_token	*tmp2;
 
-	tmp2 = malloc(sizeof(t_token));
-	if (!tmp2)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	token_memcpy(tmp2, t_new);
-	while (tmp2 && tmp2 != tmp)
+	// tmp2 = malloc(sizeof(t_token));
+	// if (!tmp2)
+	// 	exit(EXIT_FAILURE); //TODO: call function pointer exit
+	// token_memcpy(tmp2, t_new);
+	while (t_new && t_new != tmp)
 	{
-		if (tmp2->type == PIPE)
-			t_new = tmp2->next;
-		buffer = tmp2->next;
-		free(tmp2);
-		tmp2 = buffer;
+		// if (t_new->type == PIPE)
+		// 	t_new = t_new->next;
+		t_new = t_new->next;
+		// buffer = t_new->next;
+		// free(tmp2);
+		// tmp2 = buffer;
 	}
-	token_clear(&tmp2);
+	// token_clear(&tmp2);
 	return (cmd_check(t_new, tmp));
 }
 
