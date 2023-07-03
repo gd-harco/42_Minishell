@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 13:09:48 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/02 17:09:29 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ static void	get_token(t_token *t_new, t_var *var)
 	if (var->nb_pipe-- > 0) //&& var->spipe[var->index + 1] != NULL)
 	{
 		tmp = token_pipe();
+		tnew = malloc(sizeof(t_token));
+		if (!tnew)
+			exit(EXIT_FAILURE); //TODO: call exit function ;
 		token_memcpy(tnew, tmp);
 		token_clear(&tmp);
 		token_add_back(&t_new, tnew);

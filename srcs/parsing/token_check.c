@@ -6,13 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/30 15:25:03 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/02 17:27:56 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool	cmd_check(t_token *t_new, t_token *tmp)
+static bool	cmd_check(const t_token *t_new, const t_token *tmp)
 {
 	if (t_new && (tmp->type == CMD || tmp->type == BUILTIN))
 	{
@@ -30,10 +30,10 @@ static bool	cmd_check(t_token *t_new, t_token *tmp)
 		return (false);
 }
 
-bool	already_cmd(t_token *t_new, t_token *tmp)
+bool	already_cmd(const t_token *t_new, const t_token *tmp)
 {
-	t_token	*tmp2;
 	t_token	*buffer;
+	t_token	*tmp2;
 
 	tmp2 = malloc(sizeof(t_token));
 	if (!tmp2)
@@ -44,7 +44,7 @@ bool	already_cmd(t_token *t_new, t_token *tmp)
 		if (tmp2->type == PIPE)
 			t_new = tmp2->next;
 		buffer = tmp2->next;
-		token_clear(&tmp2);
+		free(tmp2);
 		tmp2 = buffer;
 	}
 	token_clear(&tmp2);
