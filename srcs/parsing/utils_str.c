@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:58:50 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/29 14:19:31 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/04 11:48:23 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,20 @@ char	*ft_strjoinsp(char *s1, char *s2, int n)
 	result = malloc(sizeof(char) * joined_size + 1 + n);
 	if (!result)
 	{
-		ft_free_process(s1, NULL);
+		ft_free_secure(&s1);
 		exit(EXIT_FAILURE); //TODO: call function pointer exit
 	}
 	if (n == 1)
-		return (ft_free_process(s1, joningsp(result, (char *)s2, (char *)s1)));
+	{
+		joningsp(result, (char *)s2, (char *)s1);
+		ft_free_secure(&s1);
+		return (result);
+	}
 	// else if (n == -1)
 	// 	return (joningsp(result, (char *)s2, (char *)s1));
-	return (ft_free_process(s1, joning(result, (char *)s2, (char *)s1)));
+	joning(result, (char *)s2, (char *)s1);
+	ft_free_secure(&s1);
+	return (result);
 }
 
 /*

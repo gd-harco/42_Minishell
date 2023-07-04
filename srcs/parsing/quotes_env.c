@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:12:47 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 14:46:44 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/04 11:54:47 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static int	fill_quote_env(char *str_tmp, t_var *var, t_varenv *v_e)
 	{
 		sub_tmp = ft_substrvar(var->env_cpy[v_e->m], v_e
 				->k + 1, ft_strlen(var->env_cpy[v_e->m]) - v_e->k, *var);
-		var->env = ft_strjoin(var->env, sub_tmp);
+		var->env = ft_strjoinsp(var->env, sub_tmp, 0);
 		ft_free_secure(&sub_tmp);
 	}
 	// var->env = ft_strjoinsp(var->env, NULL, 0);

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/03 14:27:18 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/04 11:48:12 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ bool	var_init(t_var *var);
 bool	is_builtin(char *str);
 bool	has_in_out(char **s, int j);
 char	*check_var(t_var *var, t_varenv *v_e);
-char	*ft_free_process(char *to_free, char *to_return);
+char	*ft_free_process(char **to_free, char *to_return);
 //-------------------- UTILS.C --------------------//
 /*
 */
