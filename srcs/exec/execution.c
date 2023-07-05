@@ -27,7 +27,9 @@ void	master_exec(t_minishell	*minishell)
 	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
-	else
+	else if (exec_data->nb_cmd == 0)
+		handle_io(exec_data, 0);
+	else if (exec_data->nb_cmd != 0)
 	{
 		current_cmd = 0;
 		while (current_cmd < exec_data->nb_cmd - 1)
@@ -89,10 +91,10 @@ static size_t	get_nb_cmd(t_token *token_list)
 {
 	size_t	nb_cmd;
 
-	nb_cmd = 1;
+	nb_cmd = 0;
 	while (token_list)
 	{
-		if (token_list->type == PIPE)
+		if (token_list->type == CMD || token_list->type == BUILTIN)
 			nb_cmd++;
 		token_list = token_list->next;
 	}
