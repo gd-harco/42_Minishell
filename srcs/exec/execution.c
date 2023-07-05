@@ -32,6 +32,7 @@ void	master_exec(t_minishell	*minishell)
 		{
 			pipe(exec_data->pipe_fd);
 			exec_data->pid[current_cmd] = fork();
+			//TODO parent ignore SIGINT, enfant prend le old sigaction
 			if (exec_data->pid[current_cmd] == -1)
 				exit(EXIT_FAILURE); //TODO: Call exit functions
 			if (exec_data->pid[current_cmd] == 0)

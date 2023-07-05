@@ -20,3 +20,9 @@ void	sigint_prompt(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
+void	sig_quit_parent(int sig)
+{
+	(void)sig;
+	ft_dprintf(STDOUT_FILENO, "Quit (core dumped)\n");
+}
