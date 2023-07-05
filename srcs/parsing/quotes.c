@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:25:29 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 15:25:56 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 12:41:59 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	dub_quote(char *str_tmp, t_var *var, t_varenv *v_e, char **tmp)
 	if (is_env_in_str(str_tmp) == true)
 	{
 		v_q.tmp = ft_trunc(str_tmp, 1, "$", *var);
-		*tmp = ft_strjoin(*tmp, v_q.tmp);
+		*tmp = ft_strjoinsp(*tmp, v_q.tmp, 0);
 		ft_free_secure(&v_q.tmp);
 		quote_env(str_tmp, var, v_e);
 		var->env = ft_reload_dup(var->env, var);
@@ -66,12 +66,15 @@ static void	single_quote(char *str_tmp, t_var *var, char **tmp)
 
 static int	no_quote(t_var *var, t_varenv *v_e, t_var_quote *v_q)
 {
+	char	*trc_tmp;
+
 	if (has_in_out(v_q->split_tmp, v_q->i) == true)
 		return (-1);
 	if (is_env_in_str(v_q->split_tmp[v_q->i]) == true)
 	{
-		v_q->tmp = ft_strjoin(v_q->tmp, ft_trunc(
-					v_q->split_tmp[v_q->i], 0, "$", *var));
+		trc_tmp = ft_trunc(v_q->split_tmp[v_q->i], 0, "$", *var);
+		v_q->tmp = ft_strjoinsp(v_q->tmp, trc_tmp, 0);
+		ft_free_secure(&trc_tmp);
 		quote_env(v_q->split_tmp[v_q->i], var, v_e);
 		var->env = ft_reload_dup(var->env, var);
 		v_q->tmp = ft_strjoinsp(v_q->tmp, var->env, 0);
