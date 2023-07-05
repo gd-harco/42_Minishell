@@ -14,6 +14,7 @@
 # define PARSING_H
 
 # include "struct.h"
+# include <stdbool.h>
 
 //#################### FUNCTION ####################//
 //-------------------- FUNCTION --------------------//
