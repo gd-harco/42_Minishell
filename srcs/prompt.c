@@ -18,7 +18,7 @@ char	*get_user_input(t_minishell *data)
 	static char	*prompt[11];
 	static int	i = -1;
 
-	sigaction(SIGINT, data->sig->int_prompt, data->sig->int_exec);
+	sigaction(SIGINT, data->sig->int_prompt, NULL);
 	sigaction(SIGQUIT, data->sig->quit_prompt, data->sig->quit_exec);
 	if (!prompt[0])
 	{

@@ -23,6 +23,8 @@ void	master_exec(t_minishell	*minishell)
 
 	exec_data = get_exec_data(minishell);
 	exec_data->sig = minishell->sig;
+	sigaction(SIGINT, exec_data->sig->int_parent, NULL);
+	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
 	else
@@ -32,7 +34,6 @@ void	master_exec(t_minishell	*minishell)
 		{
 			pipe(exec_data->pipe_fd);
 			exec_data->pid[current_cmd] = fork();
-			//TODO parent ignore SIGINT, enfant prend le old sigaction
 			if (exec_data->pid[current_cmd] == -1)
 				exit(EXIT_FAILURE); //TODO: Call exit functions
 			if (exec_data->pid[current_cmd] == 0)

@@ -37,6 +37,9 @@ static void	init_int(t_sig *sig)
 	sig->int_parent->sa_handler = SIG_IGN;
 	sig->int_parent->sa_flags = SA_RESTART;
 	sigemptyset(&sig->int_parent->sa_mask);
+	sig->int_exec->sa_handler = SIG_DFL;
+	sig->int_exec->sa_flags = SA_RESTART;
+	sigemptyset(&sig->int_exec->sa_mask);
 }
 
 static void	init_quit(t_sig *sig)
