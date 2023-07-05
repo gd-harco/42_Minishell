@@ -23,7 +23,6 @@ void	master_exec(t_minishell	*minishell)
 
 	exec_data = get_exec_data(minishell);
 	exec_data->sig = minishell->sig;
-	sigaction(SIGINT, exec_data->sig->int_exec, exec_data->sig->int_prompt);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
 	else
