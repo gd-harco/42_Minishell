@@ -25,8 +25,6 @@ typedef struct s_sig
 }	t_sig;
 
 void	init_sigaction(t_sig *sig);
-void	sig_c_exec(int sig);
-void	sig_c_prompt(int sig);
-void	sig_d_int(int sig);
+void	sigint_prompt(int sig);
 
 #endif

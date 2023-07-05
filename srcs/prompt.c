@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
-char	*get_user_input(void)
+char	*get_user_input(t_minishell *data)
 {
 	char		*user_input;
 	static char	*prompt[11];
-	static int	i = 0;
+	static int	i = -1;
 
+	sigaction(SIGINT, data->sig->int_prompt, data->sig->int_exec);
+	sigaction(SIGQUIT, data->sig->quit_prompt, data->sig->quit_exec);
 	if (!prompt[0])
 	{
 		prompt[0] = "Nous sommes de retour! > ";
@@ -34,7 +36,8 @@ char	*get_user_input(void)
 		prompt[10] = "Miaouss, oui la guerre! > ";
 	}
 	if (i == 11)
-		i = 0;
-	user_input = readline(prompt[i++]);
+		i = -1;
+	i++;
+	user_input = readline(prompt[i]);
 	return (user_input);
 }

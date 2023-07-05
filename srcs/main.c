@@ -32,14 +32,17 @@ int	main(int argc, char **argv, char **envp)
 		secret = false;
 	(void)argv;
 	data.sig = malloc(sizeof(t_sig));
+	if (!data.sig)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: malloc error in main\n");
+		exit(EXIT_FAILURE);
+	}
 	init_sigaction(data.sig);
-	sigaction(SIGINT, data.sig->int_prompt, data.sig->int_exec);
-	sigaction(SIGQUIT, data.sig->quit_prompt, data.sig->quit_exec);
 	init_secret_array(&data, secret);
 	data.envp = init_shell_env(envp);
 	var.env_cpy = data.envp;
 	printf(ROCKET_LOGO);
-	var.str_in = get_user_input();
+	var.str_in = get_user_input(&data);
 	var.str = ft_space_str(&var);
 	while (42)
 	{
@@ -63,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 			token_clear(&data.token_list);
 			// exit (0);
 		}
-		var.str_in = get_user_input();
+		var.str_in = get_user_input(&data);
 		var.str = ft_space_str(&var);
 	}
 }
