@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/04 11:48:12 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 22:19:04 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,32 @@
 //-------------------- FUNCTION --------------------//
 /*
 */
-//#################### PATH.C ####################//
-char	**get_path(char **envp);
-char	*process(char *str, char **path, int ind);
-//-------------------- PATH.C --------------------//
+//#################### ENV_SYMBOL.C ####################//
+int		quote_env_symbol(t_var *var, char *str_tmp, t_varenv *v_e);
+int		env_symbol(t_var *var, char *str, t_varenv *v_e);
+//-------------------- ENV_SYMBOL.C --------------------//
+/*
+*/
+//#################### PARSE_PIPE.C ####################//
+bool	pipe_check(char *str);
+//-------------------- PARSE_PIPE.C --------------------//
+/*
+*/
+//#################### PARSE_SYNTAX_CHECK.C ####################//
+bool	newline_check(t_var *var, int i);
+bool	in_check(t_var *var, int i);
+bool	in2_check(t_var *var, int i);
+bool	in3_check(t_var *var, int i);
+bool	out_check(t_var *var, int i);
+//-------------------- PARSE_SYNTAX_CHECK.C --------------------//
+/*
+*/
+//#################### PARSE_SYNTAX_UTILS.C ####################//
+bool	in_out_in(t_var var, int i);
+char	last_char(char *str);
+bool	out2_check(t_var *var, int i);
+bool	io_check(t_var *var, int i);
+//-------------------- PARSE_SYNTAX_UTILS.C --------------------//
 /*
 */
 //#################### PARSE_SYNTAX.C ####################//
@@ -31,16 +53,29 @@ bool	check_syntax_error(t_var *var, int i);
 //-------------------- PARSE_SYNTAX.C --------------------//
 /*
 */
+//#################### PATH.C ####################//
+char	**get_path(char **envp);
+char	*process(char *str, char **path, int ind);
+//-------------------- PATH.C --------------------//
+/*
+*/
 //#################### QUOTES_ENV.C ####################//
 void	quote_env(char *str_tmp, t_var *var, t_varenv *v_e);
 //-------------------- QUOTES_ENV.C --------------------//
+/*
+*/
+//#################### QUOTES_TYPE.C ####################//
+void	dub_quote(char *str_tmp, t_var *var, t_varenv *v_e, char **tmp);
+void	single_quote(char *str_tmp, t_var *var, char **tmp);
+int		no_quote(t_var *var, t_varenv *v_e, t_var_quote *v_q);
+//-------------------- QUOTES_TYPE.C --------------------//
 /*
 */
 //#################### QUOTES_UTILS.C ####################//
 void	free_quote(t_var_quote *v_q);
 char	*ft_reload_dup(char *str, t_var *var);
 char	*ft_substrvar(char const *s, unsigned int start, size_t len, t_var var);
-//-------------------- quotes_utils.c --------------------//
+//-------------------- QUOTES_UTILS.c --------------------//
 /*
 */
 //#################### QUOTES.C ####################//
@@ -49,17 +84,22 @@ void	quote_manager_inout(t_var *var, t_varenv *v_e);
 //-------------------- QUOTES.C --------------------//
 /*
 */
+//#################### TOKEN_BUILTIN.C ####################//
+void	token_builtin(t_var *var);
+//-------------------- TOKEN_BUILTIN.C --------------------//
+/*
+*/
 //#################### TOKEN_CHECK.C ####################//
 bool	already_cmd(const t_token *t_new, const t_token *tmp);
 void	token_arg(t_var *var);
 int		ft_nb_pipe(char *str);
+bool	is_metachar(char c);
 //-------------------- TOKEN_CHECK.C --------------------//
 /*
 */
-//#################### TOKEN_CMD_FCT.C ####################//
-void	token_builtin(t_var *var);
+//#################### TOKEN_CMD.C ####################//
 void	token_cmd(t_var *var);
-//-------------------- TOKEN_CMD_FCT.C --------------------//
+//-------------------- TOKEN_CMD.C --------------------//
 /*
 */
 //#################### TOKEN_ENV_VAR.C ####################//
@@ -67,20 +107,22 @@ void	env_arg(t_var *var, t_varenv *v_e);
 //-------------------- TOKEN_ENV_VAR.C --------------------//
 /*
 */
-//#################### TOKEN_FCT.C ####################//
+//#################### TOKEN_INFILE.C ####################//
 int		token_infile(t_var *var);
-int		token_outfile(t_var *var);
-t_token	*token_pipe(void);
-//-------------------- TOKEN_FCT.C --------------------//
+//-------------------- TOKEN_INFILE.C --------------------//
 /*
 */
 //#################### TOKEN_IS_IN.C ####################//
 bool	is_env_in(t_var var, int j);
 bool	is_env_in_str(char *str);
 int		is_quote_in(char *str);
-int		is_quote_between(char *str, int	i);
-bool	is_metachar(char c);
+int		is_quote_between(char *str, int i);
 //-------------------- TOKEN_IS_IN.C --------------------//
+/*
+*/
+//#################### TOKEN_OUTFILE.C ####################//
+int		token_outfile(t_var *var);
+//-------------------- TOKEN_OUTFILE.C --------------------//
 /*
 */
 //#################### TOKEN_UTILS.C ####################//
@@ -88,7 +130,7 @@ t_token	*token_last(t_token *token);
 void	token_add_back(t_token **token, t_token *new);
 void	token_memcpy(t_token *dest, const t_token *src);
 void	token_clear(t_token **tkn);
-void	token_clear_one(t_token **tkn);
+t_token	*token_pipe(void);
 //-------------------- TOKEN_UTILS.C --------------------//
 /*
 */

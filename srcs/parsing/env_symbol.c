@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:22:41 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 17:20:07 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 23:22:45 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	env_symbol(t_var *var, char *str, t_varenv *v_e)
 	{
 		var->env = ft_strjoinsp(var->env, "$", 0);
 	}
-	if (str[v_e->i + 1 + v_e->k] == '\0' || str[v_e->i + 1 + v_e->k + 1] == '\0')
+	if (str[v_e->i + 1 + v_e->k] == '\0'
+		|| str[v_e->i + 1 + v_e->k + 1] == '\0')
 		return (1);
 	else
 		return (0);

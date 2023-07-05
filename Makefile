@@ -52,6 +52,7 @@ SRCS_LIST		=	main.c			\
 					parsing/token_cmd.c				\
 					parsing/token_env_var.c			\
 					parsing/token_infile.c			\
+					parsing/token_init.c			\
 					parsing/token_is_in.c			\
 					parsing/token_outfile.c			\
 					parsing/token_utils.c			\

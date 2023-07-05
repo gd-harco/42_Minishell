@@ -6,11 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:17:34 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/04 11:18:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 22:09:36 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	find_quote(char *str, int j, char c);
 
 bool	is_env_in(t_var var, int j)
 {
@@ -58,7 +60,7 @@ int	is_quote_in(char *str)
 	return (0);
 }
 
-int	is_quote_between(char *str, int	i)
+int	is_quote_between(char *str, int i)
 {
 	int	j;
 
@@ -69,40 +71,27 @@ int	is_quote_between(char *str, int	i)
 	{
 		if (str[i] == '\'')
 		{
-			while(j >= 0)
-			{
-				if (str[j--] == '\'')
-					return (1);
-			}
-			return (0);
-			
+			return (find_quote(str, j, '"'));
 		}
 		else if (str[i] == '"')
 		{
-			while(j >= 0)
-			{
-				if (str[j--] == '"')
-					return (2);
-			}
-			return (0);
+			return (find_quote(str, j, '"'));
 		}
 		else
-		{	
+		{
 			i++;
 			j = i;
 		}
-		
 	}
 	return (0);
 }
 
-bool	is_metachar(char c)
+static int	find_quote(char *str, int j, char c)
 {
-	if (c == '.' || c == ',' || c == '/' || c == '\\' || c == '^' || c == '$'
-		|| c == '-' || c == '+' || c == '"' || c == '=' || c == '?' || c == '!'
-		|| c == '@' || c == '#' || c == '%' || c == '[' || c == ']' || c == '{'
-		|| c == '}' || c == '\'' || c == '~' || c == '`' || c == ':')
-		return (true);
-	else
-		return (false);
+	while (j >= 0)
+	{
+		if (str[j--] == c)
+			return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/04 12:15:42 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 22:18:11 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	token_memcpy(t_token *dest, const t_token *src)
 
 	if (dest == NULL || src == NULL)
 		return ;
-
 	i = 0;
 	while (i < 2)
 	{
@@ -68,15 +67,6 @@ void	token_memcpy(t_token *dest, const t_token *src)
 		dest->next = malloc(sizeof(t_token));
 		if (dest->next != NULL)
 			token_memcpy(dest->next, src->next);
-		// else
-		// {
-		// 	while (i < 2)
-		// 	{
-		// 		free(dest->content[i]);
-		// 		dest->content[i] = NULL;
-		// 		i++;
-		// 	}
-		// }
 	}
 	else
 	{
@@ -96,34 +86,47 @@ void	token_clear(t_token **tkn)
 		if ((*tkn)->content[i] != NULL)
 		{
 			ft_free_secure(&(*tkn)->content[i]);
-			// (*tkn)->content[i] = NULL;
 		}
 		i++;
 	}
-	token_clear(&((*tkn)->next)); // Appel récursif pour les tokens suivants
+	token_clear(&((*tkn)->next));
 	free(*tkn);
 	*tkn = NULL;
 }
 
-void	token_clear_one(t_token **tkn)
+t_token	*token_pipe(void)
 {
-	int	i;
+	t_token	*tmp;
 
-	i = 0;
-	if (*tkn == NULL)
-		return ;
-	while (i < 2)
-	{
-		if ((*tkn)->content[i] != NULL)
-		{
-			ft_free_secure(&(*tkn)->content[i]);
-			// (*tkn)->content[i] = NULL;
-		}
-		i++;
-	}
-	free(*tkn);
-	*tkn = NULL;
+	tmp = malloc(sizeof(t_token));
+	if (!tmp)
+		exit(EXIT_FAILURE);//TODO: Call exit function
+	tmp->type = PIPE;
+	tmp->content[0] = ft_strdup("|");
+	tmp->content[1] = NULL;
+	tmp->next = NULL;
+	return (tmp);
 }
+
+// void	token_clear_one(t_token **tkn)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (*tkn == NULL)
+// 		return ;
+// 	while (i < 2)
+// 	{
+// 		if ((*tkn)->content[i] != NULL)
+// 		{
+// 			ft_free_secure(&(*tkn)->content[i]);
+// 			// (*tkn)->content[i] = NULL;
+// 		}
+// 		i++;
+// 	}
+// 	free(*tkn);
+// 	*tkn = NULL;
+// }
 
 // void	token_clear(t_token **tkn)
 // {
