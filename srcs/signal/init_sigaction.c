@@ -12,52 +12,32 @@
 
 #include "minishell.h"
 
-static void	init_sigint_parent(struct sigaction *to_init);
-static void	init_siqint_child(struct sigaction *to_init);
-static void	init_sigquit_parent(struct sigaction *to_init);
-static void	init_sigquit_child(struct sigaction *to_init);
+static void	check_malloc(t_sig *sig);
 
 void	init_sigaction(t_sig *sig)
 {
-	sig->int_prompt = malloc(sizeof(struct sigaction));
-	sig->int_exec = malloc(sizeof(struct sigaction));
-	sig->quit_prompt = malloc(sizeof(struct sigaction));
-	sig->quit_exec = malloc(sizeof(struct sigaction));
-	init_siqint_child(sig->int_exec);
-	init_sigint_parent(sig->int_prompt);
-	init_sigquit_parent(sig->quit_prompt);
-	init_siqquit_child(sig->quit_exec);
+	sig->int_prompt = ft_calloc(1, sizeof(struct sigaction));
+	sig->int_exec = ft_calloc(1, sizeof(struct sigaction));
+	sig->quit_prompt = ft_calloc(1, sizeof(struct sigaction));
+	sig->quit_exec = ft_calloc(1, sizeof(struct sigaction));
+	check_malloc(sig);
 }
 
-//ctrl + c dans un process enfant kill le process
-static void	init_siqint_child(struct sigaction *to_init)
+static void	check_malloc(t_sig *sig)
 {
-	to_init->sa_handler = SIG_IGN;
-	sigemptyset(&to_init->sa_mask);
-	to_init->sa_flags = 0;
-}
-
-//ctrl + c dams un process parent affiche le prompt sur une nouvelle ligne
-static void	init_siqint_parent(struct sigaction *to_init)
-{
-	to_init->sa_handler = SIG_IGN;
-	sigemptyset(&to_init->sa_mask);
-	to_init->sa_flags = 0;
-}
-
-//ctrl+\ dans le prompt ne fais rien
-static void	init_sigquit_parent(struct sigaction *to_init)
-{
-	to_init->sa_handler = SIG_IGN;
-	sigemptyset(&to_init->sa_mask);
-	to_init->sa_flags = 0;
-}
-
-
-// ctrl + \ dans un ori
-static void	init_sigint_parent(struct sigaction *to_init)
-{
-	to_init->sa_handler = sig_c_prompt;
-	sigemptyset(&to_init->sa_mask);
-	to_init->sa_flags = 0;
+	if (!sig->int_prompt || !sig->int_exec
+    ||
+		!sig->quit_prompt || !sig->quit_exec)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: malloc error in init_sigaction\n");
+		if (sig->int_prompt)
+			free(sig->int_prompt);
+		if (sig->int_exec)
+			free(sig->int_exec);
+		if (sig->quit_prompt)
+			free(sig->quit_prompt);
+		if (sig->quit_exec)
+			free(sig->quit_exec);
+		exit(EXIT_FAILURE);
+	}
 }

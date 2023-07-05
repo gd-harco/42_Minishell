@@ -33,8 +33,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	data.sig = malloc(sizeof(t_sig));
 	init_sigaction(data.sig);
-	sigaction(SIGINT, data.sig->c_prompt, NULL);
-	sigaction(SIGQUIT, data.sig->d_int, NULL);
+	sigaction(SIGINT, data.sig->int_prompt, data.sig->int_exec);
+	sigaction(SIGQUIT, data.sig->quit_prompt, data.sig->quit_exec);
 	init_secret_array(&data, secret);
 	data.envp = init_shell_env(envp);
 	var.env_cpy = data.envp;
