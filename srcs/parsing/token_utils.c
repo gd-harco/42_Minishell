@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 12:35:44 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/04 12:15:42 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ void	token_add_back(t_token **token, t_token *new)
 		*token = new;
 }
 
-t_token	*tknnew(t_var *var)
-{
-	t_token	*new;
+// t_token	*tknnew(t_var *var)
+// {
+// 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	new->next = NULL;
-	new = token_init(var);
-	return (new);
-}
+// 	new = malloc(sizeof(t_token));
+// 	if (!new)
+// 		return (NULL);
+// 	new->next = NULL;
+// 	new = token_init(var);
+// 	return (new);
+// }
 
 void	token_memcpy(t_token *dest, const t_token *src)
 {
