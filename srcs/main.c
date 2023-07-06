@@ -14,9 +14,7 @@
 
 char	**init_shell_env(char **envp);
 void	init_secret_array(t_minishell *data, bool secret);
-
-//TODO man stat = recuperer la valeur de retour
-
+int		g_return_value = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
