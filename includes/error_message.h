@@ -15,4 +15,6 @@
 # define IN3_SYNTAX_ERR "minishell: syntax error near unexpected token `<<<'"
 # define IO_SYNTAX_ERR "minishell: syntax error near unexpected token `<>'"
 
+//#################### MEMORY RELATED ####################//
+# define MALLOC_ERR "minishell: malloc error in function: "
 #endif

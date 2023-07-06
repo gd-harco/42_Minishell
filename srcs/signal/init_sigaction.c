@@ -59,7 +59,7 @@ static void	check_malloc(t_sig *sig)
 		|| !sig->quit_prompt || !sig->quit_exec
 		|| !sig->int_parent || !sig->quit_parent)
 	{
-		ft_dprintf(STDERR_FILENO, "minishell: malloc error in init_sigaction\n");
+		ft_dprintf(STDERR_FILENO, MALLOC_ERR "init_sigaction\n");
 		if (sig->int_prompt)
 			free(sig->int_prompt);
 		if (sig->int_exec)
