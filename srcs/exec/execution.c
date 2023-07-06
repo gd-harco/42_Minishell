@@ -22,6 +22,12 @@ void	master_exec(t_minishell	*minishell)
 	size_t	current_cmd;
 
 	exec_data = get_exec_data(minishell);
+	if (g_return_value == 130)
+	{
+		dup2(exec_data->std_save[0], STDIN_FILENO);
+		dup2(exec_data->std_save[1], STDOUT_FILENO);
+		return (free_exec(exec_data));
+	}
 	sigaction(SIGINT, exec_data->sig->int_parent, NULL);
 	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
@@ -129,9 +135,12 @@ void	free_exec(t_exec *exec_data)
 
 	close(exec_data->std_save[0]);
 	close(exec_data->std_save[1]);
-	last_hd_free = 0;
-	while (last_hd_free < exec_data->nb_here_doc)
-		close(exec_data->here_doc_fd[last_hd_free++]);
+	if (exec_data->here_doc_fd)
+	{
+		last_hd_free = 0;
+		while (last_hd_free < exec_data->nb_here_doc)
+			close(exec_data->here_doc_fd[last_hd_free++]);
+	}
 	free(exec_data->here_doc_fd);
 	free(exec_data->pid);
 	i = exec_data->nb_cmd;

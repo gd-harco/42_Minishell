@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	else
 		secret = false;
 	(void)argv;
+	//TODO: free this shit
 	data.sig = malloc(sizeof(t_sig));
 	if (!data.sig)
 	{
