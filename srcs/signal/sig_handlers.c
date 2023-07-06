@@ -21,6 +21,12 @@ void	sigint_prompt(int sig)
 	rl_redisplay();
 }
 
+void	sigint_here_doc(int sig)
+{
+	(void)sig;
+	ft_dprintf(STDOUT_FILENO, "ctrl+c catch\n");
+}
+
 void	sig_quit_parent(int sig)
 {
 	(void)sig;

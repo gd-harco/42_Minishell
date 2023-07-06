@@ -24,6 +24,7 @@ int	*get_here_doc_fd(t_token *token_list, t_exec *exec_data)
 	t_here_doc	*here_doc;
 	int			*here_doc_fd;
 
+	sigaction(SIGINT, exec_data->sig->int_here_doc, NULL);
 	tmp = token_list;
 	exec_data->nb_here_doc = count_here_doc(tmp);
 	if (exec_data->nb_here_doc == 0)

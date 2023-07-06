@@ -21,6 +21,7 @@ void	init_sigaction(t_sig *sig)
 	sig->int_prompt = ft_calloc(1, sizeof(struct sigaction));
 	sig->int_exec = ft_calloc(1, sizeof(struct sigaction));
 	sig->int_parent = ft_calloc(1, sizeof(struct sigaction));
+	sig->int_here_doc = ft_calloc(1, sizeof(struct sigaction));
 	sig->quit_prompt = ft_calloc(1, sizeof(struct sigaction));
 	sig->quit_exec = ft_calloc(1, sizeof(struct sigaction));
 	sig->quit_parent = ft_calloc(1, sizeof(struct sigaction));
@@ -40,6 +41,9 @@ static void	init_int(t_sig *sig)
 	sig->int_exec->sa_handler = SIG_DFL;
 	sig->int_exec->sa_flags = SA_RESTART;
 	sigemptyset(&sig->int_exec->sa_mask);
+	sig->int_here_doc->sa_handler = sigint_here_doc;
+	sig->int_here_doc->sa_flags = SA_RESTART;
+	sigemptyset(&sig->int_here_doc->sa_mask);
 }
 
 static void	init_quit(t_sig *sig)
@@ -57,7 +61,8 @@ static void	check_malloc(t_sig *sig)
 {
 	if (!sig->int_prompt || !sig->int_exec
 		|| !sig->quit_prompt || !sig->quit_exec
-		|| !sig->int_parent || !sig->quit_parent)
+		|| !sig->int_parent || !sig->quit_parent
+		|| !sig->int_here_doc)
 	{
 		ft_dprintf(STDERR_FILENO, MALLOC_ERR "init_sigaction\n");
 		if (sig->int_prompt)
@@ -72,6 +77,8 @@ static void	check_malloc(t_sig *sig)
 			free(sig->int_parent);
 		if (sig->quit_parent)
 			free(sig->quit_parent);
+		if (sig->int_here_doc)
+			free(sig->int_here_doc);
 		exit(EXIT_FAILURE);
 	}
 }

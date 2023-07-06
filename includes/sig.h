@@ -21,6 +21,7 @@ typedef struct s_sig
 	struct sigaction	*int_prompt;
 	struct sigaction	*int_exec;
 	struct sigaction	*int_parent;
+	struct sigaction	*int_here_doc;
 	struct sigaction	*quit_prompt;
 	struct sigaction	*quit_exec;
 	struct sigaction	*quit_parent;
@@ -29,6 +30,6 @@ typedef struct s_sig
 void	init_sigaction(t_sig *sig);
 void	sigint_prompt(int sig);
 void	sig_quit_parent(int sig);
-
+void	sigint_here_doc(int sig);
 
 #endif

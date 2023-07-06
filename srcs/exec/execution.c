@@ -22,7 +22,6 @@ void	master_exec(t_minishell	*minishell)
 	size_t	current_cmd;
 
 	exec_data = get_exec_data(minishell);
-	exec_data->sig = minishell->sig;
 	sigaction(SIGINT, exec_data->sig->int_parent, NULL);
 	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
@@ -69,6 +68,7 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data = ft_calloc(1, sizeof(t_exec));
 	if (!exec_data)
 		exit(EXIT_FAILURE);//TODO: Call exit function
+	exec_data->sig = minishell->sig;
 	exec_data->secret_array = minishell->secret_array;
 	exec_data->token_list = minishell->token_list;
 	exec_data->envp = minishell->envp;
