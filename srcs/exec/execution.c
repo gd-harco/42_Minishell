@@ -20,6 +20,7 @@ void	master_exec(t_minishell	*minishell)
 {
 	t_exec	*exec_data;
 	size_t	current_cmd;
+	int		status;
 
 	exec_data = get_exec_data(minishell);
 	if (g_return_value == 130)
@@ -58,7 +59,11 @@ void	master_exec(t_minishell	*minishell)
 		exec_last_cmd(exec_data, current_cmd);
 		current_cmd = -1;
 		while (++current_cmd < exec_data->nb_cmd)
-			waitpid(exec_data->pid[current_cmd], NULL, 0);
+		{
+			waitpid(exec_data->pid[current_cmd], &status, 0);
+			if (WIFEXITED(status))
+				g_return_value = WEXITSTATUS(status);
+		}
 	}
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
