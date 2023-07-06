@@ -22,6 +22,7 @@
 //########### PROJECT SPECIFICS HEADERS ##########//
 
 # include "builtins.h"
+# include "error_message.h"
 # include "exec.h"
 # include "parsing.h"
 # include "sig.h"

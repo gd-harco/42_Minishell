@@ -20,7 +20,8 @@ LIBFT			=	lib/libft/libft.a
 
 HEADERS_LIST	=	builtins.h		exec.h		\
 					minishell.h		sig.h		\
-					struct.h		parsing.h
+					struct.h		parsing.h	\
+					error_message.h
 
 SRCS_LIST		=	main.c		prompt.c		\
 \
