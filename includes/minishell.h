@@ -13,6 +13,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define EXIT_EOF 101
+
+//-----------------GLOBAL_VAR-----------------//
+extern int	g_return_value;
+
 //-----------------INCLUDES-----------------//
 
 //########### PERSONAL LIB HEADERS ##########//
@@ -41,9 +45,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
-//TODO remove this when on linux
-# include <string.h>
 
 //-----------------FUNCTION-----------------//
 //################# PROMPT.C #################//
