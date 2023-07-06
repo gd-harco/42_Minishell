@@ -27,9 +27,6 @@ void	sigint_here_doc(int sig)
 	(void)sig;
 	close(STDIN_FILENO);
 	ft_dprintf(STDOUT_FILENO, "\n");
-//	rl_on_new_line();
-//	rl_replace_line("\n", 0);
-//	rl_redisplay();
 	g_return_value = 130;
 }
 
