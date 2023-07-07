@@ -13,6 +13,10 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define EXIT_EOF 101
+
+//-----------------GLOBAL_VAR-----------------//
+extern int	g_return_value;
+
 //-----------------INCLUDES-----------------//
 
 //########### PERSONAL LIB HEADERS ##########//
@@ -22,8 +26,10 @@
 //########### PROJECT SPECIFICS HEADERS ##########//
 
 # include "builtins.h"
+# include "error_message.h"
 # include "exec.h"
 # include "parsing.h"
+# include "sig.h"
 
 //########### SYSTEM LIB HEADERS ##########//
 
@@ -42,7 +48,7 @@
 
 //-----------------FUNCTION-----------------//
 //################# PROMPT.C #################//
-char	*get_user_input(void);
+char	*get_user_input(t_minishell *data);
 
 # define ROCKET_LOGO "\033[0;31m\n\033[2JBienvenue dans le Minishell de la Team Rocket!\n\n##################################\n\
 ####################################,\n\

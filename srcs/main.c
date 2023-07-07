@@ -14,9 +14,7 @@
 
 char	**init_shell_env(char **envp);
 void	init_secret_array(t_minishell *data, bool secret);
-
-//TODO man stat = recuperer la valeur de retour
-
+int		g_return_value = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -24,23 +22,31 @@ int	main(int argc, char **argv, char **envp)
 	t_var		var;
 	bool		secret;
 
+//TODO get rid of the secret bool, replace it with a define EASTER_EGG in minishell.h
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	if (argc == 1)
 		secret = true;
 	else
 		secret = false;
 	(void)argv;
+	data.sig = malloc(sizeof(t_sig));
+	if (!data.sig)
+	{
+		ft_dprintf(STDERR_FILENO, "minishell: malloc error in main\n");
+		exit(EXIT_FAILURE);
+	}
+	init_sigaction(data.sig);
 	init_secret_array(&data, secret);
 	data.envp = init_shell_env(envp);
 	var.env_cpy = data.envp;
 	printf(ROCKET_LOGO);
-	var.str_in = get_user_input();
+	var.str_in = get_user_input(&data);
 	var.str = ft_space_str(&var);
 	while (42)
 	{
 		if (!var.str_in)
 		{
-			rl_clear_history();
+			clear_history();
 			ft_free_secure(&var.str_in);
 			ft_free_secure(&var.str);
 			ft_free_array((void **)data.envp);
@@ -58,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 			token_clear(&data.token_list);
 			// exit (0);
 		}
-		var.str_in = get_user_input();
+		var.str_in = get_user_input(&data);
 		var.str = ft_space_str(&var);
 	}
 }

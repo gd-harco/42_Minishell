@@ -14,6 +14,7 @@
 # define PARSING_H
 
 # include "struct.h"
+# include <stdbool.h>
 
 //#################### FUNCTION ####################//
 //-------------------- FUNCTION --------------------//
@@ -170,13 +171,4 @@ t_token	*token_init(t_var *var);
 // void	free_var(t_var *var);
 // bool	already_pipe(t_token t_new);
 
-# define NL_SYNTAX_ERR "minishell: syntax error near unexpected token `newline'"
-# define PIPE_SYNTAX_ERR "minishell: syntax error near unexpected token `|'"
-# define PIPE2_SYNTAX_ERR "minishell: syntax error near unexpected token `||'"
-# define IN_SYNTAX_ERR "minishell: syntax error near unexpected token `<'"
-# define IN2_SYNTAX_ERR "minishell: syntax error near unexpected token `<<'"
-# define OUT_SYNTAX_ERR "minishell: syntax error near unexpected token `>'"
-# define OUT2_SYNTAX_ERR "minishell: syntax error near unexpected token `>>'"
-# define IN3_SYNTAX_ERR "minishell: syntax error near unexpected token `<<<'"
-# define IO_SYNTAX_ERR "minishell: syntax error near unexpected token `<>'"
 #endif
