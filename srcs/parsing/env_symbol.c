@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 16:22:41 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 23:22:45 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/07 12:42:35 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	quote_env_symbol(t_var *var, char *str_tmp, t_varenv *v_e)
 	if (str_tmp[v_e->i + 1 + v_e->k] == '?')
 	{
 		if (str_tmp[v_e->i + v_e->k] == '$')
-			var->env = ft_strjoinsp(var->env, "var_global", 0);
+			var->env = ft_strjoinsp(var->env, ft_itoa(g_return_value), 0);
 		else
 			return (0);
 	}
@@ -36,7 +36,7 @@ int	env_symbol(t_var *var, char *str, t_varenv *v_e)
 	{
 		if (var->s[v_e->j][v_e->i + v_e->k] == '$')
 		{
-			var->env = ft_strjoinsp(var->env, "var_global", 0);
+			var->env = ft_strjoinsp(var->env, ft_itoa(g_return_value), 0);
 		}
 		else
 			return (0);
