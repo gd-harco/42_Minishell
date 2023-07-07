@@ -6,11 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/03 15:00:32 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:45:16 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	fill_str_bis(t_var *var, t_var_quote *v_q, char **new);
 
 static void	fill_str_quote(char *str, int *start, t_var_quote *v_q, t_var *var)
 {
@@ -57,9 +59,27 @@ static char	*ft_quote_str(char *str, int *start, char c, t_var *var)
 
 static void	fill_str(t_var *var, t_var_quote *v_q, char **new)
 {
+	v_q->t[0] = v_q->tmp[v_q->i];
+	if (v_q->tmp[v_q->i] == '\'' || v_q->tmp[v_q->i] == '"')
+		fill_str_bis(var, v_q, new);
+	else if (v_q->tmp[v_q->i] == '|')
+	{
+		*new = ft_strjoinsp(*new, " | ", 0);
+		var->nb_pipe++;
+	}
+	else if (v_q->tmp[v_q->i] == '<' && v_q->i > 0
+		&& v_q->tmp[v_q->i - 1] != '<')
+		*new = ft_strjoinsp(*new, " <", 0);
+	else if (v_q->tmp[v_q->i] == '>' && v_q->tmp[v_q->i - 1] != '>')
+		*new = ft_strjoinsp(*new, " >", 0);
+	else
+		*new = ft_strjoinsp(*new, v_q->t, 0);
+}
+
+static void	fill_str_bis(t_var *var, t_var_quote *v_q, char **new)
+{
 	char	*tmp;
 
-	v_q->t[0] = v_q->tmp[v_q->i];
 	if (v_q->tmp[v_q->i] == '\'')
 	{
 		tmp = ft_quote_str(v_q->tmp, &v_q->i, '\'', var);
@@ -74,17 +94,6 @@ static void	fill_str(t_var *var, t_var_quote *v_q, char **new)
 		if (tmp)
 			free(tmp);
 	}
-	else if (v_q->tmp[v_q->i] == '|')
-	{
-		*new = ft_strjoinsp(*new, " | ", 0);
-		var->nb_pipe++;
-	}
-	else if (v_q->tmp[v_q->i] == '<' && v_q->i > 0 && v_q->tmp[v_q->i - 1] != '<')
-		*new = ft_strjoinsp(*new, " <", 0);
-	else if (v_q->tmp[v_q->i] == '>' && v_q->tmp[v_q->i - 1] != '>')
-		*new = ft_strjoinsp(*new, " >", 0);
-	else
-		*new = ft_strjoinsp(*new, v_q->t, 0);
 }
 
 char	*ft_space_str(t_var *var)

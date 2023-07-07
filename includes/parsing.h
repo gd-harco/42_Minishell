@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 22:19:04 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:48:44 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ t_token	*get_token_list(t_var *var);
 //#################### UTILS_STR.C ####################//
 char	*ft_strjoinsp(char *s1, char *s2, int n);
 char	*ft_trunc(char *str, int start, char *c, t_var var);
-char	*ft_trunc_start(char *str, char *c, t_var var);
 //-------------------- UTILS_STR.C --------------------//
 /*
 */

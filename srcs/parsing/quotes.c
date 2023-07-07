@@ -6,11 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 10:25:29 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 16:51:31 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:28:47 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static char	*ft_trunc_start(char *str, char *c, t_var var);
 
 void	quote_manager(t_var *var, t_varenv *v_e)
 {
@@ -68,6 +70,28 @@ void	quote_manager_inout(t_var *var, t_varenv *v_e)
 	}
 	var->quote = ft_strdup(v_q.tmp);
 	free_quote(&v_q);
+}
+
+static char	*ft_trunc_start(char *str, char *c, t_var var)
+{
+	t_var_quote	v_q;
+
+	v_q.i = 0;
+	v_q.j = 0;
+	while (str[v_q.i])
+	{
+		while (c[v_q.j])
+		{
+			if (str[v_q.i] == c[v_q.j])
+				break ;
+			v_q.j++;
+		}
+		if (str[v_q.i] != c[v_q.j])
+			break ;
+		v_q.i++;
+		v_q.j = 0;
+	}
+	return (ft_substrvar(str, v_q.i, ft_strlen(str) - v_q.i, var));
 }
 
 /*

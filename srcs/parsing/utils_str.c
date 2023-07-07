@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 15:58:50 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/04 11:48:23 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/07 11:27:08 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ char	*ft_strjoinsp(char *s1, char *s2, int n)
 		return ((ft_strdup(s1)));
 	if (!s1 && s2)
 		return ((ft_strdup(s2)));
-	// result = ft_calloc(joined_size + 1 +n, sizeof(char));
 	result = malloc(sizeof(char) * joined_size + 1 + n);
 	if (!result)
 	{
@@ -90,8 +89,6 @@ char	*ft_strjoinsp(char *s1, char *s2, int n)
 		ft_free_secure(&s1);
 		return (result);
 	}
-	// else if (n == -1)
-	// 	return (joningsp(result, (char *)s2, (char *)s1));
 	joning(result, (char *)s2, (char *)s1);
 	ft_free_secure(&s1);
 	return (result);
@@ -152,30 +149,6 @@ char	*ft_trunc(char *str, int start, char *c, t_var var)
 	return (v_q.tmp);
 }
 
-
-char	*ft_trunc_start(char *str, char *c, t_var var)
-{
-	t_var_quote	v_q;
-
-	v_q.i = 0;
-	v_q.j = 0;
-
-	while (str[v_q.i])
-	{
-		while (c[v_q.j])
-		{
-			if (str[v_q.i] == c[v_q.j])
-				break ;
-			v_q.j++;
-		}
-		if (str[v_q.i] != c[v_q.j])
-			break ;
-		v_q.i++;
-		v_q.j = 0;
-	}
-	// v_q.tmp = ft_substrvar(str, v_q.i, ft_strlen(str - v_q.i), var);
-	return (ft_substrvar(str, v_q.i, ft_strlen(str) - v_q.i, var));
-}
 // char	*ft_trunc_char(char *str, int start, char c, t_var var)
 // {
 // 	char	*s;
