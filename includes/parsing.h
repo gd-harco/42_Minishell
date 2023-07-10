@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/07 11:48:44 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/10 19:25:51 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	check_syntax_error(t_var *var, int i);
 */
 //#################### PATH.C ####################//
 char	**get_path(char **envp);
-char	*process(char *str, char **path, int ind);
+char	*process(char *str, char **path, int ind, t_var *var);
 //-------------------- PATH.C --------------------//
 /*
 */
@@ -113,6 +113,11 @@ int		token_infile(t_var *var);
 //-------------------- TOKEN_INFILE.C --------------------//
 /*
 */
+//#################### TOKEN_INIT.C ####################//
+t_token	*token_init(t_var *var);
+//-------------------- TOKEN_INIT.C --------------------//
+/*
+*/
 //#################### TOKEN_IS_IN.C ####################//
 bool	is_env_in(t_var var, int j);
 bool	is_env_in_str(char *str);
@@ -141,10 +146,24 @@ t_token	*get_token_list(t_var *var);
 //-------------------- TOKEN.C --------------------//
 /*
 */
+//#################### UTILS_FREE.C ####################//
+void	ft_free_secure(char **elem);
+void	ft_free_split_secure(char ***splitted_element);
+void	free_var(t_var *var);
+void	exit_free(t_var *var, t_token *tkn, t_token *tkn2);
+void	exit_free_secure(char **str1, char **str2);
+//-------------------- UTILS_FREE.C --------------------//
+/*
+*/
 //#################### UTILS_STR.C ####################//
 char	*ft_strjoinsp(char *s1, char *s2, int n);
-char	*ft_trunc(char *str, int start, char *c, t_var var);
+char	*ft_strjoinsp2(char *s1, char *s2, int n, t_var_quote *v_q);
 //-------------------- UTILS_STR.C --------------------//
+/*
+*/
+//#################### UTILS_TRUNC.C ####################//
+char	*ft_trunc(char *str, int start, char *c, t_var var);
+//-------------------- UTILS_TRUNC.C --------------------//
 /*
 */
 //#################### UTILS.C ####################//
@@ -161,13 +180,7 @@ char	*ft_space_str(t_var *var);
 
 //-------------------- UTILS2.C --------------------//
 
-//#################### FREE_UTILS.C ####################//
-void	ft_free_secure(char **elem);
-void	ft_free_split_secure(char ***splitted_element);
-void	free_var(t_var *var);
-
-t_token	*token_init(t_var *var);
-//-------------------- UTILS2.C --------------------//
+void	exit_trunc(t_var *var);
 // void	free_var(t_var *var);
 // bool	already_pipe(t_token t_new);
 

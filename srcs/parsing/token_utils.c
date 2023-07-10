@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:15:00 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 22:18:11 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/10 19:20:20 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_token	*token_pipe(void)
 
 	tmp = malloc(sizeof(t_token));
 	if (!tmp)
-		exit(EXIT_FAILURE);//TODO: Call exit function
+		return (NULL);
 	tmp->type = PIPE;
 	tmp->content[0] = ft_strdup("|");
 	tmp->content[1] = NULL;

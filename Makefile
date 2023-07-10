@@ -47,7 +47,8 @@ SRCS_LIST		=	main.c		prompt.c		\
 		parsing/token_outfile.c			parsing/token_utils.c		\
 		parsing/token.c												\
 		parsing/utils_free.c			parsing/utils_str.c			\
-		parsing/utils.c					parsing/utils2.c
+		parsing/utils.c					parsing/utils2.c			\
+		parsing/utils_exit.c			parsing/utils_trunc.c
 
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}

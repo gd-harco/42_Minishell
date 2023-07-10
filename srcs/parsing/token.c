@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 23:01:58 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/10 19:36:43 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ static void	get_token(t_token *t_new, t_var *var)
 	if (var->nb_pipe-- > 0)
 	{
 		tmp = token_pipe();
+		if (!tmp)
+			exit_free(var, t_new, NULL);
 		tnew = malloc(sizeof(t_token));
 		if (!tnew)
-			exit(EXIT_FAILURE); //TODO: call exit function ;
+			exit_free(var, t_new, tmp);
 		token_memcpy(tnew, tmp);
 		token_clear(&tmp);
 		token_add_back(&t_new, tnew);
@@ -96,11 +98,17 @@ static void	token_bis(t_token *t_new, t_var *var, t_token *tmp)
 	{
 		token_clear(&t_new);
 		free_var(var);
-		exit(EXIT_FAILURE); //TODO: call exit function
+		free(var->new_tkn);
+		exit(EXIT_FAILURE);
 	}
 	tnew = malloc(sizeof(t_token));
 	if (!tnew)
-		exit(EXIT_FAILURE); //TODO: call exit function ;
+	{
+		token_clear(&t_new);
+		token_clear(&tmp);
+		free_var(var);
+		exit(EXIT_FAILURE);
+	}
 	token_memcpy(tnew, tmp);
 	token_clear(&tmp);
 	var->i++;

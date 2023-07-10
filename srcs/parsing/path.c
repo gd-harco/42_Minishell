@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 16:59:33 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/10 19:29:52 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ char	**get_path(char **envp)
 	return (split_path);
 }
 
-static char	**path_arg_cat(char **src, char *root_arg)
+static char	**path_arg_cat(char **src, char *root_arg, t_var *var)
 {
 	int		i;
 	char	**pathsrc;
 
 	pathsrc = malloc(sizeof(char *) * (ft_array_length((void **)src) + 1));
 	if (!pathsrc)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
+		exit_free(var, NULL, NULL);
 	i = 0;
 	while (src[i])
 	{
@@ -45,7 +45,7 @@ static char	**path_arg_cat(char **src, char *root_arg)
 	return (pathsrc);
 }
 
-char	*process(char *str, char **path, int ind)
+char	*process(char *str, char **path, int ind, t_var *var)
 {
 	char	**path_cmb;
 	int		i;
@@ -54,7 +54,7 @@ char	*process(char *str, char **path, int ind)
 
 	split_argv = ft_split(str, ' ');
 	root_arg = ft_strjoin("/", split_argv[ind]);
-	path_cmb = path_arg_cat(path, root_arg);
+	path_cmb = path_arg_cat(path, root_arg, var);
 	ft_free_secure(&root_arg);
 	i = 0;
 	while (path_cmb[i] && access(path_cmb[i], X_OK) == -1)

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 17:19:03 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/10 19:25:37 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	token_quotes_check(t_var *var, t_varenv v_e)
 	if (is_quote_in(var->s[v_e.j]) == 0)
 	{
 		var->path = get_path(var->env_cpy);
-		var->s_p = process(var->spipe[var->index], var->path, var->i);
+		var->s_p = process(var->spipe[var->index], var->path, var->i, var);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 17:11:49 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:18:10 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,6 @@ void	init_secret_array(t_minishell *data, bool secret)
 		data->secret_array[1] = ft_strjoin(
 				getcwd(NULL, 0), "/assets/secret.gif");
 	}
-}
-
-void	free_var(t_var *var)
-{
-	ft_free_secure(&var->str_in);
-	ft_free_secure(&var->str);
-	ft_free_split_secure(&var->s);
-	ft_free_split_secure(&var->spipe);
-	// token_clear(&var->new_tkn);
 }
 
 // cat -e Makefile |pwd >out33
