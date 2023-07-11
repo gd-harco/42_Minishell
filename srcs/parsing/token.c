@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 14:40:27 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/10 19:36:43 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:05:21 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,9 @@ static void	get_token(t_token *t_new, t_var *var)
 	t_token	*tnew;
 
 	var_init(var);
+	tmp = NULL;
 	while ((var->s && var->s[var->i]))
-	{
 		token_bis(t_new, var, tmp);
-	}
 	if (var->nb_pipe-- > 0)
 	{
 		tmp = token_pipe();
