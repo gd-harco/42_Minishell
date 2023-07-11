@@ -6,14 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 14:07:47 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 14:55:54 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define EXIT_EOF 101
-
 
 //-----------------INCLUDES-----------------//
 

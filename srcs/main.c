@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 14:13:25 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 14:59:35 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ static void	in_main(t_var *var, t_minishell *data)
 		ft_free_secure(&var->str);
 		ft_free_array((void **)data->envp);
 		ft_printf("exit\n");
-		// if (data->sig)
 		// 	free(data->sig);
-		// data->sig = NULL;
 		exit(EXIT_EOF);
 	}
 	if (var->str)
@@ -69,9 +67,7 @@ static void	in_main(t_var *var, t_minishell *data)
 	var->str_in = get_user_input(data);
 	var->str = ft_space_str(var);
 	var->env_cpy = data->envp;
-	// if (data->sig)
 	// 	free(data->sig);
-	// data->sig = NULL;
 }
 
 char	**init_shell_env(char **envp)

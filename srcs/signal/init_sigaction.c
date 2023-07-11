@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_sigaction.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 19:43:33 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/07/03 19:43:35 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/07/11 15:01:24 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void	init_quit(t_sig *sig)
 	sig->quit_parent->sa_flags = SA_RESTART;
 	sigemptyset(&sig->quit_parent->sa_mask);
 }
-
 
 static void	check_malloc(t_sig *sig)
 {

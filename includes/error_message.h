@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_message.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/11 14:55:06 by tdutel            #+#    #+#             */
+/*   Updated: 2023/07/11 14:55:08 by tdutel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ERROR_MESSAGE_H
 # define ERROR_MESSAGE_H
 
 //#################### HERE-DOC RELATED ####################//
-# define HERE_DOC_EOF "minishell: warning: here-document delimited by end-of-file"
+# define HERE_DOC_EOF "minishell: warning:\
+	here-document delimited by end-of-file"
 
 //#################### SYNTAX RELATED ####################//
 # define NL_SYNTAX_ERR "minishell: syntax error near unexpected token `newline'"
