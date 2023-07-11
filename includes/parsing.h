@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 13:13:58 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 15:42:46 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,16 +142,22 @@ t_token	*token_pipe(void);
 */
 //#################### TOKEN.C ####################//
 t_token	*get_token_list(t_var *var);
-// void	struct_clear(t_var *var);
 //-------------------- TOKEN.C --------------------//
+/*
+*/
+//#################### UTILS_EXIT.C ####################//
+void	exit_free(t_var *var, t_token *tkn, t_token *tkn2);
+void	exit_free_secure(char **str1, char **str2);
+void	exit_trunc(t_var *var);
+void	exit_sig(void);
+//-------------------- UTILS_EXIT.C --------------------//
 /*
 */
 //#################### UTILS_FREE.C ####################//
 void	ft_free_secure(char **elem);
 void	ft_free_split_secure(char ***splitted_element);
 void	free_var(t_var *var);
-void	exit_free(t_var *var, t_token *tkn, t_token *tkn2);
-void	exit_free_secure(char **str1, char **str2);
+void	ft_free_sig(t_sig **sig);
 //-------------------- UTILS_FREE.C --------------------//
 /*
 */
@@ -177,12 +183,6 @@ char	*ft_free_process(char **to_free, char *to_return);
 */
 //#################### UTILS2.C ####################//
 char	*ft_space_str(t_var *var);
-
 //-------------------- UTILS2.C --------------------//
-
-void	exit_trunc(t_var *var);
-void	exit_sig(void);
-// void	free_var(t_var *var);
-// bool	already_pipe(t_token t_new);
 
 #endif
