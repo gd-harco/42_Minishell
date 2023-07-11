@@ -36,6 +36,7 @@ void	echo(char **argv)
 	}
 	if (!n)
 		ft_dprintf(STDOUT_FILENO, "\n");
+	g_return_value = 0;
 }
 
 bool	handle_n(char **argv, int *i, int *j, bool *n)
