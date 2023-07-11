@@ -18,8 +18,14 @@ void	pwd(void)
 
 	str = getcwd(NULL, 0);
 	if (str == NULL)
+	{
 		ft_dprintf(STDERR_FILENO, "pwd: %s\n", strerror(errno));
+		g_return_value = 1;
+	}
 	else
+	{
 		ft_dprintf(STDOUT_FILENO, "%s\n", str);
+		g_return_value = 0;
+	}
 	free(str);
 }

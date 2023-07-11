@@ -20,12 +20,14 @@ void	unset(char **argv, t_exec *exec_data)
 	size_t	i;
 
 	i = 0;
+	g_return_value = 0;
 	while (argv[++i])
 	{
 		if (unvalid_identifier(argv[i]))
 		{
 			ft_dprintf(STDERR_FILENO,
 				"minishell: unset: `%s': not a valid identifier\n", argv[i]);
+			g_return_value = 1;
 			continue ;
 		}
 		else
