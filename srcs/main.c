@@ -6,14 +6,16 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 12:10:38 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 13:46:36 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**init_shell_env(char **envp);
-void	init_secret_array(t_minishell *data, bool secret);
+char		**init_shell_env(char **envp);
+void		init_secret_array(t_minishell *data, bool secret);
+static void	in_main(t_var *var, t_minishell *data);
+
 int		g_return_value = 0; 	
 
 int	main(int argc, char **argv, char **envp)
@@ -31,11 +33,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	data.sig = malloc(sizeof(t_sig));
 	if (!data.sig)
-	{
-		ft_dprintf(STDERR_FILENO, "minishell: malloc error in main\n");
-		exit(EXIT_FAILURE);
-	}
+		exit_sig();
 	init_sigaction(data.sig);
+	var.sig = data.sig;
 	init_secret_array(&data, secret);
 	data.envp = init_shell_env(envp);
 	var.env_cpy = data.envp;
@@ -43,30 +43,40 @@ int	main(int argc, char **argv, char **envp)
 	var.str_in = get_user_input(&data);
 	var.str = ft_space_str(&var);
 	while (42)
+		in_main(&var, &data);
+	return (0);
+}
+
+static void	in_main(t_var *var, t_minishell *data)
+{
+	if (!var->str_in)
 	{
-		if (!var.str_in)
-		{
-			clear_history();
-			ft_free_secure(&var.str_in);
-			ft_free_secure(&var.str);
-			ft_free_array((void **)data.envp);
-			ft_printf("exit\n");
-			exit(EXIT_EOF);
-		}
-		if (var.str)
-		{
-			if (var.str_in && *(var.str_in))
-				add_history(var.str_in);
-			data.token_list = get_token_list(&var);
-			free_var(&var);
-			if (data.token_list)
-				master_exec(&data);
-			token_clear(&data.token_list);
-			// exit (0);
-		}
-		var.str_in = get_user_input(&data);
-		var.str = ft_space_str(&var);
+		clear_history();
+		ft_free_secure(&var->str_in);
+		ft_free_secure(&var->str);
+		ft_free_array((void **)data->envp);
+		ft_printf("exit\n");
+		// if (data->sig)
+		// 	free(data->sig);
+		// data->sig = NULL;
+		exit(EXIT_EOF);
 	}
+	if (var->str)
+	{
+		if (var->str_in && *(var->str_in))
+			add_history(var->str_in);
+		data->token_list = get_token_list(var);
+		free_var(var);
+		if (data->token_list)
+			master_exec(data);
+		token_clear(&data->token_list);
+	}
+	var->str_in = get_user_input(data);
+	var->str = ft_space_str(var);
+	var->env_cpy = data->envp;
+	// if (data->sig)
+	// 	free(data->sig);
+	// data->sig = NULL;
 }
 
 char	**init_shell_env(char **envp)
