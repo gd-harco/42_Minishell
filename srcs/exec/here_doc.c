@@ -24,6 +24,7 @@ int	*get_here_doc_fd(t_token *token_list, t_exec *exec_data)
 	t_here_doc	*here_doc;
 	int			*here_doc_fd;
 
+	sigaction(SIGINT, exec_data->sig->int_here_doc, NULL);
 	tmp = token_list;
 	exec_data->nb_here_doc = count_here_doc(tmp);
 	if (exec_data->nb_here_doc == 0)
@@ -99,11 +100,22 @@ static void	write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc)
 		here_doc[i].tmp_char = readline(HD_PROMPT);
 		while (ft_strcmp(here_doc[i].tmp_char, here_doc[i].delimiter) != 0)
 		{
-			write(here_doc[i].pipe_fd[1], here_doc[i].tmp_char,
-				ft_strlen(here_doc[i].tmp_char));
-			free(here_doc[i].tmp_char);
-			write(here_doc[i].pipe_fd[1], "\n", 1);
-			here_doc[i].tmp_char = readline(HD_PROMPT);
+			if (here_doc[i].tmp_char == NULL)
+			{
+				free(here_doc[i].tmp_char);
+				write(here_doc[i].pipe_fd[1], "\n", 1);
+				ft_dprintf(2, HERE_DOC_EOF " (wanted `%s')\n",
+					here_doc[i].delimiter);
+				break ;
+			}
+			else
+			{
+				write(here_doc[i].pipe_fd[1], here_doc[i].tmp_char,
+					ft_strlen(here_doc[i].tmp_char));
+				free(here_doc[i].tmp_char);
+				write(here_doc[i].pipe_fd[1], "\n", 1);
+				here_doc[i].tmp_char = readline(HD_PROMPT);
+			}
 		}
 		free(here_doc[i].tmp_char);
 		close(here_doc[i].pipe_fd[1]);

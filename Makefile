@@ -18,42 +18,37 @@ LIBFT			=	lib/libft/libft.a
 
 # ---- Files ---- #
 
-HEADERS_LIST	=	builtins.h\
-					exec.h		\
-					minishell.h	\
-					struct.h	\
-					parsing.h
+HEADERS_LIST	=	builtins.h		exec.h		\
+					minishell.h		sig.h		\
+					struct.h		parsing.h	\
+					error_message.h
 
-SRCS_LIST		=	main.c			\
-					prompt.c		\
+SRCS_LIST		=	main.c		prompt.c		\
 \
 					builtins/cd.c		builtins/echo.c			\
 					builtins/env.c		builtins/exit.c			\
 					builtins/export.c	builtins/export_utils.c	\
 					builtins/pwd.c		builtins/unset.c		\
 \
-					exec/execution.c		\
-					exec/exec_cmd.c			\
-					exec/here_doc.c			\
-					exec/translate_cmd.c	\
+					exec/execution.c	exec/exec_cmd.c			\
+					exec/here_doc.c		exec/translate_cmd.c	\
 \
-					parsing/free_utils.c		\
-					parsing/parse_syntax.c		\
-					parsing/path.c				\
-					parsing/quotes_env.c		\
-					parsing/quotes_utils.c		\
-					parsing/quotes.c			\
-					parsing/token_check.c		\
-					parsing/token_cmd_fct.c		\
-					parsing/token_env_var.c		\
-					parsing/token_infile.c		\
-					parsing/token_is_in.c		\
-					parsing/token_outfile.c			\
-					parsing/token_utils.c		\
-					parsing/token.c				\
-					parsing/utils_str.c			\
-					parsing/utils.c				\
-					parsing/utils2.c
+					signal/init_sigaction.c		signal/sig_handlers.c		\
+\
+		parsing/parse_pipe.c		parsing/parse_syntax_check.c	\
+		parsing/parse_syntax_utils.c	parsing/parse_syntax.c		\
+		parsing/path.c												\
+		parsing/env_symbol.c			parsing/quotes_type.c		\
+		parsing/quotes_env.c			parsing/quotes_utils.c		\
+		parsing/quotes.c				parsing/token_builtins.c	\
+		parsing/token_check.c			parsing/token_cmd.c			\
+		parsing/token_env_var.c			parsing/token_infile.c		\
+		parsing/token_init.c			parsing/token_is_in.c		\
+		parsing/token_outfile.c			parsing/token_utils.c		\
+		parsing/token.c												\
+		parsing/utils_free.c			parsing/utils_str.c			\
+		parsing/utils.c					parsing/utils2.c			\
+		parsing/utils_exit.c			parsing/utils_trunc.c
 
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
@@ -116,6 +111,7 @@ ${DIR_OBJS}		:
 					${MKDIR} ${DIR_OBJS}builtins
 					${MKDIR} ${DIR_OBJS}parsing
 					${MKDIR} ${DIR_OBJS}exec
+					${MKDIR} ${DIR_OBJS}signal
 
 # ---- Usual Rules ---- #
 

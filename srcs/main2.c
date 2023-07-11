@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:33:44 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 15:37:07 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 13:15:47 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,3 +99,61 @@ void	free_var(t_var *var)
 	// 	token_clear(&var->new_tkn, free);
 }
 // cat Makefile | rev | wc -l >> out
+
+
+
+
+
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_minishell	data;
+	t_var		var;
+	bool		secret;
+
+//TODO get rid of the secret bool, replace it with a define EASTER_EGG in minishell.h
+//TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
+	if (argc == 1)
+		secret = true;
+	else
+		secret = false;
+	(void)argv;
+	data.sig = malloc(sizeof(t_sig));
+	if (!data.sig)
+		exit_sig();
+	init_sigaction(data.sig);
+	init_secret_array(&data, secret);
+	data.envp = init_shell_env(envp);
+	var.env_cpy = data.envp;
+	printf(ROCKET_LOGO);
+	var.str_in = get_user_input(&data);
+	var.str = ft_space_str(&var);
+	while (42)
+		in_main(&var, &data);
+	return (0);
+}
+
+static void	in_main(t_var *var, t_minishell *data)
+{
+	if (!var->str_in)
+	{
+		clear_history();
+		ft_free_secure(&var->str_in);
+		ft_free_secure(&var->str);
+		ft_free_array((void **)data->envp);
+		ft_printf("exit\n");
+		exit(EXIT_EOF);
+	}
+	if (var->str)
+	{
+		if (var->str_in && *(var->str_in))
+			add_history(var->str_in);
+		data->token_list = get_token_list(var);
+		free_var(var);
+		if (data->token_list)
+			master_exec(data);
+		token_clear(&data->token_list);
+	}
+	var->str_in = get_user_input(data);
+	var->str = ft_space_str(var);
+}

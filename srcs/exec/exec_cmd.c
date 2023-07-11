@@ -49,6 +49,8 @@ void	handle_io(t_exec *exec_data, size_t current_cmd)
 		if (tmp->type == FILE_IN || tmp->type == HERE_DOC)
 		{
 			fd[0] = get_in_fd(tmp, exec_data);
+			if (fd[0] == -1)
+				return ;
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
 		}
@@ -95,7 +97,6 @@ int	get_in_fd(t_token *token, t_exec *exec_data)
 	{
 		dprintf(STDERR_FILENO, "Error: %s: %s\n",
 			strerror(errno), token->content[0]);
-		exit(IO_FAILURE);//TODO: Call exit function
 	}
 	return (fd);
 }
