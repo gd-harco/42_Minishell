@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
+	//TODO: free this shit
 	data.sig = malloc(sizeof(t_sig));
 	if (!data.sig)
 		exit_sig();

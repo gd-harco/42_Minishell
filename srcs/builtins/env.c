@@ -23,4 +23,5 @@ void	env(char **envp)
 			ft_dprintf(STDOUT_FILENO, "%s\n", envp[i]);
 		i++;
 	}
+	g_return_value = 0;
 }
