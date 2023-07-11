@@ -33,17 +33,23 @@ SRCS_LIST		=	main.c		prompt.c		\
 					exec/execution.c	exec/exec_cmd.c			\
 					exec/here_doc.c		exec/translate_cmd.c	\
 \
-					parsing/free_utils.c		parsing/path.c				\
-					parsing/quotes_env.c		parsing/quotes_utils.c		\
-					parsing/quotes.c			parsing/token_check.c		\
-					parsing/token_cmd_fct.c		parsing/token_env_var.c		\
-					parsing/token_infile.c		parsing/token_is_in.c		\
-					parsing/token_outfile.c		parsing/token_utils.c		\
-					parsing/token.c				parsing/utils_str.c			\
-					parsing/utils.c				parsing/utils2.c			\
-					parsing/parse_syntax.c	\
-\
 					signal/init_sigaction.c		signal/sig_handlers.c		\
+\
+		parsing/parse_pipe.c		parsing/parse_syntax_check.c	\
+		parsing/parse_syntax_utils.c	parsing/parse_syntax.c		\
+		parsing/path.c												\
+		parsing/env_symbol.c			parsing/quotes_type.c		\
+		parsing/quotes_env.c			parsing/quotes_utils.c		\
+		parsing/quotes.c				parsing/token_builtins.c	\
+		parsing/token_check.c			parsing/token_cmd.c			\
+		parsing/token_env_var.c			parsing/token_infile.c		\
+		parsing/token_init.c			parsing/token_is_in.c		\
+		parsing/token_outfile.c			parsing/token_utils.c		\
+		parsing/token.c												\
+		parsing/utils_free.c			parsing/utils_str.c			\
+		parsing/utils.c					parsing/utils2.c			\
+		parsing/utils_exit.c			parsing/utils_trunc.c
+
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 11:39:54 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 15:24:14 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:40:07 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,25 @@ void	free_quote(t_var_quote *v_q)
 		ft_free_split_secure(&v_q->split_tmp);
 }
 
+static void	fill_dup(char *str, t_var *var, t_var_quote *v_q)
+{
+	if (str[v_q->i] == '`' && var->is_pquote == true)
+	{
+		v_q->t[0] = '|';
+		var->is_pquote = false;
+	}
+	else if (str[v_q->i] == '~' && var->is_squote == true)
+	{
+		v_q->t[0] = ' ';
+		var->is_squote = false;
+	}
+	if (str[v_q->i] == '"')
+		v_q->t[0] = '\0';
+	else
+		v_q->t[0] = str[v_q->i];
+	v_q->tmp = ft_strjoinsp(v_q->tmp, v_q->t, 0);
+}
+
 char	*ft_reload_dup(char *str, t_var *var)
 {
 	t_var_quote	v_q;
@@ -29,21 +48,7 @@ char	*ft_reload_dup(char *str, t_var *var)
 	v_q.t[1] = '\0';
 	while (str[v_q.i])
 	{
-		if (str[v_q.i] == '`' && var->is_pquote == true)
-		{
-			v_q.t[0] = '|';
-			var->is_pquote = false;
-		}
-		else if (str[v_q.i] == '~' && var->is_squote == true)
-		{
-			v_q.t[0] = ' ';
-			var->is_squote = false;
-		}
-		if (str[v_q.i] == '"')
-			v_q.t[0] = '\0';
-		else
-			v_q.t[0] = str[v_q.i];
-		v_q.tmp = ft_strjoinsp(v_q.tmp, v_q.t, 0);
+		fill_dup(str, var, &v_q);
 		v_q.i++;
 	}
 	ft_free_secure(&var->env);

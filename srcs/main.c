@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 17:11:49 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:10:38 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**init_shell_env(char **envp);
 void	init_secret_array(t_minishell *data, bool secret);
-int		g_return_value = 0;
+int		g_return_value = 0; 	
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -106,15 +106,6 @@ void	init_secret_array(t_minishell *data, bool secret)
 		data->secret_array[1] = ft_strjoin(
 				getcwd(NULL, 0), "/assets/secret.gif");
 	}
-}
-
-void	free_var(t_var *var)
-{
-	ft_free_secure(&var->str_in);
-	ft_free_secure(&var->str);
-	ft_free_split_secure(&var->s);
-	ft_free_split_secure(&var->spipe);
-	// token_clear(&var->new_tkn);
 }
 
 // cat -e Makefile |pwd >out33

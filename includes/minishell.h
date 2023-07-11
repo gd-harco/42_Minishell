@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 16:10:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/05/30 10:46:38 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 12:06:58 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINISHELL_H
 # define EXIT_EOF 101
 
-//-----------------GLOBAL_VAR-----------------//
-extern int	g_return_value;
 
 //-----------------INCLUDES-----------------//
 
@@ -45,6 +43,9 @@ extern int	g_return_value;
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+//-----------------GLOBAL_VAR-----------------//
+extern int	g_return_value;
 
 //-----------------FUNCTION-----------------//
 //################# PROMPT.C #################//
