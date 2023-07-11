@@ -6,11 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:52:37 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 16:20:58 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 22:16:45 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	fill_outfile_app(t_var *var, char **tmp);
 
 static void	fill_outfile(t_var *var)
 {
@@ -18,18 +20,7 @@ static void	fill_outfile(t_var *var)
 
 	if (var->s[var->i][1] && var->s[var->i][1] == '>' )
 	{
-		if (var->s[var->i][2] != '\0')
-		{
-			tmp = ft_substr(var->s[var->i], 2, ft_strlen(var->s[var->i]));
-			var->new_tkn->content[0] = ft_strdup(tmp);
-			free(tmp);
-		}
-		else
-		{
-			var->i++;
-			var->new_tkn->content[0] = ft_strdup(var->s[var->i]);
-		}
-		var->new_tkn->type = FILE_OUT_APPEND;
+		fill_outfile_app(var, &tmp);
 	}
 	else if (var->s[var->i][1] != '\0')
 	{
@@ -45,6 +36,22 @@ static void	fill_outfile(t_var *var)
 	}
 }
 
+static void	fill_outfile_app(t_var *var, char **tmp)
+{
+	if (var->s[var->i][2] != '\0')
+	{
+		*tmp = ft_substr(var->s[var->i], 2, ft_strlen(var->s[var->i]));
+		var->new_tkn->content[0] = ft_strdup(*tmp);
+		free(*tmp);
+	}
+	else
+	{
+		var->i++;
+		var->new_tkn->content[0] = ft_strdup(var->s[var->i]);
+	}
+	var->new_tkn->type = FILE_OUT_APPEND;
+}
+
 static void	append_outfile(t_var *var, t_varenv *v_e)
 {
 	if (var->s[var->i][2] != '\0')
@@ -52,6 +59,7 @@ static void	append_outfile(t_var *var, t_varenv *v_e)
 		quote_manager_inout(var, v_e);
 		var->quote_cmd = true;
 		var->new_tkn->content[0] = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 	else
 	{
@@ -60,6 +68,7 @@ static void	append_outfile(t_var *var, t_varenv *v_e)
 		quote_manager(var, v_e);
 		var->quote_cmd = true;
 		var->new_tkn->content[0] = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 	var->new_tkn->type = FILE_OUT_APPEND;
 }
@@ -79,6 +88,7 @@ static void	fill_quote_outfile(t_var *var)
 		quote_manager_inout(var, &v_e);
 		var->quote_cmd = true;
 		var->new_tkn->content[0] = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 	else
 	{
@@ -88,6 +98,7 @@ static void	fill_quote_outfile(t_var *var)
 		quote_manager(var, &v_e);
 		var->quote_cmd = true;
 		var->new_tkn->content[0] = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 }
 
@@ -97,10 +108,10 @@ int	token_outfile(t_var *var)
 	|| (var->s[var->i][1] == '>' && var->s[var->i][2] == '\0'
 	&& !var->s[var->i + 1]))
 		return (-1);
-	if (is_quote_in(var->s[var->i]) == 0 //&& ((var->s[var->i][1] == '\0'
-			&& ((is_quote_in(var->s[var->i + 1]) == 0)
-		|| (var->s[var->i][1] == '>' && var->s[var->i][2] == '\0'
-				&& is_quote_in(var->s[var->i + 1]) == 0)))
+	if (is_quote_in(var->s[var->i]) == 0
+		&& ((is_quote_in(var->s[var->i + 1]) == 0)
+			|| (var->s[var->i][1] == '>' && var->s[var->i][2] == '\0'
+		&& is_quote_in(var->s[var->i + 1]) == 0)))
 	{
 		fill_outfile(var);
 	}
@@ -110,18 +121,4 @@ int	token_outfile(t_var *var)
 	}
 	var->new_tkn->content[1] = NULL;
 	return (0);
-}
-
-t_token	*token_pipe(void)
-{
-	t_token	*tmp;
-
-	tmp = malloc(sizeof(t_token));
-	if (!tmp)
-		exit(EXIT_FAILURE);//TODO: Call exit function
-	tmp->type = PIPE;
-	tmp->content[0] = ft_strdup("|");
-	tmp->content[1] = NULL;
-	tmp->next = NULL;
-	return (tmp);
 }

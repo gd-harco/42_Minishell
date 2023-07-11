@@ -12,7 +12,7 @@
 
 #ifndef STRUCT_H
 # define STRUCT_H
-
+# include "sig.h"
 //-----------------STRUCTURES-----------------//
 
 enum e_type {
@@ -46,9 +46,10 @@ typedef struct s_token
 
 typedef struct s_minishell
 {
-	char	**envp;
-	char	**secret_array;
-	t_token	*token_list;
+	char				**envp;
+	char				**secret_array;
+	t_token				*token_list;
+	t_sig				*sig;
 }				t_minishell;
 
 typedef struct s_here_doc
@@ -73,6 +74,7 @@ typedef struct s_exec
 {
 	char		**envp;
 	char		**secret_array;
+	t_sig		*sig;
 	t_token		*token_list;
 	size_t		nb_cmd;
 	size_t		nb_pipe;

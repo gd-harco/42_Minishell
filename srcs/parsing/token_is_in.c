@@ -6,11 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:17:34 by tdutel            #+#    #+#             */
-/*   Updated: 2023/06/09 14:19:47 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 22:09:36 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	find_quote(char *str, int j, char c);
 
 bool	is_env_in(t_var var, int j)
 {
@@ -58,13 +60,38 @@ int	is_quote_in(char *str)
 	return (0);
 }
 
-bool	is_metachar(char c)
+int	is_quote_between(char *str, int i)
 {
-	if (c == '.' || c == ',' || c == '/' || c == '\\' || c == '^' || c == '$'
-		|| c == '-' || c == '+' || c == '"' || c == '=' || c == '?' || c == '!'
-		|| c == '@' || c == '#' || c == '%' || c == '[' || c == ']' || c == '{'
-		|| c == '}' || c == '\'' || c == '~' || c == '`' || c == ':')
-		return (true);
-	else
-		return (false);
+	int	j;
+
+	j = i;
+	if (i == 0)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '\'')
+		{
+			return (find_quote(str, j, '"'));
+		}
+		else if (str[i] == '"')
+		{
+			return (find_quote(str, j, '"'));
+		}
+		else
+		{
+			i++;
+			j = i;
+		}
+	}
+	return (0);
+}
+
+static int	find_quote(char *str, int j, char c)
+{
+	while (j >= 0)
+	{
+		if (str[j--] == c)
+			return (1);
+	}
+	return (0);
 }

@@ -22,9 +22,13 @@ void	master_exec(t_minishell	*minishell)
 	size_t	current_cmd;
 
 	exec_data = get_exec_data(minishell);
+	sigaction(SIGINT, exec_data->sig->int_parent, NULL);
+	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
-	else
+	else if (exec_data->nb_cmd == 0)
+		handle_io(exec_data, 0);
+	else if (exec_data->nb_cmd != 0)
 	{
 		current_cmd = 0;
 		while (current_cmd < exec_data->nb_cmd - 1)
@@ -32,7 +36,7 @@ void	master_exec(t_minishell	*minishell)
 			pipe(exec_data->pipe_fd);
 			exec_data->pid[current_cmd] = fork();
 			if (exec_data->pid[current_cmd] == -1)
-				exit(EXIT_FAILURE); //TODO: Call exit function
+				exit(EXIT_FAILURE); //TODO: Call exit functions
 			if (exec_data->pid[current_cmd] == 0)
 			{
 				dup2(exec_data->pipe_fd[1], STDOUT_FILENO);
@@ -64,6 +68,7 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data = ft_calloc(1, sizeof(t_exec));
 	if (!exec_data)
 		exit(EXIT_FAILURE);//TODO: Call exit function
+	exec_data->sig = minishell->sig;
 	exec_data->secret_array = minishell->secret_array;
 	exec_data->token_list = minishell->token_list;
 	exec_data->envp = minishell->envp;
@@ -86,10 +91,10 @@ static size_t	get_nb_cmd(t_token *token_list)
 {
 	size_t	nb_cmd;
 
-	nb_cmd = 1;
+	nb_cmd = 0;
 	while (token_list)
 	{
-		if (token_list->type == PIPE)
+		if (token_list->type == CMD || token_list->type == BUILTIN)
 			nb_cmd++;
 		token_list = token_list->next;
 	}

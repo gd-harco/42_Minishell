@@ -6,87 +6,37 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 16:18:35 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 13:04:36 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 16:07:37 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static bool	check_parse(t_var var);
-static bool	check_parse_bis(t_var var, int i);;
-static bool	in_out_in(t_var var, int i);
+static bool	check_parse_bis(t_var var, int i);
 
 bool	check_syntax_error(t_var *var, int i)
 {
 	if (!var->str_in)
 		return (false);
-	if (var->str_in[i] == '|' && var->str_in[i + 1] != '|')
-		return (ft_putendl_fd(PIPE_SYNTAX_ERR, STDERR_FILENO), true);
-	else if (var->str_in[i] == '|' && var->str_in[i + 1] == '|')
-		return (ft_putendl_fd(PIPE2_SYNTAX_ERR, STDERR_FILENO), true);
-	while(var->str_in[i])
+	if (pipe_check(var->str_in) == true)
+		return (true);
+	while (var->str_in[i] && is_quote_between(var->str_in, i) == 0)
 	{
-
-		if ((var->str_in[i] == '<'
-				&& ((var->str_in[i + 1] == '\0')
-					|| (var->str_in[i + 1] == '<' && var->str_in[i + 2] == '\0')
-					|| (var->str_in[i + 1] == '>' && var->str_in[i + 2] == '\0')
-					|| (var->str_in[i + 1] == '<' && var->str_in[i + 2] == '<'
-						&& var->str_in[i + 3] == '\0')
-				))
-			|| (var->str_in[i] == '>'
-				&& ((var->str_in[i + 1] == '\0')
-					|| (var->str_in[i + 1] == '>' && var->str_in[i + 2] == '\0')
-				)))
-		{
-			ft_putendl_fd(NL_SYNTAX_ERR, STDERR_FILENO);
+		if (newline_check(var, i) == true)
 			return (true);
-		}
-		else if ((var->str_in[i] == '>'
-				&& (var->str_in[i + 1] == '<' && var->str_in[i + 2] == '\0'))
-			|| (var->str_in[i] == '<' && var->str_in[i + 1] == '<'
-				&& var->str_in[i + 2] == '<' && var->str_in[i + 3] == '<'
-				&& (var->str_in[i + 4] == '\0')))
-		{
-			ft_putendl_fd(IN_SYNTAX_ERR, STDERR_FILENO);
+		else if (in_check(var, i) == true)
 			return (true);
-		}
-		else if ((var->str_in[i] == '>' && var->str_in[i + 1] == '>'
-				&& var->str_in[i + 2] == '<' && var->str_in[i + 3] == '<')
-			|| (var->str_in[i] == '<' && var->str_in[i + 1] == '<'
-				&& var->str_in[i + 2] == '<' && var->str_in[i + 3] == '<'
-				&& var->str_in[i + 4] == '<' && var->str_in[i + 5] != '<'))
-		{
-			ft_putendl_fd(IN2_SYNTAX_ERR, STDERR_FILENO);
+		else if (in2_check(var, i) == true)
 			return (true);
-		}
-		else if (var->str_in[i] == '<' && var->str_in[i + 1] == '<'
-			&& var->str_in[i + 2] == '<' && var->str_in[i + 3] == '<'
-			&& var->str_in[i + 4] == '<' && var->str_in[i + 5] == '<')
-		{
-			ft_putendl_fd(IN3_SYNTAX_ERR, STDERR_FILENO);
+		else if (in3_check(var, i) == true)
 			return (true);
-		}
-		else if ((var->str_in[i] == '<' && var->str_in[i + 1] == '<')
-			&& (var->str_in[i + 2] == '>' && (var->str_in[i + 3] == '\0')))
-		{
-			ft_putendl_fd(OUT_SYNTAX_ERR, STDERR_FILENO);
+		else if (out_check(var, i) == true)
 			return (true);
-		}
-		else if (((var->str_in[i] == '>' && var->str_in[i + 1] == '>')
-				&& (var->str_in[i + 2] == '>' && (var->str_in[i + 3] == '>')))
-			|| ((var->str_in[i] == '<' && var->str_in[i + 1] == '<')
-				&& (var->str_in[i + 2] == '>' && var->str_in[i + 3] == '>')))
-		{
-			ft_putendl_fd(OUT2_SYNTAX_ERR, STDERR_FILENO);
+		else if (out2_check(var, i) == true)
 			return (true);
-		}
-		else if ((var->str_in[i] == '>' && var->str_in[i + 1] == '<')
-			&& (var->str_in[i + 2] == '>'))
-		{
-			ft_putendl_fd(IO_SYNTAX_ERR, STDERR_FILENO);
+		else if (io_check(var, i) == true)
 			return (true);
-		}
 		if (check_parse(*var) == true)
 			return (true);
 		i++;
@@ -104,19 +54,21 @@ static bool	check_parse(t_var var)
 		i++;
 	if (!var.s[i] || !var.s[i + 1])
 		return (ft_free_split(var.s), false);
-	if (var.s[i + 1][0] == '>' && var.s[i + 1][1] != '>')
+	if (last_char(var.s[i]) == '<' || last_char(var.s[i]) == '>')
 	{
-		ft_putendl_fd(OUT_SYNTAX_ERR, STDERR_FILENO);
-		return (ft_free_split(var.s), true);
+		if (var.s[i + 1][0] == '>' && var.s[i + 1][1] != '>')
+		{
+			ft_putendl_fd(OUT_SYNTAX_ERR, STDERR_FILENO);
+			return (ft_free_split(var.s), true);
+		}
+		else if (var.s[i + 1][0] == '>' && var.s[i + 1][1] == '>')
+		{
+			ft_putendl_fd(OUT2_SYNTAX_ERR, STDERR_FILENO);
+			return (ft_free_split(var.s), true);
+		}
+		if (check_parse_bis(var, i) == true)
+			return (true);
 	}
-	else if (var.s[i + 1][0] == '>' && var.s[i + 1][1] == '>')
-	{
-		ft_putendl_fd(OUT2_SYNTAX_ERR, STDERR_FILENO);
-		return (ft_free_split(var.s), true);
-	}
-	if (check_parse_bis(var, i) == true)
-		return (true);
-	// }
 	ft_free_split(var.s);
 	return (false);
 }
@@ -143,20 +95,6 @@ static bool	check_parse_bis(t_var var, int i)
 	{
 		ft_putendl_fd(IN_SYNTAX_ERR, STDERR_FILENO);
 		return (ft_free_split(var.s), true);
-	}
-	return (false);
-}
-
-static bool	in_out_in(t_var var, int i)
-{
-	int	j;
-
-	j = 0;
-	while (var.s[i][j])
-	{
-		if (var.s[i][j] == '<' || var.s[i][j] == '>')
-			return (true);
-		j++;
 	}
 	return (false);
 }
