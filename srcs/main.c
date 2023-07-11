@@ -6,37 +6,32 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 13:46:36 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 14:13:25 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 char		**init_shell_env(char **envp);
-void		init_secret_array(t_minishell *data, bool secret);
+void		init_secret_array(t_minishell *data);
 static void	in_main(t_var *var, t_minishell *data);
 
-int		g_return_value = 0; 	
+int		g_return_value = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
 	t_var		var;
-	bool		secret;
 
-//TODO get rid of the secret bool, replace it with a define EASTER_EGG in minishell.h
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
-	if (argc == 1)
-		secret = true;
-	else
-		secret = false;
+	(void)argc;
 	(void)argv;
 	data.sig = malloc(sizeof(t_sig));
 	if (!data.sig)
 		exit_sig();
 	init_sigaction(data.sig);
 	var.sig = data.sig;
-	init_secret_array(&data, secret);
+	init_secret_array(&data);
 	data.envp = init_shell_env(envp);
 	var.env_cpy = data.envp;
 	printf(ROCKET_LOGO);
@@ -104,9 +99,9 @@ char	**init_shell_env(char **envp)
 	return (new_envp);
 }
 
-void	init_secret_array(t_minishell *data, bool secret)
+void	init_secret_array(t_minishell *data)
 {
-	if (secret == false)
+	if (EASTER_EGG == false)
 		data->secret_array = NULL;
 	else
 	{
@@ -116,5 +111,3 @@ void	init_secret_array(t_minishell *data, bool secret)
 				getcwd(NULL, 0), "/assets/secret.gif");
 	}
 }
-
-// cat -e Makefile |pwd >out33

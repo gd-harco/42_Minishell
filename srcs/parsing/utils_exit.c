@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 19:22:43 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 13:26:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 13:59:01 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ void	exit_trunc(t_var *var)
 
 void	exit_sig(void)
 {
-	ft_dprintf(STDERR_FILENO, "minishell: malloc error in main\n");
+	ft_dprintf(STDERR_FILENO, MALLOC_ERR"main.c\n");
 	exit(EXIT_FAILURE);
 }
