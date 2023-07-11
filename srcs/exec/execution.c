@@ -29,7 +29,6 @@ void	master_exec(t_minishell	*minishell)
 		dup2(exec_data->std_save[1], STDOUT_FILENO);
 		return (free_exec(exec_data));
 	}
-	sigaction(SIGINT, exec_data->sig->int_parent, NULL);
 	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
@@ -46,11 +45,13 @@ void	master_exec(t_minishell	*minishell)
 				exit(EXIT_FAILURE); //TODO: Call exit functions
 			if (exec_data->pid[current_cmd] == 0)
 			{
+				sigaction(SIGINT, exec_data->sig->int_exec, NULL);
 				dup2(exec_data->pipe_fd[1], STDOUT_FILENO);
 				close(exec_data->pipe_fd[0]);
 				close(exec_data->pipe_fd[1]);
 				exec_piped_cmd(exec_data, current_cmd);
 			}
+			sigaction(SIGINT, exec_data->sig->int_parent, NULL);
 			dup2(exec_data->pipe_fd[0], STDIN_FILENO);
 			close(exec_data->pipe_fd[0]);
 			close(exec_data->pipe_fd[1]);
