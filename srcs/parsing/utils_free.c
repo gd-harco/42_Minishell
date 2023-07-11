@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 15:46:03 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 13:26:11 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 15:27:33 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,30 @@ void	free_var(t_var *var)
 	ft_free_split_secure(&var->spipe);
 }
 
+void	ft_free_sig(t_sig **sig)
+{
+	if ((*sig)->int_prompt)
+		free((*sig)->int_prompt);
+	(*sig)->int_prompt = NULL;
+	if ((*sig)->int_exec)
+		free((*sig)->int_exec);
+	(*sig)->int_exec = NULL;
+	if ((*sig)->int_parent)
+		free((*sig)->int_parent);
+	(*sig)->int_parent = NULL;
+	if ((*sig)->int_here_doc)
+		free((*sig)->int_here_doc);
+	(*sig)->int_here_doc = NULL;
+	if ((*sig)->quit_prompt)
+		free((*sig)->quit_prompt);
+	(*sig)->quit_prompt = NULL;
+	if ((*sig)->quit_exec)
+		free((*sig)->quit_exec);
+	(*sig)->quit_exec = NULL;
+	if ((*sig)->quit_parent)
+		free((*sig)->quit_parent);
+	(*sig)->quit_parent = NULL;
+}
 // void	free_var_quote(t_var_quote *v_q)
 // {
 // 	ft_free_secure(&v_q->tmp);
