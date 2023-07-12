@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 15:27:15 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/12 13:59:10 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 //TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
+	//TODO: free this shit
 	data.sig = malloc(sizeof(t_sig));
 	if (!data.sig)
 		exit_sig();
@@ -50,6 +51,7 @@ static void	in_main(t_var *var, t_minishell *data)
 		ft_free_secure(&var->str_in);
 		ft_free_secure(&var->str);
 		ft_free_array((void **)data->envp);
+		ft_free_array((void **)data->secret_array);
 		ft_printf("exit\n");
 		ft_free_sig(&var->sig);
 		exit(EXIT_EOF);
@@ -67,7 +69,6 @@ static void	in_main(t_var *var, t_minishell *data)
 	var->str_in = get_user_input(data);
 	var->str = ft_space_str(var);
 	var->env_cpy = data->envp;
-	ft_free_sig(&var->sig);
 }
 
 char	**init_shell_env(char **envp)
@@ -97,13 +98,17 @@ char	**init_shell_env(char **envp)
 
 void	init_secret_array(t_minishell *data)
 {
+	char	*pwd;
+
 	if (EASTER_EGG == false)
 		data->secret_array = NULL;
 	else
 	{
 		data->secret_array = ft_calloc(3, sizeof(char *));
 		data->secret_array[0] = ft_strdup("/usr/bin/eog");
+		pwd = getcwd(NULL, 0);
 		data->secret_array[1] = ft_strjoin(
-				getcwd(NULL, 0), "/assets/secret.gif");
+				pwd, "/assets/secret.gif");
+		free(pwd);
 	}
 }

@@ -25,11 +25,14 @@ int	*get_here_doc_fd(t_token *token_list, t_exec *exec_data)
 	int			*here_doc_fd;
 
 	sigaction(SIGINT, exec_data->sig->int_here_doc, NULL);
+	g_return_value = 0;
 	tmp = token_list;
 	exec_data->nb_here_doc = count_here_doc(tmp);
 	if (exec_data->nb_here_doc == 0)
 		return (NULL);
 	here_doc = fill_hd_data(token_list, exec_data->nb_here_doc);
+	if (here_doc == NULL)
+		return (NULL);
 	here_doc_fd = turn_pipe_in_fd(here_doc, exec_data->nb_here_doc);
 	free(here_doc);
 	return (here_doc_fd);
@@ -87,6 +90,11 @@ static t_here_doc	*fill_hd_data(t_token *token_list, size_t nb_here_doc)
 		tmp = tmp->next;
 	}
 	write_in_here_doc(here_doc, nb_here_doc);
+	if (g_return_value == 130)
+	{
+		free(here_doc);
+		return (NULL);
+	}
 	return (here_doc);
 }
 
@@ -98,6 +106,11 @@ static void	write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc)
 	while (i < nb_here_doc)
 	{
 		here_doc[i].tmp_char = readline(HD_PROMPT);
+		if (g_return_value == 130)
+		{
+			close(STDIN_FILENO);
+			break ;
+		}
 		while (ft_strcmp(here_doc[i].tmp_char, here_doc[i].delimiter) != 0)
 		{
 			if (here_doc[i].tmp_char == NULL)
@@ -117,6 +130,8 @@ static void	write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc)
 				here_doc[i].tmp_char = readline(HD_PROMPT);
 			}
 		}
+		if (g_return_value == 130)
+			break ;
 		free(here_doc[i].tmp_char);
 		close(here_doc[i].pipe_fd[1]);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:12:47 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/10 18:40:01 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/12 13:55:21 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static void	fill_quote_env_bis(char *str_tmp, t_var *var, t_varenv *v_e)
 	char	*sub_tmp;
 	char	*trc_tmp;
 
-	if (var->env_cpy[v_e->m]
+	if (var->env_cpy && var->env_cpy[v_e->m]
 		&& var->env_cpy[v_e->m][ft_strlen(v_e->var_env)] == '=')
 	{
 		sub_tmp = ft_substrvar(var->env_cpy[v_e->m], v_e

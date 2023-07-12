@@ -20,9 +20,15 @@ void	master_exec(t_minishell	*minishell)
 {
 	t_exec	*exec_data;
 	size_t	current_cmd;
+	int		status;
 
 	exec_data = get_exec_data(minishell);
-	sigaction(SIGINT, exec_data->sig->int_parent, NULL);
+	if (g_return_value == 130)
+	{
+		dup2(exec_data->std_save[0], STDIN_FILENO);
+		dup2(exec_data->std_save[1], STDOUT_FILENO);
+		return (free_exec(exec_data));
+	}
 	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
@@ -39,11 +45,13 @@ void	master_exec(t_minishell	*minishell)
 				exit(EXIT_FAILURE); //TODO: Call exit functions
 			if (exec_data->pid[current_cmd] == 0)
 			{
+				sigaction(SIGINT, exec_data->sig->int_exec, NULL);
 				dup2(exec_data->pipe_fd[1], STDOUT_FILENO);
 				close(exec_data->pipe_fd[0]);
 				close(exec_data->pipe_fd[1]);
 				exec_piped_cmd(exec_data, current_cmd);
 			}
+			sigaction(SIGINT, exec_data->sig->int_parent, NULL);
 			dup2(exec_data->pipe_fd[0], STDIN_FILENO);
 			close(exec_data->pipe_fd[0]);
 			close(exec_data->pipe_fd[1]);
@@ -52,7 +60,11 @@ void	master_exec(t_minishell	*minishell)
 		exec_last_cmd(exec_data, current_cmd);
 		current_cmd = -1;
 		while (++current_cmd < exec_data->nb_cmd)
-			waitpid(exec_data->pid[current_cmd], NULL, 0);
+		{
+			waitpid(exec_data->pid[current_cmd], &status, 0);
+			if (WIFEXITED(status))
+				g_return_value = WEXITSTATUS(status);
+		}
 	}
 	dup2(exec_data->std_save[0], STDIN_FILENO);
 	dup2(exec_data->std_save[1], STDOUT_FILENO);
@@ -129,9 +141,12 @@ void	free_exec(t_exec *exec_data)
 
 	close(exec_data->std_save[0]);
 	close(exec_data->std_save[1]);
-	last_hd_free = 0;
-	while (last_hd_free < exec_data->nb_here_doc)
-		close(exec_data->here_doc_fd[last_hd_free++]);
+	if (exec_data->here_doc_fd)
+	{
+		last_hd_free = 0;
+		while (last_hd_free < exec_data->nb_here_doc)
+			close(exec_data->here_doc_fd[last_hd_free++]);
+	}
 	free(exec_data->here_doc_fd);
 	free(exec_data->pid);
 	i = exec_data->nb_cmd;

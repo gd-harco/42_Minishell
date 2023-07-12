@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/10 18:46:26 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/12 14:23:09 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static void	fill_str(t_var *var, t_var_quote *v_q, char **new)
 	else if (v_q->tmp[v_q->i] == '<' && v_q->i > 0
 		&& v_q->tmp[v_q->i - 1] != '<')
 		*new = ft_strjoinsp2(*new, " <", 0, v_q);
-	else if (v_q->tmp[v_q->i] == '>' && v_q->tmp[v_q->i - 1] != '>')
+	else if (v_q->i > 0
+		&& v_q->tmp[v_q->i] == '>' && v_q->tmp[v_q->i - 1] != '>')
 		*new = ft_strjoinsp2(*new, " >", 0, v_q);
 	else
 		*new = ft_strjoinsp2(*new, v_q->t, 0, v_q);
@@ -115,7 +116,7 @@ char	*ft_space_str(t_var *var)
 	v_q.i = 0;
 	v_q.t[1] = 0;
 	new = NULL;
-	while (v_q.tmp && v_q.tmp[v_q.i])
+	while (v_q.tmp && v_q.i <= (int)ft_strlen(v_q.tmp) && v_q.tmp[v_q.i])
 	{
 		fill_str(var, &v_q, &new);
 		v_q.i++;

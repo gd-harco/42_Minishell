@@ -19,6 +19,7 @@ void		naked_export(char **envp);
 void	export(t_exec *exec_data)
 {
 	int		i;
+	bool	error_happened;
 
 	i = 0;
 	if (!exec_data->cmd->argv[1])
@@ -30,18 +31,24 @@ void	export(t_exec *exec_data)
 			ft_dprintf(STDERR_FILENO,
 				"minishell: export: `%s':"
 				"not a valid identifier\n", exec_data->cmd->argv[i]);
+			g_return_value = 1;
+			error_happened = true;
 			continue ;
 		}
 		if (already_in_env(exec_data->cmd->argv[i], exec_data))
 			continue ;
 		else
+		{
 			exec_data->envp = add_env(exec_data->cmd->argv[i], exec_data);
+			if (!error_happened)
+				g_return_value = 0;
+		}
 	}
 }
 
 bool	key_is_valid(char *str)
 {
-	int	i;
+	int		i;
 	char	*key;
 
 	i = 0;
@@ -76,10 +83,10 @@ bool	check_for_equal(const char *str)
 
 char	**add_env(char *str, t_exec *exec_data)
 {
-	size_t	old_len;
-	char	**new_envp;
+	size_t old_len;
+	char **new_envp;
 
-	old_len = ft_array_length((void **)exec_data->envp);
+	old_len = ft_array_length((void **) exec_data->envp);
 	new_envp = ft_calloc(old_len + 2, sizeof(char *));
 	if (!new_envp)
 		exit(EXIT_FAILURE); //TODO: call exit function

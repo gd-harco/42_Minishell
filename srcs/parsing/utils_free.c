@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 15:46:03 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/12 13:43:21 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/12 13:45:59 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ void	ft_free_sig(t_sig **sig)
 	if ((*sig)->quit_parent)
 		free((*sig)->quit_parent);
 	(*sig)->quit_parent = NULL;
-	if ((*sig))
-		free((*sig));
+	free((*sig));
 	(*sig) = NULL;
 }
 // void	free_var_quote(t_var_quote *v_q)
