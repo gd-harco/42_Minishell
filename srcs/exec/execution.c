@@ -141,6 +141,7 @@ void	free_exec(t_exec *exec_data)
 
 	close(exec_data->std_save[0]);
 	close(exec_data->std_save[1]);
+	token_clear(&exec_data->token_list);
 	if (exec_data->here_doc_fd)
 	{
 		last_hd_free = 0;

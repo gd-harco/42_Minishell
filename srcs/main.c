@@ -23,10 +23,8 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	data;
 	t_var		var;
 
-//TODO bien verifier que la commande envoye est bien un path et pas juste un binaire
 	(void)argc;
 	(void)argv;
-	//TODO: free this shit
 	data.sig = malloc(sizeof(t_sig));
 	if (!data.sig)
 		exit_sig();
@@ -64,12 +62,12 @@ static void	in_main(t_var *var, t_minishell *data)
 		free_var(var);
 		if (data->token_list)
 			master_exec(data);
-		token_clear(&data->token_list);
+		else
+			token_clear(&data->token_list);
 	}
 	var->str_in = get_user_input(data);
 	var->str = ft_space_str(var);
 	var->env_cpy = data->envp;
-	ft_free_sig(&var->sig);
 }
 
 char	**init_shell_env(char **envp)
