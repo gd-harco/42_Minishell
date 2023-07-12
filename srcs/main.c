@@ -69,7 +69,6 @@ static void	in_main(t_var *var, t_minishell *data)
 	var->str_in = get_user_input(data);
 	var->str = ft_space_str(var);
 	var->env_cpy = data->envp;
-	ft_free_sig(&var->sig);
 }
 
 char	**init_shell_env(char **envp)
