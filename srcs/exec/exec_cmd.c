@@ -26,7 +26,8 @@ void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd)
 	}
 	execve(exec_data->cmd[current_cmd].argv[0],
 		exec_data->cmd[current_cmd].argv, exec_data->envp);
-	ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n", exec_data->cmd[current_cmd].argv[0], strerror(errno));
+	ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n",
+		exec_data->cmd[current_cmd].argv[0], strerror(errno));
 	exit(EXIT_FAILURE);//TODO: Call exit function
 }
 
@@ -50,13 +51,19 @@ void	handle_io(t_exec *exec_data, size_t current_cmd)
 		{
 			fd[0] = get_in_fd(tmp, exec_data);
 			if (fd[0] == -1)
-				return ;
+				return (g_return_value = 42, (void)0);
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
 		}
 		else if (tmp->type == FILE_OUT || tmp->type == FILE_OUT_APPEND)
 		{
 			fd[1] = get_out_fd(tmp);
+			if (fd[1] == -1)
+			{
+				g_return_value = 42;
+				free_exec(exec_data);
+				exit(g_return_value);
+			}
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 		}
@@ -115,7 +122,7 @@ int	get_out_fd(t_token *token)
 	{
 		dprintf(STDERR_FILENO, "Error: %s: %s\n",
 			strerror(errno), token->content[0]);
-		exit(IO_FAILURE);//TODO: Call exit function
+		return (-1);
 	}
 	return (fd);
 }
