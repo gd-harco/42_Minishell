@@ -51,6 +51,7 @@ static void	in_main(t_var *var, t_minishell *data)
 		ft_free_secure(&var->str_in);
 		ft_free_secure(&var->str);
 		ft_free_array((void **)data->envp);
+		ft_free_array((void **)data->secret_array);
 		ft_printf("exit\n");
 		ft_free_sig(&var->sig);
 		exit(EXIT_EOF);
@@ -98,13 +99,17 @@ char	**init_shell_env(char **envp)
 
 void	init_secret_array(t_minishell *data)
 {
+	char	*pwd;
+
 	if (EASTER_EGG == false)
 		data->secret_array = NULL;
 	else
 	{
 		data->secret_array = ft_calloc(3, sizeof(char *));
 		data->secret_array[0] = ft_strdup("/usr/bin/eog");
+		pwd = getcwd(NULL, 0);
 		data->secret_array[1] = ft_strjoin(
-				getcwd(NULL, 0), "/assets/secret.gif");
+				pwd, "/assets/secret.gif");
+		free(pwd);
 	}
 }

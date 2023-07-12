@@ -66,6 +66,7 @@ void	ft_free_sig(t_sig **sig)
 	if ((*sig)->quit_parent)
 		free((*sig)->quit_parent);
 	(*sig)->quit_parent = NULL;
+	free(*sig);
 }
 // void	free_var_quote(t_var_quote *v_q)
 // {
