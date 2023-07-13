@@ -20,11 +20,12 @@ void	master_exec(t_minishell	*minishell)
 	t_exec	*exec_data;
 
 	exec_data = get_exec_data(minishell);
-	if (exec_data == NULL)
-		return (ft_dprintf(2, "error getting exec data"), (void)0);
 	if (g_return_value == 130)
 		return (dup2(exec_data->std_save[0], STDIN_FILENO),
-			dup2(exec_data->std_save[1], STDOUT_FILENO), free_exec(exec_data));
+				dup2(exec_data->std_save[1], STDOUT_FILENO), free_exec(exec_data));
+	if (g_return_value == GET_EXEC_FAIL_CODE)
+		return (exit_error_exec(GET_EXEC_FAIL_CODE,
+				GET_EXEC_FAIL "\n", exec_data));
 	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
@@ -53,18 +54,18 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data->std_save[0] = dup(STDIN_FILENO);
 	exec_data->std_save[1] = dup(STDOUT_FILENO);
 	if (exec_data->std_save[0] == -1 || exec_data->std_save[1] == -1)
-		return (perror("Minishell"), NULL);
+		return (g_return_value = GET_EXEC_FAIL_CODE, exec_data);
 	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
 	exec_data->nb_pipe = exec_data->nb_cmd - 1;
 	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list, exec_data);
-	if (exec_data->here_doc_fd == NULL)
-		return (free_exec(exec_data), NULL);
+	if (exec_data->here_doc_fd == NULL && g_return_value != 0)
+		return (exec_data);
 	exec_data->cmd = get_cmd_data(exec_data);
 	if (exec_data->cmd == NULL)
-		return (free_exec(exec_data), NULL);
+		return (g_return_value = GET_EXEC_FAIL_CODE, exec_data);
 	exec_data->pid = malloc(sizeof(pid_t) * exec_data->nb_cmd);
 	if (!exec_data->pid)
-		return (free_exec(exec_data), NULL);
+		return (g_return_value = GET_EXEC_FAIL_CODE, exec_data);
 	i = -1;
 	while (++i < exec_data->nb_cmd)
 		exec_data->pid[i] = -1;
@@ -102,14 +103,19 @@ void	free_exec(t_exec *exec_data)
 	}
 	free(exec_data->here_doc_fd);
 	free(exec_data->pid);
-	i = exec_data->nb_cmd;
-	while (i--)
+	if (exec_data->cmd)
 	{
-		str_to_free = ft_array_length((void **)exec_data->cmd[i].argv);
-		while (str_to_free--)
-			free(exec_data->cmd[i].argv[str_to_free]);
-		free(exec_data->cmd[i].argv);
+		i = exec_data->nb_cmd;
+		while (i--)
+		{
+			if (exec_data->cmd[i].argv == NULL)
+				continue ;
+			str_to_free = ft_array_length((void **)exec_data->cmd[i].argv);
+			while (str_to_free--)
+				free(exec_data->cmd[i].argv[str_to_free]);
+			free(exec_data->cmd[i].argv);
+		}
+		free(exec_data->cmd);
 	}
-	free(exec_data->cmd);
 	free(exec_data);
 }

@@ -84,10 +84,8 @@ all				:	${OBJS} ${HEADERS}
 					make ${NAME}
 
 fsanitize		:
-					make fclean -C lib/libft
-					make fclean
 					make debug -C lib/libft
-					make all CFLAGS+=-fsanitize=address
+					make all CFLAGS+="-fsanitize=address -g3"
 
 no_flags		:
 					make fclean -C lib/libft

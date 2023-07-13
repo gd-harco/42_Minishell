@@ -53,6 +53,13 @@ void	cmd_loop(t_exec *exec_data, size_t current_cmd)
 	close(exec_data->pipe_fd[1]);
 }
 
+void	exit_error_exec(int error_code, char *error_msg, t_exec *to_free)
+{
+	g_return_value = error_code;
+	ft_dprintf(STDERR_FILENO, error_msg);
+	free_exec(to_free);
+}
+
 static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 {
 	exec_data->pid[current_cmd] = fork();
