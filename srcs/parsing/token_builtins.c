@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:14:25 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/10 18:40:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/13 13:06:26 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	token_builtin(t_var *var)
 	while (var->s[v_e.j])
 	{
 		fill_arg_builtin(var, &v_e);
+		var->arg = ft_strjoinsp(var->arg, ";", 0);
 		v_e.j++;
 	}
 	var->new_tkn->type = BUILTIN;
@@ -39,7 +40,7 @@ static void	fill_arg_builtin(t_var *var, t_varenv *v_e)
 	{
 		if (has_in_out(var->s, v_e->j) == false
 			&& is_env_in(*var, v_e->j) == false)
-			var->arg = ft_strjoinsp(var->arg, var->s[v_e->j], 1);
+			var->arg = ft_strjoinsp(var->arg, var->s[v_e->j], 0);
 		else if (is_env_in(*var, v_e->j) == true
 			&& has_in_out(var->s, v_e->j) == false)
 		{
@@ -55,7 +56,7 @@ static void	fill_arg_builtin(t_var *var, t_varenv *v_e)
 		&& has_in_out(var->s, v_e->j - 1) == false)
 	{
 		quote_manager(var, v_e);
-		var->arg = ft_strjoinsp(var->arg, var->quote, 1);
+		var->arg = ft_strjoinsp(var->arg, var->quote, 0);
 		ft_free_secure(&var->quote);
 	}
 }
