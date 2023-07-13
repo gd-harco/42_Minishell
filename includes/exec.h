@@ -25,7 +25,6 @@ void	cmd_loop(t_exec *exec_data, size_t current_cmd);
 void	exec_multiple_cmd(t_exec *exec_data);
 void	exit_error_exec(int error_code, char *error_msg, t_exec *to_free);
 
-
 //########### HERE_DOC.C ###########//
 int		*get_here_doc_fd(t_token *token_list, t_exec *exec_data);
 
