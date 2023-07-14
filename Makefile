@@ -30,25 +30,27 @@ SRCS_LIST		=	main.c		prompt.c		\
 					builtins/export.c	builtins/export_utils.c	\
 					builtins/pwd.c		builtins/unset.c		\
 \
-					exec/execution.c	exec/exec_cmd.c			\
-					exec/here_doc.c		exec/translate_cmd.c	\
+					exec/execution.c		exec/execution_2.c		\
+					exec/exec_cmd.c			exec/here_doc.c			\
+					exec/translate_cmd.c	exec/io_handling.c		\
+					exec/free_exec.c		exec/write_here_doc.c	\
 \
 					signal/init_sigaction.c		signal/sig_handlers.c		\
 \
-		parsing/parse_pipe.c		parsing/parse_syntax_check.c	\
-		parsing/parse_syntax_utils.c	parsing/parse_syntax.c		\
-		parsing/path.c												\
-		parsing/env_symbol.c			parsing/quotes_type.c		\
-		parsing/quotes_env.c			parsing/quotes_utils.c		\
-		parsing/quotes.c				parsing/token_builtins.c	\
-		parsing/token_check.c			parsing/token_cmd.c			\
-		parsing/token_env_var.c			parsing/token_infile.c		\
-		parsing/token_init.c			parsing/token_is_in.c		\
-		parsing/token_outfile.c			parsing/token_utils.c		\
-		parsing/token.c												\
-		parsing/utils_free.c			parsing/utils_str.c			\
-		parsing/utils.c					parsing/utils2.c			\
-		parsing/utils_exit.c			parsing/utils_trunc.c
+					parsing/parse_pipe.c		parsing/parse_syntax_check.c	\
+					parsing/parse_syntax_utils.c	parsing/parse_syntax.c		\
+					parsing/path.c												\
+					parsing/env_symbol.c			parsing/quotes_type.c		\
+					parsing/quotes_env.c			parsing/quotes_utils.c		\
+					parsing/quotes.c				parsing/token_builtins.c	\
+					parsing/token_check.c			parsing/token_cmd.c			\
+					parsing/token_env_var.c			parsing/token_infile.c		\
+					parsing/token_init.c			parsing/token_is_in.c		\
+					parsing/token_outfile.c			parsing/token_utils.c		\
+					parsing/token.c												\
+					parsing/utils_free.c			parsing/utils_str.c			\
+					parsing/utils.c					parsing/utils2.c			\
+					parsing/utils_exit.c			parsing/utils_trunc.c
 
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
@@ -83,10 +85,8 @@ all				:	${OBJS} ${HEADERS}
 					make ${NAME}
 
 fsanitize		:
-					make fclean -C lib/libft
-					make fclean
 					make debug -C lib/libft
-					make all CFLAGS+=-fsanitize=address
+					make all CFLAGS+="-fsanitize=address -g3"
 
 no_flags		:
 					make fclean -C lib/libft
