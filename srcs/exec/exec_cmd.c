@@ -15,7 +15,6 @@
 void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd)
 {
 	handle_io(exec_data, current_cmd);
-	dprintf(STDERR_FILENO, "io handled\n");
 	if (exec_data->cmd[current_cmd].builtin != NONE)
 	{
 		exec_builtin(exec_data, current_cmd);

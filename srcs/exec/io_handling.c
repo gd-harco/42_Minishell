@@ -9,11 +9,9 @@ static void	io_redirect(t_token *tmp, t_exec *exec_data);
 void	handle_io(t_exec *exec_data, size_t current_cmd)
 {
 	size_t	i;
-	int		fd[2];
 	t_token	*tmp;
 
 	i = 0;
-	dprintf(STDERR_FILENO, "handle_io\n");
 	tmp = exec_data->token_list;
 	while (tmp && i < current_cmd)
 	{
@@ -50,9 +48,8 @@ static void	io_redirect(t_token *tmp, t_exec *exec_data)
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 		}
-	}
-	dprintf(STDERR_FILENO, "tmp->content[0] = %s\n", tmp->content[0]);
 	tmp = tmp->next;
+	}
 }
 
 static int	get_in_fd(t_token *token, t_exec *exec_data)
