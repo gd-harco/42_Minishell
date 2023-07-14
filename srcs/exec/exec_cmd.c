@@ -6,12 +6,13 @@
 /*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 12:21:08 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/16 12:21:08 by gd-harco         ###   ########.fr       */
+/*   Updated: 2023/07/15 00:38:40 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//TODO FIXE LEAKS IF EXECVE FAIL (DUE TO NO $PATH FOR EXAMPLE)
 void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd)
 {
 	handle_io(exec_data, current_cmd);

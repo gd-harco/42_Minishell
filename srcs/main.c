@@ -60,7 +60,7 @@ static void	in_main(t_var *var, t_minishell *data)
 		ft_free_array((void **)data->secret_array);
 		ft_printf("exit\n");
 		ft_free_sig(&var->sig);
-		exit(EXIT_EOF);
+		exit(EXIT_SUCCESS);
 	}
 	if (var->str)
 	{
