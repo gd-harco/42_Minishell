@@ -28,5 +28,7 @@ char	**add_env(char *str, t_exec *exec_data);
 
 bool	already_in_env(char *str, t_exec *exec_data);
 bool	check_for_equal(const char *str);
+bool	only_key_already_in_env(char *str, t_exec *exec_data);
+void	naked_export(char **envp);
 
 #endif

@@ -50,11 +50,7 @@ static void	io_redirect(t_token *tmp, t_exec *exec_data)
 		{
 			fd[1] = get_out_fd(tmp);
 			if (fd[1] == -1)
-			{
-				g_return_value = 42;
-				free_exec(exec_data);
-				exit(g_return_value);
-			}
+				return (free_exec(exec_data), exit(g_return_value = 42));
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 		}
@@ -93,7 +89,7 @@ static int	get_out_fd(t_token *token)
 	if (fd == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: %s: %s\n",
-				strerror(errno), token->content[0]);
+			strerror(errno), token->content[0]);
 		return (-1);
 	}
 	return (fd);

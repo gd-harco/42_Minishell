@@ -45,4 +45,6 @@ void	exec_builtin(t_exec *exec_data, size_t current_cmd)
 		env(exec_data->envp);
 	else if (exec_data->cmd[current_cmd].builtin == EXIT)
 		exit_shell(exec_data);
+	if (g_return_value == MALLOC_ERR_CODE)
+		exit_error_exec(MALLOC_ERR_CODE, MALLOC_ERR, exec_data);
 }

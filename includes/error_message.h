@@ -41,5 +41,6 @@
 # define GET_EXEC_FAIL "minishell: error getting exec data."
 
 //#################### MEMORY RELATED ####################//
+# define MALLOC_ERR_CODE 12
 # define MALLOC_ERR "minishell: malloc error in function: "
 #endif
