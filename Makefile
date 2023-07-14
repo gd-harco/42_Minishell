@@ -30,10 +30,10 @@ SRCS_LIST		=	main.c		prompt.c		\
 					builtins/export.c	builtins/export_utils.c	\
 					builtins/pwd.c		builtins/unset.c		\
 \
-					exec/execution.c		exec/execution_2.c	\
-					exec/exec_cmd.c			exec/here_doc.c		\
-					exec/translate_cmd.c	exec/io_handling.c	\
-					exec/free_exec.c	\
+					exec/execution.c		exec/execution_2.c		\
+					exec/exec_cmd.c			exec/here_doc.c			\
+					exec/translate_cmd.c	exec/io_handling.c		\
+					exec/free_exec.c		exec/write_here_doc.c	\
 \
 					signal/init_sigaction.c		signal/sig_handlers.c		\
 \

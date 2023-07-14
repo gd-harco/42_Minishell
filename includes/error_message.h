@@ -14,8 +14,8 @@
 # define ERROR_MESSAGE_H
 
 //#################### HERE-DOC RELATED ####################//
-# define HERE_DOC_EOF "minishell: warning:\
-	here-document delimited by end-of-file"
+# define HERE_DOC_EOF "minishell: warning: \
+here-document delimited by end-of-file (wanted "
 
 //#################### SYNTAX RELATED ####################//
 # define NL_SYNTAX_ERR "minishell: syntax error near unexpected token `newline'"
