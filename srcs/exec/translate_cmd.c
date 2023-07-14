@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   translate_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:40:24 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/05 21:49:49 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 13:06:36 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	**get_cmd_argv(t_token **f_token)
 		*f_token = (*f_token)->next;
 	if (!(*f_token)->content[1])
 		return (cmd_with_no_args(f_token));
-	tmp = ft_split ((*f_token)->content[1], ' ');
+	tmp = ft_split ((*f_token)->content[1], ';');
 	argv = ft_calloc(ft_array_length((void **)tmp) + 2, sizeof(char *));
 	if (!argv)
 		exit(EXIT_FAILURE);//TODO: Call exit function

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 10:47:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 13:41:04 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/12 13:54:32 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static int	fill_env_var(t_var *var, t_varenv *v_e)
 	else if (v_e->var_env && (v_e->var_env[0] == '\0'))
 		env_symbol(var, var->s[v_e->j], v_e);
 	v_e->m = 0;
-	while (var->env_cpy && v_e->var_env && ft_strnstr
+	while (var->env_cpy && v_e->var_env && var->env_cpy[v_e->m] && ft_strnstr
 		(var->env_cpy[v_e->m], v_e->var_env, ft_strlen(v_e->var_env)) == NULL)
 		v_e->m++;
 	fill_env_var_bis(var, v_e);
@@ -126,7 +126,7 @@ static void	fill_env_var_bis(t_var *var, t_varenv *v_e)
 	char	*sub_tmp;
 	char	*trc_tmp;
 
-	if (var->env_cpy
+	if (var->env_cpy && var->env_cpy[v_e->m]
 		&& var->env_cpy[v_e->m][ft_strlen(v_e->var_env)] == '=')
 	{
 		sub_tmp = ft_substrvar(var->env_cpy[v_e->m], v_e
