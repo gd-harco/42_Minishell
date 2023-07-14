@@ -48,7 +48,7 @@ int	get_return_value(char **argv)
 	int	i;
 
 	if (!argv[1])
-		return (EXIT_SUCCESS);
+		return (g_return_value);
 	else if (argv[1] && argv[2])
 		return (1);
 	else
