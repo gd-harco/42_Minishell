@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/10 19:29:52 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/14 23:21:12 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	**get_path(char **envp)
 	char	*path;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
+	while (ft_strnstr(envp[i], "PATH=", 5) == 0
+		&& ft_strnstr(envp[i], "PATH=", 5) != NULL)
 		i++;
 	path = ft_substr(envp[i], 5, ft_strlen(envp[i]));
 	split_path = ft_split(path, ':');
