@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/12 16:15:03 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/14 14:28:54 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	in_main(t_var *var, t_minishell *data)
 		free_var(var);
 		if (data->token_list)
 			master_exec(data);
-		token_clear(&data->token_list);
+		// token_clear(&data->token_list);
 	}
 	var->str_in = get_user_input(data);
 	var->str = ft_space_str(var);

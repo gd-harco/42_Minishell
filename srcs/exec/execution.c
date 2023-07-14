@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/06 14:26:34 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/07/14 14:40:36 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,16 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 		exit(EXIT_FAILURE);//TODO: Call exit function
 	exec_data->sig = minishell->sig;
 	exec_data->secret_array = minishell->secret_array;
-	exec_data->token_list = minishell->token_list;
+	// exec_data->token_list = minishell->token_list;
+	exec_data->token_list = malloc(sizeof(t_token));
+	token_memcpy(exec_data->token_list, minishell->token_list);
+	token_clear(&minishell->token_list);
 	exec_data->envp = minishell->envp;
 	exec_data->std_save[0] = dup(STDIN_FILENO);
 	exec_data->std_save[1] = dup(STDOUT_FILENO);
-	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
+	exec_data->nb_cmd = get_nb_cmd(exec_data->token_list);
 	exec_data->nb_pipe = exec_data->nb_cmd - 1;
-	exec_data->here_doc_fd = get_here_doc_fd(minishell->token_list, exec_data);
+	exec_data->here_doc_fd = get_here_doc_fd(exec_data->token_list, exec_data);
 	exec_data->cmd = get_cmd_data(exec_data);
 	exec_data->pid = malloc(sizeof(pid_t) * exec_data->nb_cmd);
 	if (!exec_data->pid)
@@ -158,5 +161,6 @@ void	free_exec(t_exec *exec_data)
 		free(exec_data->cmd[i].argv);
 	}
 	free(exec_data->cmd);
+	token_clear(&exec_data->token_list);
 	free(exec_data);
 }
