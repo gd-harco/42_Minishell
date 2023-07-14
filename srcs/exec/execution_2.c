@@ -38,7 +38,7 @@ void	cmd_loop(t_exec *exec_data, size_t current_cmd)
 	exec_data->pid[current_cmd] = fork();
 	if (exec_data->pid[current_cmd] == -1)
 		return (g_return_value = 1,
-				perror("minishell"), free_exec(exec_data), (void)0);
+			perror("minishell"), free_exec(exec_data), (void)0);
 	if (exec_data->pid[current_cmd] == 0)
 	{
 		sigaction(SIGINT, exec_data->sig->int_exec, NULL);
@@ -78,9 +78,9 @@ static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 		exit(EXIT_SUCCESS);
 	}
 	execve(exec_data->cmd[current_cmd].argv[0],
-			exec_data->cmd[current_cmd].argv, exec_data->envp);
+		exec_data->cmd[current_cmd].argv, exec_data->envp);
 	ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n",
-			exec_data->cmd[current_cmd].argv[0], strerror(errno));
+		exec_data->cmd[current_cmd].argv[0], strerror(errno));
 	free_exec(exec_data);
 	exit(EXIT_FAILURE);
 }

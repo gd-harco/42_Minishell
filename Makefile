@@ -33,6 +33,7 @@ SRCS_LIST		=	main.c		prompt.c		\
 					exec/execution.c		exec/execution_2.c	\
 					exec/exec_cmd.c			exec/here_doc.c		\
 					exec/translate_cmd.c	exec/io_handling.c	\
+					exec/free_exec.c	\
 \
 					signal/init_sigaction.c		signal/sig_handlers.c		\
 \

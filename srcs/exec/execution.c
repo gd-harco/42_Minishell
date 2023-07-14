@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-static t_exec		*get_exec_data(t_minishell *minishell);
-static size_t		get_nb_cmd(t_token *token_list);
+static t_exec	*get_exec_data(t_minishell *minishell);
+static size_t	get_nb_cmd(t_token *token_list);
+static void		copy_minishell_data(t_minishell *minishell, t_exec *exec_data);
 
 void	master_exec(t_minishell	*minishell)
 {
@@ -22,7 +23,7 @@ void	master_exec(t_minishell	*minishell)
 	exec_data = get_exec_data(minishell);
 	if (g_return_value == 130)
 		return (dup2(exec_data->std_save[0], STDIN_FILENO),
-				dup2(exec_data->std_save[1], STDOUT_FILENO), free_exec(exec_data));
+			dup2(exec_data->std_save[1], STDOUT_FILENO), free_exec(exec_data));
 	if (g_return_value == GET_EXEC_FAIL_CODE)
 		return (exit_error_exec(GET_EXEC_FAIL_CODE,
 				GET_EXEC_FAIL "\n", exec_data));
@@ -47,12 +48,7 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 	exec_data = ft_calloc(1, sizeof(t_exec));
 	if (!exec_data)
 		return (NULL);
-	exec_data->sig = minishell->sig;
-	exec_data->secret_array = minishell->secret_array;
-	exec_data->token_list = minishell->token_list;
-	exec_data->envp = minishell->envp;
-	exec_data->std_save[0] = dup(STDIN_FILENO);
-	exec_data->std_save[1] = dup(STDOUT_FILENO);
+	copy_minishell_data(minishell, exec_data);
 	if (exec_data->std_save[0] == -1 || exec_data->std_save[1] == -1)
 		return (g_return_value = GET_EXEC_FAIL_CODE, exec_data);
 	exec_data->nb_cmd = get_nb_cmd(minishell->token_list);
@@ -72,6 +68,16 @@ static t_exec	*get_exec_data(t_minishell *minishell)
 	return (exec_data);
 }
 
+static void	copy_minishell_data(t_minishell *minishell, t_exec *exec_data)
+{
+	exec_data->sig = minishell->sig;
+	exec_data->secret_array = minishell->secret_array;
+	exec_data->token_list = minishell->token_list;
+	exec_data->envp = minishell->envp;
+	exec_data->std_save[0] = dup(STDIN_FILENO);
+	exec_data->std_save[1] = dup(STDOUT_FILENO);
+}
+
 static size_t	get_nb_cmd(t_token *token_list)
 {
 	size_t	nb_cmd;
@@ -84,38 +90,4 @@ static size_t	get_nb_cmd(t_token *token_list)
 		token_list = token_list->next;
 	}
 	return (nb_cmd);
-}
-
-void	free_exec(t_exec *exec_data)
-{
-	size_t	i;
-	size_t	str_to_free;
-	size_t	last_hd_free;
-
-	close(exec_data->std_save[0]);
-	close(exec_data->std_save[1]);
-	token_clear(&exec_data->token_list);
-	if (exec_data->here_doc_fd)
-	{
-		last_hd_free = 0;
-		while (last_hd_free < exec_data->nb_here_doc)
-			close(exec_data->here_doc_fd[last_hd_free++]);
-	}
-	free(exec_data->here_doc_fd);
-	free(exec_data->pid);
-	if (exec_data->cmd)
-	{
-		i = exec_data->nb_cmd;
-		while (i--)
-		{
-			if (exec_data->cmd[i].argv == NULL)
-				continue ;
-			str_to_free = ft_array_length((void **)exec_data->cmd[i].argv);
-			while (str_to_free--)
-				free(exec_data->cmd[i].argv[str_to_free]);
-			free(exec_data->cmd[i].argv);
-		}
-		free(exec_data->cmd);
-	}
-	free(exec_data);
 }

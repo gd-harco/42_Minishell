@@ -1,10 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   io_handling.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/14 07:46:30 by gd-harco          #+#    #+#             */
+/*   Updated: 2023/07/14 07:46:33 by gd-harco         ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	get_in_fd(t_token *token, t_exec *exec_data);
 static int	get_out_fd(t_token *token);
 static void	io_redirect(t_token *tmp, t_exec *exec_data);
-
 
 void	handle_io(t_exec *exec_data, size_t current_cmd)
 {
@@ -48,7 +58,7 @@ static void	io_redirect(t_token *tmp, t_exec *exec_data)
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
 		}
-	tmp = tmp->next;
+		tmp = tmp->next;
 	}
 }
 
@@ -65,7 +75,7 @@ static int	get_in_fd(t_token *token, t_exec *exec_data)
 	if (fd == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: %s: %s\n",
-				strerror(errno), token->content[0]);
+			strerror(errno), token->content[0]);
 	}
 	return (fd);
 }
