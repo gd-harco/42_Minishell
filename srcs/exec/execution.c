@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 12:53:45 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/07/14 16:02:57 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 13:26:59 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	master_exec(t_minishell	*minishell)
 		return (exit_error_exec(GET_EXEC_FAIL_CODE,
 				GET_EXEC_FAIL "\n", exec_data));
 	sigaction(SIGQUIT, exec_data->sig->quit_parent, NULL);
+	if (catls_check(exec_data, 0, exec_data->nb_cmd))
+		return (free_exec(exec_data));
 	if (exec_data->nb_cmd == 1 && exec_data->cmd[0].builtin)
 		exec_builtin(exec_data, 0);
 	else if (exec_data->nb_cmd == 0)

@@ -39,7 +39,7 @@ SRCS_LIST		=	main.c		prompt.c		\
 \
 					parsing/parse_pipe.c		parsing/parse_syntax_check.c	\
 					parsing/parse_syntax_utils.c	parsing/parse_syntax.c		\
-					parsing/path.c												\
+					parsing/path.c					parsing/check_cmd.c			\
 					parsing/env_symbol.c			parsing/quotes_type.c		\
 					parsing/quotes_env.c			parsing/quotes_utils.c		\
 					parsing/quotes.c				parsing/token_builtins.c	\

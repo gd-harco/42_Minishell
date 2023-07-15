@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 10:44:55 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/11 15:42:46 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 13:26:38 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 //#################### ENV_SYMBOL.C ####################//
 int		quote_env_symbol(t_var *var, char *str_tmp, t_varenv *v_e);
 int		env_symbol(t_var *var, char *str, t_varenv *v_e);
+bool	catls_check(t_exec *exec_data, int i, size_t nb_cmd);
 //-------------------- ENV_SYMBOL.C --------------------//
 /*
 */
