@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 14:17:34 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/05 22:09:36 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 10:40:11 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	is_quote_between(char *str, int i)
 	{
 		if (str[i] == '\'')
 		{
-			return (find_quote(str, j, '"'));
+			return (find_quote(str, j, '\''));
 		}
 		else if (str[i] == '"')
 		{

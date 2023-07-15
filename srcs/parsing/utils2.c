@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:23:51 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/12 15:33:17 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 10:29:46 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ static char	*ft_quote_str(t_var_quote *v_q, char c, t_var *var, char **new)
 		ft_free_secure(&v_q->tmp);
 		exit(EXIT_FAILURE);
 	}
-	v_q2.tmp[v_q2.j++] = ';';
+	v_q2.tmp[v_q2.j++] = '\\';
 	while (v_q2.j < v_q2.i + 1)
 	{
 		fill_str_quote(v_q->tmp, &v_q->i, &v_q2, var);
 	}
 	v_q->i = v_q->i - 1;
-	v_q2.tmp[v_q2.j] = ';';
+	v_q2.tmp[v_q2.j] = '\\';
 	v_q2.tmp[v_q2.j + 1] = '\0';
 	return (v_q2.tmp);
 }

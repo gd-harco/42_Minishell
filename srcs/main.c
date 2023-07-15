@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/14 16:04:44 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 10:16:32 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,6 @@ void		init_secret_array(t_minishell *data);
 static void	in_main(t_var *var, t_minishell *data);
 
 int		g_return_value = 0;
-
-//TODO : cat | cat | cat | cat \ ls
-// affiche ls puis 5 ligne de cat a ecrire
-//TODO : trouver pourquoi "text avec           bcp de space"
-//	renvoie "text avec bcp de space" ex : echo "a         b      c"
-//TODO: gerer le builtin cd avec ~ et -
-//TODO: si necessaire add - dans exit
-//		pour exit -1 ne return pas required numerical argument
 
 int	main(int argc, char **argv, char **envp)
 {

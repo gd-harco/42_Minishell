@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:07:05 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/07/15 10:00:08 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 10:09:58 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	exit_shell(t_exec	*exec_data)
 		ft_free_array((void **)exec_data->secret_array);
 	}
 	return_value = get_return_value(exec_data->cmd->argv, &is_error);
-	ft_dprintf(STDOUT_FILENO,
-		"La Team Rocket s'envole vers d'autres cieux!\n");
 	ft_free_array((void **)exec_data->envp);
 	free_exec(exec_data);
 	ft_dprintf(STDERR_FILENO, "exit\n");
@@ -49,6 +47,8 @@ int	get_return_value(char **argv, bool *is_error)
 {
 	int	i;
 
+	ft_dprintf(STDOUT_FILENO,
+		"La Team Rocket s'envole vers d'autres cieux!\n");
 	if (!argv[1])
 		return (g_return_value);
 	else if (argv[1] && argv[2])

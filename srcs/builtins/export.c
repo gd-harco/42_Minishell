@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 11:55:32 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/16 12:03:16 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 10:53:55 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	export(t_exec *exec_data)
 	int		i;
 	bool	error_happened;
 
+	error_happened = false;
 	i = 0;
 	if (!exec_data->cmd->argv[1])
 		return (naked_export(exec_data->envp));
