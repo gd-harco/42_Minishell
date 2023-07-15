@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-//TODO : fix la 12eme ligne vide
-
 static void	fill_prompt(char *prompt[11]);
 
 char	*get_user_input(t_minishell *data)
