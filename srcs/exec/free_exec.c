@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-static void		free_hd_fd(t_exec *exec_data, size_t last_hd_free);
+static void	free_hd_fd(t_exec *exec_data, size_t last_hd_free);
+static void	free_sig_and_envp(t_exec *exec_data);
 
 void	free_exec(t_exec *exec_data)
 {
@@ -42,9 +43,28 @@ void	free_exec(t_exec *exec_data)
 	free(exec_data);
 }
 
+void	free_exec_child(t_exec *exec_data)
+{
+	free_sig_and_envp(exec_data);
+	free_exec(exec_data);
+}
+
 static void	free_hd_fd(t_exec *exec_data, size_t last_hd_free)
 {
 	while (last_hd_free < exec_data->nb_here_doc)
 		close(exec_data->here_doc_fd[last_hd_free++]);
 	free(exec_data->here_doc_fd);
+}
+
+static void	free_sig_and_envp(t_exec *exec_data)
+{
+	ft_free_array((void **)exec_data->envp);
+	free(exec_data->sig->int_prompt);
+	free(exec_data->sig->int_exec);
+	free(exec_data->sig->int_parent);
+	free(exec_data->sig->int_here_doc);
+	free(exec_data->sig->quit_prompt);
+	free(exec_data->sig->quit_exec);
+	free(exec_data->sig->quit_parent);
+	free(exec_data->sig);
 }

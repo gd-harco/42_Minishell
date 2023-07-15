@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/12 16:15:03 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/14 16:04:44 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	in_main(t_var *var, t_minishell *data)
 		ft_free_array((void **)data->secret_array);
 		ft_printf("exit\n");
 		ft_free_sig(&var->sig);
-		exit(EXIT_EOF);
+		exit(EXIT_SUCCESS);
 	}
 	if (var->str)
 	{

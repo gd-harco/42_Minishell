@@ -6,11 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 12:19:20 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/10 19:29:52 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 09:42:05 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static bool	path_in_env(char **envp);
 
 char	**get_path(char **envp)
 {
@@ -19,6 +21,8 @@ char	**get_path(char **envp)
 	char	*path;
 
 	i = 0;
+	if (!path_in_env(envp))
+		return (NULL);
 	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	path = ft_substr(envp[i], 5, ft_strlen(envp[i]));
@@ -53,6 +57,9 @@ char	*process(char *str, char **path, int ind, t_var *var)
 	char	*root_arg;
 
 	split_argv = ft_split(str, ' ');
+	if (path_in_env(var->env_cpy) == false)
+		return (root_arg = ft_strdup(split_argv[ind]),
+			ft_free_split(split_argv), root_arg);
 	root_arg = ft_strjoin("/", split_argv[ind]);
 	path_cmb = path_arg_cat(path, root_arg, var);
 	ft_free_secure(&root_arg);
@@ -60,16 +67,27 @@ char	*process(char *str, char **path, int ind, t_var *var)
 	while (path_cmb[i] && access(path_cmb[i], X_OK) == -1)
 		i++;
 	if (!path_cmb[i])
-	{
-		root_arg = ft_strdup(split_argv[ind]);
-		ft_free_split_secure(&split_argv);
-		ft_free_split_secure(&path);
-		ft_free_array((void *)path_cmb);
-		return (root_arg);
-	}
+		return (root_arg = ft_strdup(split_argv[ind]),
+			ft_free_split_secure(&split_argv),
+			ft_free_split_secure(&path), ft_free_array((void *)path_cmb),
+			root_arg);
 	root_arg = ft_strdup(path_cmb[i]);
 	ft_free_split_secure(&split_argv);
 	ft_free_split_secure(&path);
 	ft_free_array((void *)path_cmb);
 	return (root_arg);
+}
+
+static bool	path_in_env(char **envp)
+{
+	int		i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strnstr(envp[i], "PATH=", 5) != 0)
+			return (true);
+		i++;
+	}
+	return (false);
 }

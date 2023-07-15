@@ -81,6 +81,7 @@ static void	exec_last_cmd(t_exec *exec_data, size_t current_cmd)
 		exec_data->cmd[current_cmd].argv, exec_data->envp);
 	ft_dprintf(STDERR_FILENO, "Minishell: %s: %s\n",
 		exec_data->cmd[current_cmd].argv[0], strerror(errno));
-	free_exec(exec_data);
+	ft_free_array((void **)exec_data->secret_array);
+	free_exec_child(exec_data);
 	exit(EXIT_FAILURE);
 }

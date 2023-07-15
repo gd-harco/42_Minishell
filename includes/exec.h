@@ -21,6 +21,7 @@
 //########### EXECUTION.C ###########//
 void	master_exec(t_minishell *minishell_data);
 void	free_exec(t_exec *exec_data);
+void	free_exec_child(t_exec *exec_data);
 void	cmd_loop(t_exec *exec_data, size_t current_cmd);
 void	exec_multiple_cmd(t_exec *exec_data);
 void	exit_error_exec(int error_code, char *error_msg, t_exec *to_free);

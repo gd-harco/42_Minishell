@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:07:05 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/05/24 15:32:15 by gd-harco         ###   ########lyon.fr   */
+/*   Updated: 2023/07/15 10:00:08 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_return_value(char **argv);
+int	get_return_value(char **argv, bool *is_error);
 
 void	exit_shell(t_exec	*exec_data)
 {
 	pid_t	pid;
 	int		return_value;
+	bool	is_error;
 
+	is_error = false;
 	clear_history();
 	if (exec_data->secret_array)
 	{
@@ -28,36 +30,36 @@ void	exit_shell(t_exec	*exec_data)
 				exec_data->secret_array, exec_data->envp);
 		ft_free_array((void **)exec_data->secret_array);
 	}
-	return_value = get_return_value(exec_data->cmd->argv);
+	return_value = get_return_value(exec_data->cmd->argv, &is_error);
 	ft_dprintf(STDOUT_FILENO,
 		"La Team Rocket s'envole vers d'autres cieux!\n");
 	ft_free_array((void **)exec_data->envp);
 	free_exec(exec_data);
 	ft_dprintf(STDERR_FILENO, "exit\n");
-	if (return_value == 2)
+	if (return_value == 2 && is_error)
 		ft_dprintf(STDERR_FILENO,
 			"Minishell: exit: required numerical argument\n");
-	if (return_value == 1)
+	if (return_value == 1 && is_error)
 		ft_dprintf(STDERR_FILENO,
 			"Minishell: exit: too many argument\n");
 	exit(return_value);
 }
 
-int	get_return_value(char **argv)
+int	get_return_value(char **argv, bool *is_error)
 {
 	int	i;
 
 	if (!argv[1])
 		return (g_return_value);
 	else if (argv[1] && argv[2])
-		return (1);
+		return (*is_error = true, 1);
 	else
 	{
 		i = 0;
 		while (argv[1][i])
 		{
 			if (!ft_isdigit(argv[1][i]))
-				return (2);
+				return (*is_error = true, 2);
 			i++;
 		}
 		return (ft_atoi(argv[1]));
