@@ -14,29 +14,23 @@
 
 static void	update_env(t_exec *exec_data, char *old_pwd);
 static char	*get_env(char *str, char **envp);
-
-//TODO : handle cd - (go back to previous directory)
+static void	go_to_oldpwd(char *path, t_exec *exec_data, char *pwd_before);
+static void	go_to_home(char *path, t_exec *exec_data, char *pwd_before);
 
 void	cd(char **argv, t_exec *exec_data)
 {
 	char	*path;
 	char	*pwd_before;
 
+	path = NULL;
 	if (argv[1] && argv[2])
 		return (g_return_value = 1, ft_dprintf(STDERR_FILENO,
 				"minishell: cd: too many arguments\n"), (void)0);
 	pwd_before = getcwd(NULL, 0);
 	if (argv[1] == NULL)
-	{
-		path = get_env("HOME", exec_data->envp);
-		if (path == NULL)
-			return (ft_dprintf(STDERR_FILENO,
-					"cd: HOME not set\n"), g_return_value = 1, (void)0);
-		if (chdir(&path[5]) == -1)
-			return (g_return_value = 1, ft_dprintf(STDERR_FILENO, "cd: %s: %s\n",
-					path, strerror(errno)), (void)0);
-		return (g_return_value = 0, update_env(exec_data, pwd_before), (void)0);
-	}
+		return (go_to_home(path, exec_data, pwd_before));
+	else if (argv[1][0] == '-' && argv[1][1] == '\0')
+		return (go_to_oldpwd(path, exec_data, pwd_before));
 	else
 		path = argv[1];
 	if (chdir(path) == -1)
@@ -76,4 +70,28 @@ static void	update_env(t_exec *exec_data, char *old_pwd)
 		exec_data->envp = add_env(n_pwd, exec_data);
 	free(n_old_pwd);
 	free(n_pwd);
+}
+
+static void	go_to_oldpwd(char *path, t_exec *exec_data, char *pwd_before)
+{
+	path = get_env("OLDPWD", exec_data->envp);
+	if (path == NULL)
+		return (ft_dprintf(STDERR_FILENO,
+				"cd: OLDPWD not set\n"), g_return_value = 1, (void) 0);
+	if (chdir(&path[7]) == -1)
+		return (g_return_value = 1, ft_dprintf(STDERR_FILENO, "cd: %s: %s\n",
+				path, strerror(errno)), (void) 0);
+	return (g_return_value = 0, update_env(exec_data, pwd_before), (void) 0);
+}
+
+static void	go_to_home(char *path, t_exec *exec_data, char *pwd_before)
+{
+	path = get_env("HOME", exec_data->envp);
+	if (path == NULL)
+		return (ft_dprintf(STDERR_FILENO,
+				"cd: HOME not set\n"), g_return_value = 1, (void)0);
+	if (chdir(&path[5]) == -1)
+		return (g_return_value = 1, ft_dprintf(STDERR_FILENO, "cd: %s: %s\n",
+				path, strerror(errno)), (void)0);
+	return (g_return_value = 0, update_env(exec_data, pwd_before), (void)0);
 }

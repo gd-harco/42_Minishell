@@ -59,6 +59,7 @@ void	free_all_here_doc(t_here_doc *here_doc, size_t i)
 
 static void	write_current_here_doc(t_here_doc *here_doc, size_t i)
 {
+
 	write(here_doc[i].pipe_fd[1], here_doc[i].tmp_char,
 		ft_strlen(here_doc[i].tmp_char));
 	free(here_doc[i].tmp_char);
