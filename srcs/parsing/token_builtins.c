@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:14:25 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/13 13:06:26 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 10:27:25 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	token_builtin(t_var *var)
 	while (var->s[v_e.j])
 	{
 		fill_arg_builtin(var, &v_e);
-		var->arg = ft_strjoinsp(var->arg, ";", 0);
+		var->arg = ft_strjoinsp(var->arg, "`", 0);
 		v_e.j++;
 	}
 	var->new_tkn->type = BUILTIN;

@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:11:56 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/13 13:12:20 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/15 10:27:12 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	token_cmd(t_var *var)
 	while (var->s[v_e.j])
 	{
 		fill_arg_cmd(var, &v_e);
-		var->arg = ft_strjoinsp(var->arg, ";", 0);
+		var->arg = ft_strjoinsp(var->arg, "`", 0);
 		v_e.j++;
 	}
 	var->new_tkn->type = CMD;
