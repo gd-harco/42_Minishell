@@ -103,26 +103,3 @@ char	*ft_substrvar(char const *s, unsigned int start, size_t len, t_var var)
 	result[x] = '\0';
 	return (result);
 }
-
-// char	**ft_str2dup(char **s1)
-// {
-// 	char	**s2;
-// 	int		x;
-
-// 	x = 0;
-// 	while (s1[x] != NULL)
-// 		x++;
-// 	s2 = malloc(sizeof(char *) * (x + 1));
-// 	if (!s2)
-// 		exit(EXIT_FAILURE); //TODO: call function pointer exit
-// 	if (!s1)
-// 		return (NULL);
-// 	x = 0;
-// 	while (s1[x])
-// 	{
-// 		s2[x] = ft_strdup(s1[x]);
-// 		x++;
-// 	}
-// 	s2[x] = NULL;
-// 	return (s2);
-// }
