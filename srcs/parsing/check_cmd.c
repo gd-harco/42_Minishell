@@ -14,13 +14,14 @@
 
 static bool	is_str(char *str, const char *s1);
 static bool	lst_cmd(t_cmd *cmd, int i, int nb_cmd);
+static bool	only_cat_ls(t_exec *exec_data, size_t nb_cmd);
 static void	write_empty_line(void);
 
 bool	catls_check(t_exec *exec_data, int i, size_t nb_cmd)
 {
 	pid_t	ls_pid;
 
-	if (nb_cmd < 2)
+	if (nb_cmd < 2 || only_cat_ls(exec_data, nb_cmd) == false)
 		return (false);
 	while (i < (int)nb_cmd
 		&& is_str(exec_data->cmd[i].argv[0], "/usr/bin/cat") == false)
@@ -41,6 +42,21 @@ bool	catls_check(t_exec *exec_data, int i, size_t nb_cmd)
 		return (true);
 	}
 	return (false);
+}
+
+static bool	only_cat_ls(t_exec *exec_data, size_t nb_cmd)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < nb_cmd)
+	{
+		if (is_str(exec_data->cmd[i].argv[0], "/usr/bin/cat") == false
+			&& is_str(exec_data->cmd[i].argv[0], "/usr/bin/ls") == false)
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 static void	write_empty_line(void)
