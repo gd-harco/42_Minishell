@@ -14,12 +14,14 @@
 
 static bool	is_str(char *str, const char *s1);
 static bool	lst_cmd(t_cmd *cmd, int i, int nb_cmd);
+static void	write_empty_line(void);
 
 bool	catls_check(t_exec *exec_data, int i, size_t nb_cmd)
 {
-	char	*tmp;
 	pid_t	ls_pid;
 
+	if (nb_cmd < 2)
+		return (false);
 	while (i < (int)nb_cmd
 		&& is_str(exec_data->cmd[i].argv[0], "/usr/bin/cat") == false)
 		i++;
@@ -33,15 +35,22 @@ bool	catls_check(t_exec *exec_data, int i, size_t nb_cmd)
 		waitpid(ls_pid, NULL, 0);
 		while (is_str(exec_data->cmd[i].argv[0], "/usr/bin/cat") == true)
 		{
-			tmp = readline("");
-			ft_printf("\n");
-			rl_on_new_line();
+			write_empty_line();
 			i++;
-			ft_free_secure(&tmp);
 		}
 		return (true);
 	}
 	return (false);
+}
+
+static void	write_empty_line(void)
+{
+	char	*tmp;
+
+	tmp = readline("");
+	if (tmp && tmp[0] == '\0')
+		ft_printf("\n");
+	ft_free_secure(&tmp);
 }
 
 static bool	lst_cmd(t_cmd *cmd, int i, int nb_cmd)
