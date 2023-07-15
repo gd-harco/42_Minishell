@@ -6,13 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:17:21 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/06/26 16:10:45 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/11 14:56:28 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
-
+# include "sig.h"
 //-----------------STRUCTURES-----------------//
 
 enum e_type {
@@ -46,9 +46,10 @@ typedef struct s_token
 
 typedef struct s_minishell
 {
-	char	**envp;
-	char	**secret_array;
-	t_token	*token_list;
+	char				**envp;
+	char				**secret_array;
+	t_token				*token_list;
+	t_sig				*sig;
 }				t_minishell;
 
 typedef struct s_here_doc
@@ -73,6 +74,7 @@ typedef struct s_exec
 {
 	char		**envp;
 	char		**secret_array;
+	t_sig		*sig;
 	t_token		*token_list;
 	size_t		nb_cmd;
 	size_t		nb_pipe;
@@ -87,10 +89,10 @@ typedef struct s_exec
 
 typedef struct s_var
 {
-	char	*str_in;	//la commande prompt
-	char	*str;		//la copie de commande prompt
-	char	**s;		// chaque mots espacés
-	char	**spipe;	//phrase split par les |
+	char	*str_in;
+	char	*str;
+	char	**s;
+	char	**spipe;
 	int		nb_pipe;
 	char	**env_cpy;
 	int		index;
@@ -104,6 +106,7 @@ typedef struct s_var
 	bool	is_squote;
 	bool	quote_cmd;
 	char	*quote;
+	t_sig	*sig;
 }				t_var;
 
 typedef struct s_varenv

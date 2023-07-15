@@ -6,7 +6,7 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 15:12:47 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 14:46:44 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/12 13:55:21 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 static int		add_quote_env(char *str_tmp, t_var *var, t_varenv *v_e, int l);
 static void		find_quote_env(char *str_tmp, t_varenv *v_e, int l);
 static int		fill_quote_env(char *str_tmp, t_var *var, t_varenv *v_e);
-static int		quote_env_symbol(t_var *var, char *str_tmp, t_varenv *v_e);
-
+static void		fill_quote_env_bis(char *str_tmp, t_var *var, t_varenv *v_e);
 /*
 	la variable l va permettre de faire une comparaison dans la chaine,
 	pour savoir combien de var d'env ont été check et pour toutes les gérer.
@@ -99,12 +98,9 @@ static void	find_quote_env(char *str_tmp, t_varenv *v_e, int l)
 
 static int	fill_quote_env(char *str_tmp, t_var *var, t_varenv *v_e)
 {
-	char	*sub_tmp;
-	char	*trc_tmp;
-
 	v_e->var_env = ft_substrvar(str_tmp, v_e->i + 1, v_e->k, *var);
 	if (str_tmp && str_tmp[v_e->i + 1 + v_e->k] == '?')
-	{	
+	{
 		quote_env_symbol(var, str_tmp, v_e);
 		v_e->k++;
 	}
@@ -114,15 +110,23 @@ static int	fill_quote_env(char *str_tmp, t_var *var, t_varenv *v_e)
 	while (var->env_cpy[v_e->m] && v_e->var_env && ft_strnstr
 		(var->env_cpy[v_e->m], v_e->var_env, ft_strlen(v_e->var_env)) == NULL)
 		v_e->m++;
-	if (var->env_cpy[v_e->m]
+	fill_quote_env_bis(str_tmp, var, v_e);
+	return (2);
+}
+
+static void	fill_quote_env_bis(char *str_tmp, t_var *var, t_varenv *v_e)
+{
+	char	*sub_tmp;
+	char	*trc_tmp;
+
+	if (var->env_cpy && var->env_cpy[v_e->m]
 		&& var->env_cpy[v_e->m][ft_strlen(v_e->var_env)] == '=')
 	{
 		sub_tmp = ft_substrvar(var->env_cpy[v_e->m], v_e
 				->k + 1, ft_strlen(var->env_cpy[v_e->m]) - v_e->k, *var);
-		var->env = ft_strjoin(var->env, sub_tmp);
+		var->env = ft_strjoinsp(var->env, sub_tmp, 0);
 		ft_free_secure(&sub_tmp);
 	}
-	// var->env = ft_strjoinsp(var->env, NULL, 0);
 	if (str_tmp && str_tmp[v_e->i + 1 + v_e->k] != '$')
 	{
 		trc_tmp = ft_trunc(str_tmp, v_e->i + 1 + v_e->k, "$", *var);
@@ -133,28 +137,4 @@ static int	fill_quote_env(char *str_tmp, t_var *var, t_varenv *v_e)
 		ft_free_secure(&sub_tmp);
 	}
 	ft_free_secure(&v_e->var_env);
-	return (2);
-}
-
-static int	quote_env_symbol(t_var *var, char *str_tmp, t_varenv *v_e)
-{
-	if (str_tmp[v_e->i + 1 + v_e->k] == '?')
-	{
-		if (str_tmp[v_e->i + v_e->k] == '$')
-			var->env = ft_strjoinsp(var->env, "var_global", 0);
-		else
-			return (0);
-	}
-	// else if (str_tmp[v_e->i + 1 + v_e->k] == '$'
-	// 	&& str_tmp[v_e->i + 1 + v_e->k + 1] == '\0')
-	// {
-	// 	var->env = ft_strjoinsp(var->env, "$", 0);
-	// 	v_e->o++;
-	// }
-	else
-		var->env = ft_strjoinsp(var->env, "$", 0);
-	if (str_tmp[v_e->i + 1 + v_e->k + 1] != '\0')
-		return (0);
-	else
-		return (1);
 }

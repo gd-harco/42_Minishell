@@ -15,26 +15,23 @@
 
 # include "struct.h"
 # define HD_PROMPT "heredoc> "
-# define IO_FAILURE 42
 
 //-----------------FUNCTION-----------------//
 
 //########### EXECUTION.C ###########//
 void	master_exec(t_minishell *minishell_data);
 void	free_exec(t_exec *exec_data);
+void	cmd_loop(t_exec *exec_data, size_t current_cmd);
+void	exec_multiple_cmd(t_exec *exec_data);
+void	exit_error_exec(int error_code, char *error_msg, t_exec *to_free);
 
 //########### HERE_DOC.C ###########//
 int		*get_here_doc_fd(t_token *token_list, t_exec *exec_data);
+void	write_in_here_doc(t_here_doc *here_doc, size_t nb_here_doc);
+void	free_all_here_doc(t_here_doc *here_doc, size_t i);
 
 //########### TRANSLATE.C ###########//
 t_cmd	*get_cmd_data(t_exec *exec_data);
-
-//########### IO_HANDLING.C ###########//
-void	get_cmd_io(t_token *f_token, t_cmd cmd, t_exec *exec_data);
-
-//########### CLOSE_FD.C ###########//
-void	close_child_unused_fd(size_t cmd_nb, t_pipe_fd *pipe_fd, size_t nb_pipe);
-void	close_parent_unused_fd(size_t cmd_nb, t_pipe_fd *pipe_fd, size_t nb_pipe);
 
 //########### EXEC_CMD.C ###########//
 void	exec_piped_cmd(t_exec *exec_data, size_t current_cmd);

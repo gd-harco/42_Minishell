@@ -6,12 +6,11 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/11 11:44:06 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/01 16:20:52 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 21:53:18 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 static void	heredoc_infile(t_var *var)
 {
@@ -53,7 +52,6 @@ static void	fill_infile(t_var *var)
 	}
 }
 
-
 static void	heredoc_quote_infile(t_var *var, t_varenv *v_e)
 {
 	if (var->s[var->i][2] != '\0')
@@ -61,6 +59,7 @@ static void	heredoc_quote_infile(t_var *var, t_varenv *v_e)
 		quote_manager_inout(var, v_e);
 		var->quote_cmd = true;
 		var->new_tkn->content[0] = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 	else
 	{
@@ -69,6 +68,7 @@ static void	heredoc_quote_infile(t_var *var, t_varenv *v_e)
 		quote_manager(var, v_e);
 		var->quote_cmd = true;
 		var->new_tkn->content[0] = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 	var->new_tkn->type = HERE_DOC;
 }
@@ -88,6 +88,7 @@ static void	fill_quote_infile(t_var *var)
 		quote_manager_inout(var, &v_e);
 		var->quote_cmd = true;
 		var->new_tkn->content[0] = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 	else
 	{
@@ -97,6 +98,7 @@ static void	fill_quote_infile(t_var *var)
 		quote_manager(var, &v_e);
 		var->quote_cmd = true;
 		var->new_tkn->content[0] = ft_strdup(var->quote);
+		ft_free_secure(&var->quote);
 	}
 }
 
@@ -106,10 +108,10 @@ int	token_infile(t_var *var)
 	|| (var->s[var->i][1] == '<' && var->s[var->i][2] == '\0'
 	&& !var->s[var->i + 1]))
 		return (-1);
-	if (is_quote_in(var->s[var->i]) == 0 //&& ((var->s[var->i][1] == '\0'
-			&& ((is_quote_in(var->s[var->i + 1]) == 0)
-		|| (var->s[var->i][1] == '<' && var->s[var->i][2] == '\0'
-				&& is_quote_in(var->s[var->i + 1]) == 0)))
+	if (is_quote_in(var->s[var->i]) == 0
+		&& ((is_quote_in(var->s[var->i + 1]) == 0)
+			|| (var->s[var->i][1] == '<' && var->s[var->i][2] == '\0'
+		&& is_quote_in(var->s[var->i + 1]) == 0)))
 	{
 		fill_infile(var);
 	}

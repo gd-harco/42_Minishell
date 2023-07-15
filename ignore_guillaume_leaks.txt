@@ -28,3 +28,9 @@
 	...
 	fun:init_shell_env
 }
+{
+	leak init_sigaction
+	Memcheck:Leak
+	...
+	fun:init_sigaction
+}

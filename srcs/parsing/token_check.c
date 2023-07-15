@@ -6,13 +6,13 @@
 /*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 11:47:52 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/02 12:34:28 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/05 22:00:13 by tdutel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static bool	cmd_check(t_token *t_new, t_token *tmp)
+static bool	cmd_check(const t_token *t_new, const t_token *tmp)
 {
 	if (t_new && (tmp->type == CMD || tmp->type == BUILTIN))
 	{
@@ -30,24 +30,10 @@ static bool	cmd_check(t_token *t_new, t_token *tmp)
 		return (false);
 }
 
-bool	already_cmd(t_token *t_new, t_token *tmp)
+bool	already_cmd(const t_token *t_new, const t_token *tmp)
 {
-	t_token	*tmp2;
-	t_token	*buffer;
-
-	tmp2 = malloc(sizeof(t_token));
-	if (!tmp2)
-		exit(EXIT_FAILURE); //TODO: call function pointer exit
-	token_memcpy(tmp2, t_new);
-	while (tmp2 && tmp2 != tmp)
-	{
-		if (tmp2->type == PIPE)
-			t_new = tmp2->next;
-		buffer = tmp2->next;
-		free(tmp2);
-		tmp2 = buffer;
-	}
-	token_clear(&tmp2);
+	while (t_new && t_new != tmp)
+		t_new = t_new->next;
 	return (cmd_check(t_new, tmp));
 }
 
@@ -79,4 +65,15 @@ int	ft_nb_pipe(char *str)
 		i++;
 	}
 	return (c);
+}
+
+bool	is_metachar(char c)
+{
+	if (c == '.' || c == ',' || c == '/' || c == '\\' || c == '^' || c == '$'
+		|| c == '-' || c == '+' || c == '"' || c == '=' || c == '?' || c == '!'
+		|| c == '@' || c == '#' || c == '%' || c == '[' || c == ']' || c == '{'
+		|| c == '}' || c == '\'' || c == '~' || c == '`' || c == ':')
+		return (true);
+	else
+		return (false);
 }

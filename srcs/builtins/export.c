@@ -12,36 +12,44 @@
 
 #include "minishell.h"
 
-static bool	only_key_already_in_env(char *str, t_exec *exec_data);
 static bool	key_is_valid(char *str);
-void		naked_export(char **envp);
+static void	handle_invalid_key(t_exec *exec_data, int i, bool *error_happened);
 
 void	export(t_exec *exec_data)
 {
 	int		i;
+	bool	error_happened;
 
 	i = 0;
 	if (!exec_data->cmd->argv[1])
-		naked_export(exec_data->envp);
+		return (naked_export(exec_data->envp));
 	while (exec_data->cmd->argv[++i])
 	{
 		if (!key_is_valid(exec_data->cmd->argv[i]))
-		{
-			ft_dprintf(STDERR_FILENO,
-				"minishell: export: `%s':"
-				"not a valid identifier\n", exec_data->cmd->argv[i]);
-			continue ;
-		}
-		if (already_in_env(exec_data->cmd->argv[i], exec_data))
+			handle_invalid_key(exec_data, i, &error_happened);
+		else if (already_in_env(exec_data->cmd->argv[i], exec_data))
 			continue ;
 		else
+		{
 			exec_data->envp = add_env(exec_data->cmd->argv[i], exec_data);
+			if (!error_happened)
+				g_return_value = 0;
+		}
 	}
 }
 
-bool	key_is_valid(char *str)
+static void	handle_invalid_key(t_exec *exec_data, int i, bool *error_happened)
 {
-	int	i;
+	ft_dprintf(STDERR_FILENO,
+		"minishell: export: `%s':"
+		"not a valid identifier\n", exec_data->cmd->argv[i]);
+	g_return_value = 1;
+	*error_happened = true;
+}
+
+static bool	key_is_valid(char *str)
+{
+	int		i;
 	char	*key;
 
 	i = 0;
@@ -79,53 +87,12 @@ char	**add_env(char *str, t_exec *exec_data)
 	size_t	old_len;
 	char	**new_envp;
 
-	old_len = ft_array_length((void **)exec_data->envp);
+	old_len = ft_array_length((void **) exec_data->envp);
 	new_envp = ft_calloc(old_len + 2, sizeof(char *));
 	if (!new_envp)
-		exit(EXIT_FAILURE); //TODO: call exit function
+		exit_error_exec(MALLOC_ERR_CODE, MALLOC_ERR, exec_data);
 	ft_memmove(new_envp, exec_data->envp, old_len * sizeof(char *));
 	new_envp[old_len] = ft_strdup(str);
 	free(exec_data->envp);
 	return (new_envp);
-}
-
-bool	already_in_env(char *str, t_exec *exec_data)
-{
-	int		i;
-	int		len_until_equal;
-	bool	have_equal;
-
-	have_equal = check_for_equal(str);
-	if (!have_equal)
-		return (only_key_already_in_env(str, exec_data));
-	i = 0;
-	len_until_equal = 0;
-	while (str[len_until_equal] && str[len_until_equal] != '=')
-		len_until_equal++;
-	while (exec_data->envp[i])
-	{
-		if (ft_strncmp(str, exec_data->envp[i], len_until_equal) == 0)
-		{
-			free(exec_data->envp[i]);
-			exec_data->envp[i] = ft_strdup(str);
-			return (true);
-		}
-		i++;
-	}
-	return (false);
-}
-
-static bool	only_key_already_in_env(char *str, t_exec *exec_data)
-{
-	size_t	key_len;
-	int		i;
-
-	key_len = ft_strlen(str);
-	i = -1;
-	while (exec_data->envp[++i])
-	{
-		if (ft_strncmp(str, exec_data->envp[i], key_len) == 0)
-			return (true);
-	}
-	return (false);
 }
