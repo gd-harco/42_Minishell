@@ -21,6 +21,11 @@ make
 ```
 It will compile the program and create an executable called "minishell".<br>
 
+To disable the program's easteregg, run the following command:
+```shell
+make CFLAGS+="-DEASTEREGG=0"
+```
+
 To run the program, simply execute the created executable:
 ```shell
 ./minishell
