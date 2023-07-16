@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:09:31 by tdutel            #+#    #+#             */
-/*   Updated: 2023/07/15 12:59:13 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/16 20:59:14 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	main(int argc, char **argv, char **envp)
 		exit_sig();
 	init_sigaction(data.sig);
 	var.sig = data.sig;
-	init_secret_array(&data);
+	if (EASTER_EGG == 1)
+		init_secret_array(&data);
 	data.envp = init_shell_env(envp);
 	var.env_cpy = data.envp;
 	printf(ROCKET_LOGO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdutel <tdutel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gd-harco <gd-harco@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:07:05 by gd-harco          #+#    #+#             */
-/*   Updated: 2023/07/15 10:09:58 by tdutel           ###   ########.fr       */
+/*   Updated: 2023/07/16 21:05:48 by gd-harco         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ void	exit_shell(t_exec	*exec_data)
 	bool	is_error;
 
 	is_error = false;
+	return_value = get_return_value(exec_data->cmd->argv, &is_error);
+	if (return_value == 1 && is_error)
+		return (ft_dprintf(STDERR_FILENO,
+				"exit\nMinishell: exit: too many argument\n"), (void)0);
 	clear_history();
-	if (exec_data->secret_array)
+	if (EASTER_EGG == 1)
 	{
 		pid = fork();
 		if (pid == 0)
@@ -33,13 +37,9 @@ void	exit_shell(t_exec	*exec_data)
 	return_value = get_return_value(exec_data->cmd->argv, &is_error);
 	ft_free_array((void **)exec_data->envp);
 	free_exec(exec_data);
-	ft_dprintf(STDERR_FILENO, "exit\n");
 	if (return_value == 2 && is_error)
 		ft_dprintf(STDERR_FILENO,
 			"Minishell: exit: required numerical argument\n");
-	if (return_value == 1 && is_error)
-		ft_dprintf(STDERR_FILENO,
-			"Minishell: exit: too many argument\n");
 	exit(return_value);
 }
 
@@ -48,7 +48,7 @@ int	get_return_value(char **argv, bool *is_error)
 	int	i;
 
 	ft_dprintf(STDOUT_FILENO,
-		"La Team Rocket s'envole vers d'autres cieux!\n");
+		"exit\nLa Team Rocket s'envole vers d'autres cieux!\n");
 	if (!argv[1])
 		return (g_return_value);
 	else if (argv[1] && argv[2])
